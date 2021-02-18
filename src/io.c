@@ -2,16 +2,13 @@
 /*
     Ryan Sullivan
 
-    Module Name     :   main.c
-    Description     :   main program
+    Module Name     :   io.c
+    Description     :   functions for controlling peripherals
 */
 /*----------------------------------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
-
-#include "main.h"
 #include "io.h"
+#include "commonio.h"
 
 /*----------------------------------------------------------------------------*/
 /*-constant-definitions-------------------------------------------------------*/
@@ -33,18 +30,10 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-int main( void )
+void io_initialise( void )
 {
 
-    io_initialise( );
-
-    return( 0 );
-}
-
-/*----------------------------------------------------------------------------*/
-
-void main_1ms_timer_isr( void )
-{
+    commonio_initialise_clocks( );
 
 }
 

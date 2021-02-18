@@ -8,12 +8,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include system/src/stm32f3-hal/subdir.mk
--include system/src/newlib/subdir.mk
--include system/src/diag/subdir.mk
--include system/src/cortexm/subdir.mk
--include system/src/cmsis/subdir.mk
 -include src/subdir.mk
+-include STlib/src/stm32f3-hal/subdir.mk
+-include STlib/src/cmsis/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -61,7 +58,7 @@ all: ryansullivan-quadcopter-firmware.elf secondary-outputs
 ryansullivan-quadcopter-firmware.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GNU Arm Cross C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T mem.ld -T libs.ld -T sections.ld -nostartfiles -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"ryansullivan-quadcopter-firmware.map" --specs=nano.specs -o "ryansullivan-quadcopter-firmware.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T ../stm32code.ld -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ryansullivan-quadcopter-firmware.map" --specs=nano.specs -o "ryansullivan-quadcopter-firmware.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -4,42 +4,29 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/initialize-hardware.c \
-../src/led.c \
+../src/commonio.c \
+../src/io.c \
 ../src/main.c \
-../src/stm32f3xx_hal_msp.c \
-../src/timer.c \
-../src/write.c 
+../src/startup.c 
 
 OBJS += \
-./src/initialize-hardware.o \
-./src/led.o \
+./src/commonio.o \
+./src/io.o \
 ./src/main.o \
-./src/stm32f3xx_hal_msp.o \
-./src/timer.o \
-./src/write.o 
+./src/startup.o 
 
 C_DEPS += \
-./src/initialize-hardware.d \
-./src/led.d \
+./src/commonio.d \
+./src/io.d \
 ./src/main.d \
-./src/stm32f3xx_hal_msp.d \
-./src/timer.d \
-./src/write.d 
+./src/startup.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GNU Arm Cross C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -DNDEBUG -DSTM32F303xC -DUSE_HAL_DRIVER -DHSE_VALUE=8000000 -I"../include" -I"../system/include" -I"../system/include/cmsis" -I"../system/include/stm32f3-hal" -std=gnu11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-src/stm32f3xx_hal_msp.o: ../src/stm32f3xx_hal_msp.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: GNU Arm Cross C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -DNDEBUG -DSTM32F303xC -DUSE_HAL_DRIVER -DHSE_VALUE=8000000 -I"../include" -I"../system/include" -I"../system/include/cmsis" -I"../system/include/stm32f3-hal" -std=gnu11 -Wno-padded -Wno-missing-prototypes -Wno-missing-declarations -MMD -MP -MF"$(@:%.o=%.d)" -MT"src/stm32f3xx_hal_msp.d" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -DNDEBUG -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DHSE_VALUE=8000000 -I"../STlib/include/stm32f3-hal" -I"../STlib/include" -I"../STlib/include/cortexm" -I"../STlib/include/cmsis" -std=gnu11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

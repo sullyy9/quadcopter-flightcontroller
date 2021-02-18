@@ -2,16 +2,16 @@
 /*
     Ryan Sullivan
 
-    Module Name     :   main.c
-    Description     :   main program
+    Module Name     :   commonio.c
+    Description     :   functions common to STM32
 */
 /*----------------------------------------------------------------------------*/
 
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "main.h"
-#include "io.h"
+#include "stm32f3xx_ll_rcc.h"
+#include "commonio.h"
 
 /*----------------------------------------------------------------------------*/
 /*-constant-definitions-------------------------------------------------------*/
@@ -33,19 +33,10 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-int main( void )
+void commonio_initialise_clocks( void )
 {
-
-    io_initialise( );
-
-    return( 0 );
-}
-
-/*----------------------------------------------------------------------------*/
-
-void main_1ms_timer_isr( void )
-{
-
+    LL_RCC_DeInit( );
+    LL_RCC_HSI_Enable( );
 }
 
 /*----------------------------------------------------------------------------*/
