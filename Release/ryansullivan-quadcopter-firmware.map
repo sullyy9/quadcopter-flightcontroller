@@ -526,78 +526,78 @@ END GROUP
  *(.isr_vector)
                 0x0000000008000000                . = ALIGN (0x4)
 
-.text           0x0000000008000000      0x108
+.text           0x0000000008000000      0x1a0
                 0x0000000008000000                . = ALIGN (0x4)
  *(.text)
  *(.text*)
  .text.commonio_initialise_clocks
-                0x0000000008000000       0x18 ./src/commonio.o
+                0x0000000008000000       0xb0 ./src/commonio.o
                 0x0000000008000000                commonio_initialise_clocks
  .text.io_initialise
-                0x0000000008000018        0x4 ./src/io.o
-                0x0000000008000018                io_initialise
+                0x00000000080000b0        0x4 ./src/io.o
+                0x00000000080000b0                io_initialise
  .text.startup.main
-                0x000000000800001c        0xa ./src/main.o
-                0x000000000800001c                main
- *fill*         0x0000000008000026        0x2 
+                0x00000000080000b4        0xa ./src/main.o
+                0x00000000080000b4                main
+ *fill*         0x00000000080000be        0x2 
  .text.reset_isr
-                0x0000000008000028       0x48 ./src/startup.o
-                0x0000000008000028                reset_isr
+                0x00000000080000c0       0x48 ./src/startup.o
+                0x00000000080000c0                reset_isr
  .text.LL_RCC_HSI_IsReady
-                0x0000000008000070       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008000108       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
  .text.LL_RCC_DeInit
-                0x0000000008000080       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008000080                LL_RCC_DeInit
+                0x0000000008000118       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008000118                LL_RCC_DeInit
  *(.rodata)
  *(.rodata*)
  *(.glue_7)
- .glue_7        0x0000000008000108        0x0 linker stubs
+ .glue_7        0x00000000080001a0        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x0000000008000108        0x0 linker stubs
+ .glue_7t       0x00000000080001a0        0x0 linker stubs
  *(.init)
  *(.fini)
-                0x0000000008000108                . = ALIGN (0x4)
-                0x0000000008000108                _etext = .
+                0x00000000080001a0                . = ALIGN (0x4)
+                0x00000000080001a0                _etext = .
 
-.vfp11_veneer   0x0000000008000108        0x0
- .vfp11_veneer  0x0000000008000108        0x0 linker stubs
+.vfp11_veneer   0x00000000080001a0        0x0
+ .vfp11_veneer  0x00000000080001a0        0x0 linker stubs
 
-.v4_bx          0x0000000008000108        0x0
- .v4_bx         0x0000000008000108        0x0 linker stubs
+.v4_bx          0x00000000080001a0        0x0
+ .v4_bx         0x00000000080001a0        0x0 linker stubs
 
-.iplt           0x0000000008000108        0x0
- .iplt          0x0000000008000108        0x0 ./src/commonio.o
+.iplt           0x00000000080001a0        0x0
+ .iplt          0x00000000080001a0        0x0 ./src/commonio.o
 
-.rel.dyn        0x0000000008000108        0x0
- .rel.iplt      0x0000000008000108        0x0 ./src/commonio.o
+.rel.dyn        0x00000000080001a0        0x0
+ .rel.iplt      0x00000000080001a0        0x0 ./src/commonio.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0000000008000108        0x0
-                0x0000000008000108                __exidx_start = .
+.ARM            0x00000000080001a0        0x0
+                0x00000000080001a0                __exidx_start = .
  *(.ARM.exidx*)
-                0x0000000008000108                __exidx_end = .
+                0x00000000080001a0                __exidx_end = .
 
-.preinit_array  0x0000000008000108        0x0
+.preinit_array  0x00000000080001a0        0x0
                 [!provide]                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
                 [!provide]                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0000000008000108        0x0
+.init_array     0x00000000080001a0        0x0
                 [!provide]                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
                 [!provide]                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x0000000008000108        0x0
+.fini_array     0x00000000080001a0        0x0
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(.fini_array*)
  *(SORT_BY_NAME(.fini_array.*))
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x0000000008000108                _sidata = .
+                0x00000000080001a0                _sidata = .
 
-.data           0x0000000020000000        0x0 load address 0x0000000008000108
+.data           0x0000000020000000        0x0 load address 0x00000000080001a0
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _sdata = .
  *(.data)
@@ -660,19 +660,24 @@ LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m/nof
 LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m/nofp/libm.a
 LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m/nofp/libgcc.a
 
-.debug_info     0x0000000000000000     0x10b0
- .debug_info    0x0000000000000000      0x213 ./src/commonio.o
- .debug_info    0x0000000000000213       0x52 ./src/io.o
- .debug_info    0x0000000000000265       0xae ./src/main.o
- .debug_info    0x0000000000000313      0x11b ./src/startup.o
- .debug_info    0x000000000000042e      0xc82 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+.debug_info     0x0000000000000000     0x13d2
+ .debug_info    0x0000000000000000      0x535 ./src/commonio.o
+ .debug_info    0x0000000000000535       0x52 ./src/io.o
+ .debug_info    0x0000000000000587       0xae ./src/main.o
+ .debug_info    0x0000000000000635      0x11b ./src/startup.o
+ .debug_info    0x0000000000000750      0xc82 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
 
-.debug_abbrev   0x0000000000000000      0x5f8
- .debug_abbrev  0x0000000000000000      0x120 ./src/commonio.o
- .debug_abbrev  0x0000000000000120       0x51 ./src/io.o
- .debug_abbrev  0x0000000000000171       0x80 ./src/main.o
- .debug_abbrev  0x00000000000001f1       0xd6 ./src/startup.o
- .debug_abbrev  0x00000000000002c7      0x331 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+.debug_abbrev   0x0000000000000000      0x669
+ .debug_abbrev  0x0000000000000000      0x191 ./src/commonio.o
+ .debug_abbrev  0x0000000000000191       0x51 ./src/io.o
+ .debug_abbrev  0x00000000000001e2       0x80 ./src/main.o
+ .debug_abbrev  0x0000000000000262       0xd6 ./src/startup.o
+ .debug_abbrev  0x0000000000000338      0x331 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+
+.debug_loc      0x0000000000000000      0x854
+ .debug_loc     0x0000000000000000       0xcf ./src/commonio.o
+ .debug_loc     0x00000000000000cf       0xa5 ./src/startup.o
+ .debug_loc     0x0000000000000174      0x6e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
 
 .debug_aranges  0x0000000000000000      0x120
  .debug_aranges
@@ -693,23 +698,23 @@ LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m/nofp/libgcc.a
  .debug_ranges  0x0000000000000038       0x18 ./src/startup.o
  .debug_ranges  0x0000000000000050      0x1e8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
 
-.debug_line     0x0000000000000000      0xc33
- .debug_line    0x0000000000000000      0x117 ./src/commonio.o
- .debug_line    0x0000000000000117       0x4e ./src/io.o
- .debug_line    0x0000000000000165       0x6c ./src/main.o
- .debug_line    0x00000000000001d1       0xd7 ./src/startup.o
- .debug_line    0x00000000000002a8      0x98b ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+.debug_line     0x0000000000000000      0xdf2
+ .debug_line    0x0000000000000000      0x2d6 ./src/commonio.o
+ .debug_line    0x00000000000002d6       0x4e ./src/io.o
+ .debug_line    0x0000000000000324       0x6c ./src/main.o
+ .debug_line    0x0000000000000390       0xd7 ./src/startup.o
+ .debug_line    0x0000000000000467      0x98b ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
 
-.debug_str      0x0000000000000000      0x815
- .debug_str     0x0000000000000000      0x26b ./src/commonio.o
-                                        0x2a7 (size before relaxing)
- .debug_str     0x000000000000026b       0x1a ./src/io.o
+.debug_str      0x0000000000000000      0x931
+ .debug_str     0x0000000000000000      0x3c4 ./src/commonio.o
+                                        0x411 (size before relaxing)
+ .debug_str     0x00000000000003c4       0x1a ./src/io.o
                                         0x166 (size before relaxing)
- .debug_str     0x0000000000000285       0x26 ./src/main.o
+ .debug_str     0x00000000000003de       0x26 ./src/main.o
                                         0x1e9 (size before relaxing)
- .debug_str     0x00000000000002ab       0x7a ./src/startup.o
+ .debug_str     0x0000000000000404       0x7a ./src/startup.o
                                         0x1cf (size before relaxing)
- .debug_str     0x0000000000000325      0x4f0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_str     0x000000000000047e      0x4b3 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
                                         0x774 (size before relaxing)
 
 .comment        0x0000000000000000       0x59
@@ -720,13 +725,9 @@ LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m/nofp/libgcc.a
  .comment       0x0000000000000059       0x5a ./src/startup.o
  .comment       0x0000000000000059       0x5a ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
 
-.debug_frame    0x0000000000000000      0x268
- .debug_frame   0x0000000000000000       0x28 ./src/commonio.o
- .debug_frame   0x0000000000000028       0x20 ./src/io.o
- .debug_frame   0x0000000000000048       0x48 ./src/main.o
- .debug_frame   0x0000000000000090       0x40 ./src/startup.o
- .debug_frame   0x00000000000000d0      0x198 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-
-.debug_loc      0x0000000000000000      0x785
- .debug_loc     0x0000000000000000       0xa5 ./src/startup.o
- .debug_loc     0x00000000000000a5      0x6e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+.debug_frame    0x0000000000000000      0x26c
+ .debug_frame   0x0000000000000000       0x2c ./src/commonio.o
+ .debug_frame   0x000000000000002c       0x20 ./src/io.o
+ .debug_frame   0x000000000000004c       0x48 ./src/main.o
+ .debug_frame   0x0000000000000094       0x40 ./src/startup.o
+ .debug_frame   0x00000000000000d4      0x198 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
