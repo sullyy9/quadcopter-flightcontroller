@@ -9,6 +9,7 @@
 
 #include "commonio.h"
 #include "io.h"
+#include "comms.h"
 #include "main.h"
 
 /*----------------------------------------------------------------------------*/
@@ -88,7 +89,7 @@ void (* const vector_table[])(void) =
 /* 0x00C8 I2C2_ER_IRQn          (34) */  dummy_isr,
 /* 0x00CC SPI1_IRQn             (35) */  dummy_isr,
 /* 0x00D0 SPI2_IRQn             (36) */  dummy_isr,
-/* 0x00D4 USART1_IRQn           (37) */  dummy_isr,
+/* 0x00D4 USART1_IRQn           (37) */  comms_usart1_isr,
 /* 0x00D8 USART2_IRQn           (38) */  dummy_isr,
 /* 0x00DC USART3_IRQn           (39) */  dummy_isr,
 /* 0x00E0 EXTI15_10_IRQn        (40) */  dummy_isr,

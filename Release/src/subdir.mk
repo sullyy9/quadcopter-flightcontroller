@@ -5,18 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/commonio.c \
+../src/comms.c \
 ../src/io.c \
 ../src/main.c \
 ../src/startup.c 
 
 OBJS += \
 ./src/commonio.o \
+./src/comms.o \
 ./src/io.o \
 ./src/main.o \
 ./src/startup.o 
 
 C_DEPS += \
 ./src/commonio.d \
+./src/comms.d \
 ./src/io.d \
 ./src/main.d \
 ./src/startup.d 
