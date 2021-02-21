@@ -8,6 +8,7 @@ C_SRCS += \
 ../src/comms.c \
 ../src/io.c \
 ../src/main.c \
+../src/port.c \
 ../src/startup.c 
 
 OBJS += \
@@ -15,6 +16,7 @@ OBJS += \
 ./src/comms.o \
 ./src/io.o \
 ./src/main.o \
+./src/port.o \
 ./src/startup.o 
 
 C_DEPS += \
@@ -22,6 +24,7 @@ C_DEPS += \
 ./src/comms.d \
 ./src/io.d \
 ./src/main.d \
+./src/port.d \
 ./src/startup.d 
 
 

@@ -19,6 +19,13 @@
 /*-constant-definitions-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+#define     COMMONIO_HCLK_HZ        48000000L                       // HCLK
+
+#define     COMMONIO_CLOCK_HZ       (COMMONIO_HCLK_HZ)           // peripheral clock = HCLK/8
+#define     COMMONIO_TIMER_1US      (COMMONIO_CLOCK_HZ/1000000)     // 1.000us
+#define     COMMONIO_TIMER_1MS      ( 1L*(COMMONIO_CLOCK_HZ/1000))  // 1.000ms
+#define     COMMONIO_TIMER_20MS     (20L*(COMMONIO_CLOCK_HZ/1000))  // 20.000ms
+
 /*----------------------------------------------------------------------------*/
 /*-exported-variables---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -35,6 +42,13 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+void commonio_clear_reset_flags( void )
+{
+    LL_RCC_ClearResetFlags();
+}
+
+/*----------------------------------------------------------------------------*/
+
 /*
  * @brief       Setup HSI and LSI clocks
  * @param       none
@@ -42,7 +56,6 @@
  */
 void commonio_initialise_clocks( void )
 {
-
     /*
      * Setup clock sources ( HSI running at 8MHz, LSI at 40KHz )
      */
@@ -50,6 +63,7 @@ void commonio_initialise_clocks( void )
     LL_RCC_HSI_Enable( );
     LL_RCC_HSE_Disable( );
     LL_RCC_LSI_Enable( );
+    LL_RCC_LSE_Disable( );
     while( LL_RCC_HSI_IsReady( ) == 0 );
 
     /*
@@ -87,6 +101,7 @@ void commonio_initialise_clocks( void )
           LL_APB2_GRP1_PERIPH_USART1
     );
 
+    SysTick_Config( COMMONIO_TIMER_1MS );
 }
 
 /*----------------------------------------------------------------------------*/

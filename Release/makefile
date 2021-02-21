@@ -45,7 +45,7 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-ryansullivan-quadcopter-firmware.hex \
+ryansullivan-quadcopter-firmware.bin \
 
 SECONDARY_SIZE += \
 ryansullivan-quadcopter-firmware.siz \
@@ -58,13 +58,13 @@ all: ryansullivan-quadcopter-firmware.elf secondary-outputs
 ryansullivan-quadcopter-firmware.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GNU Arm Cross C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T ../stm32code.ld -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ryansullivan-quadcopter-firmware.map" --specs=nano.specs -o "ryansullivan-quadcopter-firmware.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T libs.ld -T mem.ld -T sections.ld -nostartfiles -L"../ldscripts" -Wl,-Map,"ryansullivan-quadcopter-firmware.map" --specs=nano.specs -o "ryansullivan-quadcopter-firmware.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-ryansullivan-quadcopter-firmware.hex: ryansullivan-quadcopter-firmware.elf
+ryansullivan-quadcopter-firmware.bin: ryansullivan-quadcopter-firmware.elf
 	@echo 'Invoking: GNU Arm Cross Create Flash Image'
-	arm-none-eabi-objcopy -O ihex "ryansullivan-quadcopter-firmware.elf"  "ryansullivan-quadcopter-firmware.hex"
+	arm-none-eabi-objcopy -O binary "ryansullivan-quadcopter-firmware.elf"  "ryansullivan-quadcopter-firmware.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 

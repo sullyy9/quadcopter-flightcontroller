@@ -7,6 +7,8 @@
 */
 /*----------------------------------------------------------------------------*/
 
+#include "stm32f3xx.h"
+
 #include "commonio.h"
 #include "io.h"
 #include "comms.h"
@@ -19,7 +21,7 @@ extern unsigned long _sdata;
 extern unsigned long _edata;
 extern unsigned long __bss_start__;
 extern unsigned long __bss_end__;
-extern unsigned long __stack_end__;
+extern unsigned long _estack;
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -33,13 +35,13 @@ void dummy_isr(void) __attribute__((__interrupt__,used));
 /*----------------------------------------------------------------------------*/
 
 /* stm32 vectors for application - these are linked to the start of the App area */
-__attribute__ ((section(".vectors"), used))
+__attribute__ ((section(".isr_vector"), used))
 void (* const vector_table[])(void) = 
 {
-/* 0x0000 Reset Stack Pointer        */  (void (*)(void))((unsigned long)&__stack_end__),
+/* 0x0000 Reset Stack Pointer        */  (void (*)(void))((unsigned long)&_estack),
 /* 0x0004 Reset Vector               */  reset_isr,
 /* 0x0008 NonMaskableInt_IRQn        */  dummy_isr,
-/* 0x000c Reserved                   */  dummy_isr,
+/* 0x000c HardFault_IRQn             */  dummy_isr,
 /* 0x0010 MemoryManagement_IRQn      */  dummy_isr,
 /* 0x0014 BusFault_IRQn              */  dummy_isr,
 /* 0x0018 UsageFault_IRQn            */  dummy_isr,
@@ -100,9 +102,9 @@ void (* const vector_table[])(void) =
 /* TIM8_TRG_COM_IRQn            (45) */  dummy_isr,
 /* TIM8_CC_IRQn                 (46) */  dummy_isr,
 /* ADC3_IRQn                    (47) */  dummy_isr,
-/* FSMC_IRQn                    (48) */  dummy_isr,
-/* SDIO_IRQn                    (49) */  dummy_isr,
-/* TIM5_IRQn                    (50) */  dummy_isr,
+/* FSMC_IRQn                    (48) */  0,
+/* SDIO_IRQn                    (49) */  0,
+/* TIM5_IRQn                    (50) */  0,
 /* SPI3_IRQn                    (51) */  dummy_isr,
 /* UART4_IRQn                   (52) */  dummy_isr,
 /* UART5_IRQn                   (53) */  dummy_isr,
@@ -111,7 +113,29 @@ void (* const vector_table[])(void) =
 /* DMA2_Channel1_IRQn           (56) */  dummy_isr,
 /* DMA2_Channel2_IRQn           (57) */  dummy_isr,
 /* DMA2_Channel3_IRQn           (58) */  dummy_isr,
-/* DMA2_Channel4_5_IRQn         (59) */  dummy_isr
+/* DMA2_Channel4_IRQn           (60) */  dummy_isr,
+/* DMA2_Channel5_IRQn           (61) */  dummy_isr,
+/* ADC4_IRQn                    (62) */  dummy_isr,
+/* Reserved                     (63) */  0,
+/* Reserved                     (64) */  0,
+/* COMP1_2_3_IRQn               (65) */  dummy_isr,
+/* COMP4_5_6_IRQn               (66) */  dummy_isr,
+/* COMP7_IRQn                   (66) */  dummy_isr,
+/* Reserved                     (67) */  0,
+/* Reserved                     (68) */  0,
+/* Reserved                     (69) */  0,
+/* Reserved                     (70) */  0,
+/* Reserved                     (71) */  0,
+/* Reserved                     (72) */  0,
+/* Reserved                     (73) */  0,
+/* USB_HP_IRQn                  (74) */  dummy_isr,
+/* USB_LP_IRQn                  (75) */  dummy_isr,
+/* USB_WU_RMP_IRQn              (76) */  dummy_isr,
+/* Reserved                     (77) */  0,
+/* Reserved                     (78) */  0,
+/* Reserved                     (79) */  0,
+/* Reserved                     (80) */  0,
+/* FPU_IRQn                     (81) */  dummy_isr
 };
 
 /*----------------------------------------------------------------------------*/
@@ -120,6 +144,8 @@ void (* const vector_table[])(void) =
 
 void reset_isr(void)
 {
+    SCB->VTOR = 0 | ( (uint32_t)vector_table & (uint32_t)0x1FFFFF80 );
+
     unsigned long *pSrc, *pDest;
 
     /*
@@ -128,7 +154,7 @@ void reset_isr(void)
     pSrc = &_etext;
     for(pDest = &_sdata; pDest < &_edata; )
     {
-            *pDest++ = *pSrc++;
+        *pDest++ = *pSrc++;
     }
 
     /*
@@ -136,14 +162,14 @@ void reset_isr(void)
      */
     for(pDest = &__bss_start__; pDest < &__bss_end__; )
     {
-            *pDest++ = 0;
+        *pDest++ = 0;
     }
 
     /*
      * call the application
      */
     main();
-    
+
     /*
      * if main exits, sit here
      */

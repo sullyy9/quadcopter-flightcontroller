@@ -2,17 +2,17 @@
 /*
     Ryan Sullivan
 
-    Module Name     :   main.c
-    Description     :   main program
+    Module Name     :
+    Description     :
 */
 /*----------------------------------------------------------------------------*/
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
 
-#include "main.h"
-#include "io.h"
-#include "commonio.h"
+#include "stm32f3xx_ll_gpio.h"
+
 #include "port.h"
 
 /*----------------------------------------------------------------------------*/
@@ -35,23 +35,80 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-int main( void )
+void port_set( uint32_t port_pin )
 {
+    uint32_t        pin = ( 1 << ( port_pin % 16 ) );
+    GPIO_TypeDef    *port   = NULL;
 
-    io_initialise( );
+    if( port_pin <= PORT_A15 )
+    {
+        port = GPIOA;
+    }
+    else if( port_pin <= PORT_B15 )
+    {
+        port = GPIOB;
+    }
+    else if( port_pin <= PORT_C15 )
+    {
+        port = GPIOC;
+    }
+    else if( port_pin <= PORT_D15 )
+    {
+        port = GPIOD;
+    }
+    else if( port_pin <= PORT_E15 )
+    {
+        port = GPIOE;
+    }
+    else if( port_pin <= PORT_F10 )
+    {
+        port = GPIOF;
+    }
+    else
+    {
 
-    commonio_clear_reset_flags( );
+    }
 
-    while( 1 );
-
-    return( 0 );
+    LL_GPIO_SetOutputPin( port, pin );
 }
 
 /*----------------------------------------------------------------------------*/
 
-void main_1ms_timer_isr( void )
+void port_clear( uint32_t port_pin )
 {
-    io_1ms_poll( );
+    uint32_t        pin = ( 1 << ( port_pin % 16 ) );
+    GPIO_TypeDef    *port   = NULL;
+
+    if( port_pin <= PORT_A15 )
+    {
+        port = GPIOA;
+    }
+    else if( port_pin <= PORT_B15 )
+    {
+        port = GPIOB;
+    }
+    else if( port_pin <= PORT_C15 )
+    {
+        port = GPIOC;
+    }
+    else if( port_pin <= PORT_D15 )
+    {
+        port = GPIOD;
+    }
+    else if( port_pin <= PORT_E15 )
+    {
+        port = GPIOE;
+    }
+    else if( port_pin <= PORT_F10 )
+    {
+        port = GPIOF;
+    }
+    else
+    {
+
+    }
+
+    LL_GPIO_ResetOutputPin( port, pin );
 }
 
 /*----------------------------------------------------------------------------*/
