@@ -132,6 +132,7 @@ enum
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+void    port_initialise_pin( uint8_t port_pin, uint8_t mode, uint32_t alternate_function );
 void    port_set( uint32_t port_pin );
 void    port_clear( uint32_t port_pin );
 

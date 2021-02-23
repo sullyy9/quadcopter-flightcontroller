@@ -2,7 +2,7 @@
 /*
     Ryan Sullivan
 
-    Module Name     : comms.h
+    Module Name     :
     Description     : header file
 */
 /*----------------------------------------------------------------------------*/
@@ -19,11 +19,8 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void        comms_initialise( void );
-uint16_t    comms_usart1_tx_free( void );
-void        comms_usart1_tx_byte( uint8_t data );
-void        comms_dma1_channel4_isr( void );
-void        comms_usart1_isr( void );
+void    utils_wait_ms( uint16_t ms );
+void    utils_1ms_poll( void );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/

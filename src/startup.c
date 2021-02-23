@@ -27,8 +27,13 @@ extern unsigned long _estack;
 /*-forward-declarations-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void reset_isr(void) __attribute__((__interrupt__,used));
-void dummy_isr(void) __attribute__((__interrupt__,used));
+void reset_isr(void)                __attribute__((__interrupt__,used));
+void dummy_isr(void)                __attribute__((__interrupt__,used));
+void non_maskable_int_isr(void)     __attribute__((__interrupt__,used));
+void hard_fault_isr(void)           __attribute__((__interrupt__,used));
+void memory_management_isr(void)    __attribute__((__interrupt__,used));
+void bus_fault_isr(void)            __attribute__((__interrupt__,used));
+void usage_fault_isr(void)          __attribute__((__interrupt__,used));
 
 /*----------------------------------------------------------------------------*/
 /*-vector-table---------------------------------------------------------------*/
@@ -40,11 +45,11 @@ void (* const vector_table[])(void) =
 {
 /* 0x0000 Reset Stack Pointer        */  (void (*)(void))((unsigned long)&_estack),
 /* 0x0004 Reset Vector               */  reset_isr,
-/* 0x0008 NonMaskableInt_IRQn        */  dummy_isr,
-/* 0x000c HardFault_IRQn             */  dummy_isr,
-/* 0x0010 MemoryManagement_IRQn      */  dummy_isr,
-/* 0x0014 BusFault_IRQn              */  dummy_isr,
-/* 0x0018 UsageFault_IRQn            */  dummy_isr,
+/* 0x0008 NonMaskableInt_IRQn        */  non_maskable_int_isr,
+/* 0x000c HardFault_IRQn             */  hard_fault_isr,
+/* 0x0010 MemoryManagement_IRQn      */  memory_management_isr,
+/* 0x0014 BusFault_IRQn              */  bus_fault_isr,
+/* 0x0018 UsageFault_IRQn            */  usage_fault_isr,
 /* 0x001C Reserved                   */  0,
 /* 0x0020 Reserved                   */  0,
 /* 0x0024 Reserved                   */  0,
@@ -68,7 +73,7 @@ void (* const vector_table[])(void) =
 /* 0x006C DMA1_Channel1_IRQn    (11) */  dummy_isr,
 /* 0x0070 DMA1_Channel2_IRQn    (12) */  dummy_isr,
 /* 0x0074 DMA1_Channel3_IRQn    (13) */  dummy_isr,
-/* 0x0078 DMA1_Channel4_IRQn    (14) */  dummy_isr,
+/* 0x0078 DMA1_Channel4_IRQn    (14) */  comms_dma1_channel4_isr,
 /* 0x007C DMA1_Channel5_IRQn    (15) */  dummy_isr,
 /* 0x0080 DMA1_Channel6_IRQn    (16) */  dummy_isr,
 /* 0x0084 DMA1_Channel7_IRQn    (17) */  dummy_isr,
@@ -179,6 +184,41 @@ void reset_isr(void)
 /*----------------------------------------------------------------------------*/
 
 void dummy_isr( void )
+{
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void non_maskable_int_isr(void)
+{
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void hard_fault_isr(void)
+{
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void memory_management_isr(void)
+{
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void bus_fault_isr(void)
+{
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void usage_fault_isr(void)
 {
     while( 1 );
 }

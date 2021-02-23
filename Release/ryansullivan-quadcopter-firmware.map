@@ -21,6 +21,7 @@ LOAD ./src/io.o
 LOAD ./src/main.o
 LOAD ./src/port.o
 LOAD ./src/startup.o
+LOAD ./src/utils.o
 LOAD ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
 LOAD ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
 LOAD ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
@@ -72,16 +73,16 @@ END GROUP
 
 .inits          0x0000000008000188       0x28
                 0x0000000008000188                __data_regions_array_start = .
-                0x0000000008000188        0x4 LONG 0x80027b4 LOADADDR (.data)
+                0x0000000008000188        0x4 LONG 0x80027d4 LOADADDR (.data)
                 0x000000000800018c        0x4 LONG 0x20000000 ADDR (.data)
-                0x0000000008000190        0x4 LONG 0x20000004 (ADDR (.data) + SIZEOF (.data))
-                0x0000000008000194        0x4 LONG 0x80027b4 LOADADDR (.data_CCMRAM)
+                0x0000000008000190        0x4 LONG 0x20000008 (ADDR (.data) + SIZEOF (.data))
+                0x0000000008000194        0x4 LONG 0x80027d4 LOADADDR (.data_CCMRAM)
                 0x0000000008000198        0x4 LONG 0x10000000 ADDR (.data_CCMRAM)
                 0x000000000800019c        0x4 LONG 0x10000000 (ADDR (.data_CCMRAM) + SIZEOF (.data_CCMRAM))
                 0x00000000080001a0                __data_regions_array_end = .
                 0x00000000080001a0                __bss_regions_array_start = .
-                0x00000000080001a0        0x4 LONG 0x20000004 ADDR (.bss)
-                0x00000000080001a4        0x4 LONG 0x2000000c (ADDR (.bss) + SIZEOF (.bss))
+                0x00000000080001a0        0x4 LONG 0x20000008 ADDR (.bss)
+                0x00000000080001a4        0x4 LONG 0x20000114 (ADDR (.bss) + SIZEOF (.bss))
                 0x00000000080001a8        0x4 LONG 0x10000000 ADDR (.bss_CCMRAM)
                 0x00000000080001ac        0x4 LONG 0x10000000 (ADDR (.bss_CCMRAM) + SIZEOF (.bss_CCMRAM))
                 0x00000000080001b0                __bss_regions_array_end = .
@@ -107,7 +108,7 @@ END GROUP
 .flashtext
  *(.flashtext .flashtext.*)
 
-.text           0x00000000080001b0     0x2604
+.text           0x00000000080001b0     0x2624
  *(.text .text.*)
  .text          0x00000000080001b0        0x0 ./src/commonio.o
  .text.commonio_clear_reset_flags
@@ -118,423 +119,447 @@ END GROUP
                 0x00000000080001c0                commonio_initialise_clocks
  .text          0x0000000008000298        0x0 ./src/comms.o
  .text.comms_initialise
-                0x0000000008000298        0x6 ./src/comms.o
+                0x0000000008000298       0xb0 ./src/comms.o
                 0x0000000008000298                comms_initialise
+ .text.comms_usart1_tx_free
+                0x0000000008000348       0x1c ./src/comms.o
+                0x0000000008000348                comms_usart1_tx_free
+ .text.comms_usart1_tx_byte
+                0x0000000008000364       0x48 ./src/comms.o
+                0x0000000008000364                comms_usart1_tx_byte
+ .text.comms_dma1_channel4_isr
+                0x00000000080003ac       0x44 ./src/comms.o
+                0x00000000080003ac                comms_dma1_channel4_isr
  .text.comms_usart1_isr
-                0x000000000800029e       0x12 ./src/comms.o
-                0x000000000800029e                comms_usart1_isr
- .text          0x00000000080002b0        0x0 ./src/io.o
- .text.LL_GPIO_SetPinPull
-                0x00000000080002b0       0x2c ./src/io.o
- .text.LL_GPIO_SetPinMode
-                0x00000000080002dc       0x2c ./src/io.o
- .text.LL_GPIO_SetAFPin_8_15
-                0x0000000008000308       0x2e ./src/io.o
- .text.LL_GPIO_SetPinSpeed.constprop.0
-                0x0000000008000336       0x2c ./src/io.o
- *fill*         0x0000000008000362        0x2 
+                0x00000000080003f0       0x10 ./src/comms.o
+                0x00000000080003f0                comms_usart1_isr
+ .text          0x0000000008000400        0x0 ./src/io.o
+ .text.io_toggle_w_led
+                0x0000000008000400       0x20 ./src/io.o
+                0x0000000008000400                io_toggle_w_led
  .text.io_1ms_poll
-                0x0000000008000364       0x38 ./src/io.o
-                0x0000000008000364                io_1ms_poll
- .text.initialise_io_pin
-                0x000000000800039c      0x120 ./src/io.o
-                0x000000000800039c                initialise_io_pin
+                0x0000000008000420       0x38 ./src/io.o
+                0x0000000008000420                io_1ms_poll
  .text.initialise_gpio
-                0x00000000080004bc       0x16 ./src/io.o
-                0x00000000080004bc                initialise_gpio
+                0x0000000008000458       0x1a ./src/io.o
+                0x0000000008000458                initialise_gpio
  .text.initialise_usart
-                0x00000000080004d2       0x1a ./src/io.o
-                0x00000000080004d2                initialise_usart
+                0x0000000008000472       0x1a ./src/io.o
+                0x0000000008000472                initialise_usart
  .text.io_initialise
-                0x00000000080004ec       0x12 ./src/io.o
-                0x00000000080004ec                io_initialise
- .text          0x00000000080004fe        0x0 ./src/main.o
+                0x000000000800048c       0x16 ./src/io.o
+                0x000000000800048c                io_initialise
+ .text          0x00000000080004a2        0x0 ./src/main.o
  .text.startup.main
-                0x00000000080004fe        0xc ./src/main.o
-                0x00000000080004fe                main
+                0x00000000080004a2       0x4a ./src/main.o
+                0x00000000080004a2                main
  .text.main_1ms_timer_isr
-                0x000000000800050a       0x16 ./src/main.o
-                0x000000000800050a                main_1ms_timer_isr
- .text          0x0000000008000520        0x0 ./src/port.o
+                0x00000000080004ec       0x1a ./src/main.o
+                0x00000000080004ec                main_1ms_timer_isr
+ .text          0x0000000008000506        0x0 ./src/port.o
+ .text.port_initialise_pin
+                0x0000000008000506       0x6a ./src/port.o
+                0x0000000008000506                port_initialise_pin
  .text.port_set
-                0x0000000008000520       0x58 ./src/port.o
-                0x0000000008000520                port_set
+                0x0000000008000570       0x16 ./src/port.o
+                0x0000000008000570                port_set
  .text.port_clear
-                0x0000000008000578       0x58 ./src/port.o
-                0x0000000008000578                port_clear
- .text          0x00000000080005d0        0x0 ./src/startup.o
+                0x0000000008000586       0x16 ./src/port.o
+                0x0000000008000586                port_clear
+ .text          0x000000000800059c        0x0 ./src/startup.o
  .text.dummy_isr
-                0x00000000080005d0        0xa ./src/startup.o
-                0x00000000080005d0                dummy_isr
- *fill*         0x00000000080005da        0x2 
+                0x000000000800059c        0xa ./src/startup.o
+                0x000000000800059c                dummy_isr
+ .text.non_maskable_int_isr
+                0x00000000080005a6        0xa ./src/startup.o
+                0x00000000080005a6                non_maskable_int_isr
+ .text.hard_fault_isr
+                0x00000000080005b0        0xa ./src/startup.o
+                0x00000000080005b0                hard_fault_isr
+ .text.memory_management_isr
+                0x00000000080005ba        0xa ./src/startup.o
+                0x00000000080005ba                memory_management_isr
+ .text.bus_fault_isr
+                0x00000000080005c4        0xa ./src/startup.o
+                0x00000000080005c4                bus_fault_isr
+ .text.usage_fault_isr
+                0x00000000080005ce        0xa ./src/startup.o
+                0x00000000080005ce                usage_fault_isr
  .text.reset_isr
-                0x00000000080005dc       0x60 ./src/startup.o
-                0x00000000080005dc                reset_isr
- .text          0x000000000800063c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x00000000080005d8       0x60 ./src/startup.o
+                0x00000000080005d8                reset_isr
+ .text          0x0000000008000638        0x0 ./src/utils.o
+ .text.utils_wait_ms
+                0x0000000008000638       0x14 ./src/utils.o
+                0x0000000008000638                utils_wait_ms
+ .text.utils_1ms_poll
+                0x000000000800064c       0x10 ./src/utils.o
+                0x000000000800064c                utils_1ms_poll
+ .text          0x000000000800065c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
  .text.LL_ADC_CommonDeInit
-                0x000000000800063c       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x000000000800063c                LL_ADC_CommonDeInit
+                0x000000000800065c       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x000000000800065c                LL_ADC_CommonDeInit
  .text.LL_ADC_CommonInit
-                0x0000000008000670       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x0000000008000670                LL_ADC_CommonInit
+                0x0000000008000690       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000008000690                LL_ADC_CommonInit
  .text.LL_ADC_CommonStructInit
-                0x00000000080006c8       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x00000000080006c8                LL_ADC_CommonStructInit
+                0x00000000080006e8       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x00000000080006e8                LL_ADC_CommonStructInit
  .text.LL_ADC_DeInit
-                0x00000000080006d8      0x1e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x00000000080006d8                LL_ADC_DeInit
+                0x00000000080006f8      0x1e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x00000000080006f8                LL_ADC_DeInit
  .text.LL_ADC_Init
-                0x00000000080008b8       0x2a ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x00000000080008b8                LL_ADC_Init
+                0x00000000080008d8       0x2a ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x00000000080008d8                LL_ADC_Init
  .text.LL_ADC_StructInit
-                0x00000000080008e2        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x00000000080008e2                LL_ADC_StructInit
+                0x0000000008000902        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000008000902                LL_ADC_StructInit
  .text.LL_ADC_REG_Init
-                0x00000000080008ec       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x00000000080008ec                LL_ADC_REG_Init
+                0x000000000800090c       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x000000000800090c                LL_ADC_REG_Init
  .text.LL_ADC_REG_StructInit
-                0x0000000008000934       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x0000000008000934                LL_ADC_REG_StructInit
+                0x0000000008000954       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000008000954                LL_ADC_REG_StructInit
  .text.LL_ADC_INJ_Init
-                0x0000000008000948       0x32 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x0000000008000948                LL_ADC_INJ_Init
+                0x0000000008000968       0x32 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000008000968                LL_ADC_INJ_Init
  .text.LL_ADC_INJ_StructInit
-                0x000000000800097a        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
-                0x000000000800097a                LL_ADC_INJ_StructInit
- .text          0x0000000008000986        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x000000000800099a        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x000000000800099a                LL_ADC_INJ_StructInit
+ .text          0x00000000080009a6        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
  .text.LL_COMP_DeInit
-                0x0000000008000986       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
-                0x0000000008000986                LL_COMP_DeInit
- *fill*         0x0000000008000996        0x2 
+                0x00000000080009a6       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x00000000080009a6                LL_COMP_DeInit
+ *fill*         0x00000000080009b6        0x2 
  .text.LL_COMP_Init
-                0x0000000008000998       0x38 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
-                0x0000000008000998                LL_COMP_Init
+                0x00000000080009b8       0x38 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x00000000080009b8                LL_COMP_Init
  .text.LL_COMP_StructInit
-                0x00000000080009d0       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
-                0x00000000080009d0                LL_COMP_StructInit
- .text          0x00000000080009e4        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+                0x00000000080009f0       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x00000000080009f0                LL_COMP_StructInit
+ .text          0x0000000008000a04        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
  .text.LL_CRC_DeInit
-                0x00000000080009e4       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
-                0x00000000080009e4                LL_CRC_DeInit
- .text          0x0000000008000a28        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x0000000008000a04       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+                0x0000000008000a04                LL_CRC_DeInit
+ .text          0x0000000008000a48        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
  .text.LL_DAC_DeInit
-                0x0000000008000a28       0x24 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
-                0x0000000008000a28                LL_DAC_DeInit
+                0x0000000008000a48       0x24 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x0000000008000a48                LL_DAC_DeInit
  .text.LL_DAC_Init
-                0x0000000008000a4c       0x52 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
-                0x0000000008000a4c                LL_DAC_Init
+                0x0000000008000a6c       0x52 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x0000000008000a6c                LL_DAC_Init
  .text.LL_DAC_StructInit
-                0x0000000008000a9e        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
-                0x0000000008000a9e                LL_DAC_StructInit
- .text          0x0000000008000aac        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x0000000008000abe        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x0000000008000abe                LL_DAC_StructInit
+ .text          0x0000000008000acc        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
  .text.LL_DMA_DeInit
-                0x0000000008000aac       0xf8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
-                0x0000000008000aac                LL_DMA_DeInit
+                0x0000000008000acc       0xf8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x0000000008000acc                LL_DMA_DeInit
  .text.LL_DMA_Init
-                0x0000000008000ba4       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
-                0x0000000008000ba4                LL_DMA_Init
+                0x0000000008000bc4       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x0000000008000bc4                LL_DMA_Init
  .text.LL_DMA_StructInit
-                0x0000000008000bf4       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
-                0x0000000008000bf4                LL_DMA_StructInit
- .text          0x0000000008000c0c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x0000000008000c14       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x0000000008000c14                LL_DMA_StructInit
+ .text          0x0000000008000c2c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
  .text.LL_EXTI_DeInit
-                0x0000000008000c0c       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
-                0x0000000008000c0c                LL_EXTI_DeInit
+                0x0000000008000c2c       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x0000000008000c2c                LL_EXTI_DeInit
  .text.LL_EXTI_Init
-                0x0000000008000c40      0x140 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
-                0x0000000008000c40                LL_EXTI_Init
+                0x0000000008000c60      0x140 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x0000000008000c60                LL_EXTI_Init
  .text.LL_EXTI_StructInit
-                0x0000000008000d80        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
-                0x0000000008000d80                LL_EXTI_StructInit
- .text          0x0000000008000d8e        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- *fill*         0x0000000008000d8e        0x2 
+                0x0000000008000da0        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x0000000008000da0                LL_EXTI_StructInit
+ .text          0x0000000008000dae        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ *fill*         0x0000000008000dae        0x2 
  .text.LL_GPIO_DeInit
-                0x0000000008000d90       0xd0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
-                0x0000000008000d90                LL_GPIO_DeInit
+                0x0000000008000db0       0xd0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+                0x0000000008000db0                LL_GPIO_DeInit
  .text.LL_GPIO_Init
-                0x0000000008000e60      0x140 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
-                0x0000000008000e60                LL_GPIO_Init
+                0x0000000008000e80      0x140 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+                0x0000000008000e80                LL_GPIO_Init
  .text.LL_GPIO_StructInit
-                0x0000000008000fa0       0x16 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
-                0x0000000008000fa0                LL_GPIO_StructInit
- .text          0x0000000008000fb6        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .text          0x0000000008000fb6        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- *fill*         0x0000000008000fb6        0x2 
+                0x0000000008000fc0       0x16 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+                0x0000000008000fc0                LL_GPIO_StructInit
+ .text          0x0000000008000fd6        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .text          0x0000000008000fd6        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ *fill*         0x0000000008000fd6        0x2 
  .text.LL_I2C_DeInit
-                0x0000000008000fb8       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
-                0x0000000008000fb8                LL_I2C_DeInit
+                0x0000000008000fd8       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+                0x0000000008000fd8                LL_I2C_DeInit
  .text.LL_I2C_Init
-                0x0000000008000ffc       0x6a ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
-                0x0000000008000ffc                LL_I2C_Init
+                0x000000000800101c       0x6a ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+                0x000000000800101c                LL_I2C_Init
  .text.LL_I2C_StructInit
-                0x0000000008001066       0x16 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
-                0x0000000008001066                LL_I2C_StructInit
- .text          0x000000000800107c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x0000000008001086       0x16 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+                0x0000000008001086                LL_I2C_StructInit
+ .text          0x000000000800109c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
  .text.LL_OPAMP_DeInit
-                0x000000000800107c       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
-                0x000000000800107c                LL_OPAMP_DeInit
+                0x000000000800109c       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x000000000800109c                LL_OPAMP_DeInit
  .text.LL_OPAMP_Init
-                0x000000000800108c       0x38 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
-                0x000000000800108c                LL_OPAMP_Init
+                0x00000000080010ac       0x38 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x00000000080010ac                LL_OPAMP_Init
  .text.LL_OPAMP_StructInit
-                0x00000000080010c4        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
-                0x00000000080010c4                LL_OPAMP_StructInit
- .text          0x00000000080010d2        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- *fill*         0x00000000080010d2        0x2 
+                0x00000000080010e4        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x00000000080010e4                LL_OPAMP_StructInit
+ .text          0x00000000080010f2        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ *fill*         0x00000000080010f2        0x2 
  .text.LL_PWR_DeInit
-                0x00000000080010d4       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
-                0x00000000080010d4                LL_PWR_DeInit
- .text          0x00000000080010f0        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080010f4       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+                0x00000000080010f4                LL_PWR_DeInit
+ .text          0x0000000008001110        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
  .text.LL_RCC_HSI_IsReady
-                0x00000000080010f0       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001110       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
  .text.LL_RCC_DeInit
-                0x0000000008001100       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001100                LL_RCC_DeInit
+                0x0000000008001120       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001120                LL_RCC_DeInit
  .text.RCC_GetHCLKClockFreq
-                0x0000000008001188       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001188                RCC_GetHCLKClockFreq
+                0x00000000080011a8       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080011a8                RCC_GetHCLKClockFreq
  .text.RCC_GetPCLK1ClockFreq
-                0x00000000080011a0       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x00000000080011a0                RCC_GetPCLK1ClockFreq
+                0x00000000080011c0       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080011c0                RCC_GetPCLK1ClockFreq
  .text.RCC_GetPCLK2ClockFreq
-                0x00000000080011b8       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x00000000080011b8                RCC_GetPCLK2ClockFreq
+                0x00000000080011d8       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080011d8                RCC_GetPCLK2ClockFreq
  .text.RCC_PLL_GetFreqDomain_SYS
-                0x00000000080011d0       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x00000000080011d0                RCC_PLL_GetFreqDomain_SYS
+                0x00000000080011f0       0x44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080011f0                RCC_PLL_GetFreqDomain_SYS
  .text.LL_RCC_GetUSBClockFreq
-                0x0000000008001214       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001214                LL_RCC_GetUSBClockFreq
+                0x0000000008001234       0x34 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001234                LL_RCC_GetUSBClockFreq
  .text.RCC_GetSystemClockFreq
-                0x0000000008001248       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001248                RCC_GetSystemClockFreq
+                0x0000000008001268       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001268                RCC_GetSystemClockFreq
  .text.LL_RCC_GetSystemClocksFreq
-                0x0000000008001264       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001264                LL_RCC_GetSystemClocksFreq
+                0x0000000008001284       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001284                LL_RCC_GetSystemClocksFreq
  .text.LL_RCC_GetUSARTClockFreq
-                0x0000000008001284       0xdc ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001284                LL_RCC_GetUSARTClockFreq
+                0x00000000080012a4       0xdc ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080012a4                LL_RCC_GetUSARTClockFreq
  .text.LL_RCC_GetUARTClockFreq
-                0x0000000008001360       0x98 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001360                LL_RCC_GetUARTClockFreq
+                0x0000000008001380       0x98 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001380                LL_RCC_GetUARTClockFreq
  .text.LL_RCC_GetI2CClockFreq
-                0x00000000080013f8       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x00000000080013f8                LL_RCC_GetI2CClockFreq
+                0x0000000008001418       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001418                LL_RCC_GetI2CClockFreq
  .text.LL_RCC_GetI2SClockFreq
-                0x0000000008001434       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001434                LL_RCC_GetI2SClockFreq
+                0x0000000008001454       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000008001454                LL_RCC_GetI2SClockFreq
  .text.LL_RCC_GetADCClockFreq
-                0x000000000800144c       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x000000000800144c                LL_RCC_GetADCClockFreq
+                0x000000000800146c       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x000000000800146c                LL_RCC_GetADCClockFreq
  .text.LL_RCC_GetTIMClockFreq
-                0x0000000008001494       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x0000000008001494                LL_RCC_GetTIMClockFreq
- .text          0x00000000080014d0        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080014b4       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x00000000080014b4                LL_RCC_GetTIMClockFreq
+ .text          0x00000000080014f0        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
  .text.LL_RTC_StructInit
-                0x00000000080014d0        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080014d0                LL_RTC_StructInit
+                0x00000000080014f0        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080014f0                LL_RTC_StructInit
  .text.LL_RTC_TIME_StructInit
-                0x00000000080014de        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080014de                LL_RTC_TIME_StructInit
+                0x00000000080014fe        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080014fe                LL_RTC_TIME_StructInit
  .text.LL_RTC_DATE_StructInit
-                0x00000000080014e8        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080014e8                LL_RTC_DATE_StructInit
+                0x0000000008001508        0xe ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001508                LL_RTC_DATE_StructInit
  .text.LL_RTC_ALMA_Init
-                0x00000000080014f6       0xe4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080014f6                LL_RTC_ALMA_Init
+                0x0000000008001516       0xe4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001516                LL_RTC_ALMA_Init
  .text.LL_RTC_ALMB_Init
-                0x00000000080015da       0xe4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080015da                LL_RTC_ALMB_Init
+                0x00000000080015fa       0xe4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080015fa                LL_RTC_ALMB_Init
  .text.LL_RTC_ALMA_StructInit
-                0x00000000080016be       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080016be                LL_RTC_ALMA_StructInit
+                0x00000000080016de       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080016de                LL_RTC_ALMA_StructInit
  .text.LL_RTC_ALMB_StructInit
-                0x00000000080016d0        0x4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080016d0                LL_RTC_ALMB_StructInit
+                0x00000000080016f0        0x4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080016f0                LL_RTC_ALMB_StructInit
  .text.LL_RTC_EnterInitMode
-                0x00000000080016d4       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x00000000080016d4                LL_RTC_EnterInitMode
+                0x00000000080016f4       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x00000000080016f4                LL_RTC_EnterInitMode
  .text.LL_RTC_Init
-                0x0000000008001722       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x0000000008001722                LL_RTC_Init
+                0x0000000008001742       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001742                LL_RTC_Init
  .text.LL_RTC_ExitInitMode
-                0x0000000008001770        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x0000000008001770                LL_RTC_ExitInitMode
+                0x0000000008001790        0xa ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001790                LL_RTC_ExitInitMode
  .text.LL_RTC_WaitForSynchro
-                0x000000000800177a       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x000000000800177a                LL_RTC_WaitForSynchro
- *fill*         0x0000000008001802        0x2 
+                0x000000000800179a       0x88 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x000000000800179a                LL_RTC_WaitForSynchro
+ *fill*         0x0000000008001822        0x2 
  .text.LL_RTC_DeInit
-                0x0000000008001804       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x0000000008001804                LL_RTC_DeInit
+                0x0000000008001824       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001824                LL_RTC_DeInit
  .text.LL_RTC_TIME_Init
-                0x0000000008001854       0xb0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x0000000008001854                LL_RTC_TIME_Init
+                0x0000000008001874       0xb0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001874                LL_RTC_TIME_Init
  .text.LL_RTC_DATE_Init
-                0x0000000008001904       0xb4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
-                0x0000000008001904                LL_RTC_DATE_Init
- .text          0x00000000080019b8        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001924       0xb4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000008001924                LL_RTC_DATE_Init
+ .text          0x00000000080019d8        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
  .text.LL_SPI_DeInit
-                0x00000000080019b8       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x00000000080019b8                LL_SPI_DeInit
+                0x00000000080019d8       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x00000000080019d8                LL_SPI_DeInit
  .text.LL_SPI_Init
-                0x0000000008001a1c       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001a1c                LL_SPI_Init
+                0x0000000008001a3c       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001a3c                LL_SPI_Init
  .text.LL_SPI_StructInit
-                0x0000000008001a80       0x1e ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001a80                LL_SPI_StructInit
+                0x0000000008001aa0       0x1e ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001aa0                LL_SPI_StructInit
  .text.LL_I2S_DeInit
-                0x0000000008001a9e        0x4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001a9e                LL_I2S_DeInit
+                0x0000000008001abe        0x4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001abe                LL_I2S_DeInit
  .text.LL_I2S_Init
-                0x0000000008001aa2       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001aa2                LL_I2S_Init
+                0x0000000008001ac2       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001ac2                LL_I2S_Init
  .text.LL_I2S_StructInit
-                0x0000000008001b32       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001b32                LL_I2S_StructInit
+                0x0000000008001b52       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001b52                LL_I2S_StructInit
  .text.LL_I2S_ConfigPrescaler
-                0x0000000008001b44       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001b44                LL_I2S_ConfigPrescaler
+                0x0000000008001b64       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001b64                LL_I2S_ConfigPrescaler
  .text.LL_I2S_InitFullDuplex
-                0x0000000008001b58       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
-                0x0000000008001b58                LL_I2S_InitFullDuplex
- .text          0x0000000008001b98        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001b78       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000008001b78                LL_I2S_InitFullDuplex
+ .text          0x0000000008001bb8        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
  .text.LL_TIM_DeInit
-                0x0000000008001b98      0x134 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008001b98                LL_TIM_DeInit
+                0x0000000008001bb8      0x134 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001bb8                LL_TIM_DeInit
  .text.LL_TIM_StructInit
-                0x0000000008001ccc       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008001ccc                LL_TIM_StructInit
- *fill*         0x0000000008001cde        0x2 
+                0x0000000008001cec       0x12 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001cec                LL_TIM_StructInit
+ *fill*         0x0000000008001cfe        0x2 
  .text.LL_TIM_Init
-                0x0000000008001ce0       0xb8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008001ce0                LL_TIM_Init
+                0x0000000008001d00       0xb8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001d00                LL_TIM_Init
  .text.LL_TIM_OC_StructInit
-                0x0000000008001d98       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008001d98                LL_TIM_OC_StructInit
+                0x0000000008001db8       0x14 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001db8                LL_TIM_OC_StructInit
  .text.LL_TIM_OC_Init
-                0x0000000008001dac      0x304 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008001dac                LL_TIM_OC_Init
+                0x0000000008001dcc      0x304 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008001dcc                LL_TIM_OC_Init
  .text.LL_TIM_IC_StructInit
-                0x00000000080020b0       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x00000000080020b0                LL_TIM_IC_StructInit
+                0x00000000080020d0       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x00000000080020d0                LL_TIM_IC_StructInit
  .text.LL_TIM_IC_Init
-                0x00000000080020c0       0xde ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x00000000080020c0                LL_TIM_IC_Init
+                0x00000000080020e0       0xde ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x00000000080020e0                LL_TIM_IC_Init
  .text.LL_TIM_ENCODER_StructInit
-                0x000000000800219e       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x000000000800219e                LL_TIM_ENCODER_StructInit
+                0x00000000080021be       0x1c ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x00000000080021be                LL_TIM_ENCODER_StructInit
  .text.LL_TIM_ENCODER_Init
-                0x00000000080021ba       0x5e ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x00000000080021ba                LL_TIM_ENCODER_Init
+                0x00000000080021da       0x5e ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x00000000080021da                LL_TIM_ENCODER_Init
  .text.LL_TIM_HALLSENSOR_StructInit
-                0x0000000008002218        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008002218                LL_TIM_HALLSENSOR_StructInit
+                0x0000000008002238        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008002238                LL_TIM_HALLSENSOR_StructInit
  .text.LL_TIM_HALLSENSOR_Init
-                0x0000000008002224       0x5a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008002224                LL_TIM_HALLSENSOR_Init
+                0x0000000008002244       0x5a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000008002244                LL_TIM_HALLSENSOR_Init
  .text.LL_TIM_BDTR_StructInit
-                0x000000000800227e       0x1a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x000000000800227e                LL_TIM_BDTR_StructInit
+                0x000000000800229e       0x1a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x000000000800229e                LL_TIM_BDTR_StructInit
  .text.LL_TIM_BDTR_Init
-                0x0000000008002298       0x78 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
-                0x0000000008002298                LL_TIM_BDTR_Init
- .text          0x0000000008002310        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000080022b8       0x78 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x00000000080022b8                LL_TIM_BDTR_Init
+ .text          0x0000000008002330        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
  .text.LL_USART_DeInit
-                0x0000000008002310       0xa0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
-                0x0000000008002310                LL_USART_DeInit
+                0x0000000008002330       0xa0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x0000000008002330                LL_USART_DeInit
  .text.LL_USART_Init
-                0x00000000080023b0       0xd0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
-                0x00000000080023b0                LL_USART_Init
+                0x00000000080023d0       0xd0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000080023d0                LL_USART_Init
  .text.LL_USART_StructInit
-                0x0000000008002480       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
-                0x0000000008002480                LL_USART_StructInit
+                0x00000000080024a0       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000080024a0                LL_USART_StructInit
  .text.LL_USART_ClockInit
-                0x0000000008002498       0x3a ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
-                0x0000000008002498                LL_USART_ClockInit
+                0x00000000080024b8       0x3a ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000080024b8                LL_USART_ClockInit
  .text.LL_USART_ClockStructInit
-                0x00000000080024d2        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
-                0x00000000080024d2                LL_USART_ClockStructInit
- .text          0x00000000080024de        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- *fill*         0x00000000080024de        0x2 
+                0x00000000080024f2        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000080024f2                LL_USART_ClockStructInit
+ .text          0x00000000080024fe        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ *fill*         0x00000000080024fe        0x2 
  .text.UTILS_SetFlashLatency.part.0
-                0x00000000080024e0       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x0000000008002500       0x3c ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
  .text.UTILS_EnablePLLAndSwitchSystem
-                0x000000000800251c       0xb4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x000000000800253c       0xb4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
  .text.LL_Init1msTick
-                0x00000000080025d0       0x1a ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
-                0x00000000080025d0                LL_Init1msTick
+                0x00000000080025f0       0x1a ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x00000000080025f0                LL_Init1msTick
  .text.LL_mDelay
-                0x00000000080025ea       0x28 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
-                0x00000000080025ea                LL_mDelay
- *fill*         0x0000000008002612        0x2 
+                0x000000000800260a       0x28 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x000000000800260a                LL_mDelay
+ *fill*         0x0000000008002632        0x2 
  .text.LL_SetSystemCoreClock
-                0x0000000008002614        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
-                0x0000000008002614                LL_SetSystemCoreClock
+                0x0000000008002634        0xc ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x0000000008002634                LL_SetSystemCoreClock
  .text.LL_PLL_ConfigSystemClock_HSI
-                0x0000000008002620       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
-                0x0000000008002620                LL_PLL_ConfigSystemClock_HSI
+                0x0000000008002640       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x0000000008002640                LL_PLL_ConfigSystemClock_HSI
  .text.LL_PLL_ConfigSystemClock_HSE
-                0x0000000008002684       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
-                0x0000000008002684                LL_PLL_ConfigSystemClock_HSE
- .text          0x0000000008002704        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x00000000080026a4       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x00000000080026a4                LL_PLL_ConfigSystemClock_HSE
+ .text          0x0000000008002724        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
  .text.SystemInit
-                0x0000000008002704       0x10 ./STlib/src/cmsis/system_stm32f3xx.o
-                0x0000000008002704                SystemInit
+                0x0000000008002724       0x10 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x0000000008002724                SystemInit
  .text.SystemCoreClockUpdate
-                0x0000000008002714       0x60 ./STlib/src/cmsis/system_stm32f3xx.o
-                0x0000000008002714                SystemCoreClockUpdate
+                0x0000000008002734       0x60 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x0000000008002734                SystemCoreClockUpdate
  *(.rodata .rodata.* .constdata .constdata.*)
  .rodata.CHANNEL_OFFSET_TAB
-                0x0000000008002774        0x7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- *fill*         0x000000000800277b        0x1 
+                0x0000000008002794        0x7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ *fill*         0x000000000800279b        0x1 
  .rodata.aADCPrescTable
-                0x000000000800277c       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
-                0x000000000800277c                aADCPrescTable
+                0x000000000800279c       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x000000000800279c                aADCPrescTable
  .rodata.AHBPrescTable
-                0x000000000800279c       0x10 ./STlib/src/cmsis/system_stm32f3xx.o
-                0x000000000800279c                AHBPrescTable
+                0x00000000080027bc       0x10 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x00000000080027bc                AHBPrescTable
  .rodata.APBPrescTable
-                0x00000000080027ac        0x8 ./STlib/src/cmsis/system_stm32f3xx.o
-                0x00000000080027ac                APBPrescTable
+                0x00000000080027cc        0x8 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x00000000080027cc                APBPrescTable
  *(vtable)
  *(.eh_frame*)
  *(.glue_7)
- .glue_7        0x00000000080027b4        0x0 linker stubs
+ .glue_7        0x00000000080027d4        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x00000000080027b4        0x0 linker stubs
+ .glue_7t       0x00000000080027d4        0x0 linker stubs
 
-.vfp11_veneer   0x00000000080027b4        0x0
- .vfp11_veneer  0x00000000080027b4        0x0 linker stubs
+.vfp11_veneer   0x00000000080027d4        0x0
+ .vfp11_veneer  0x00000000080027d4        0x0 linker stubs
 
-.v4_bx          0x00000000080027b4        0x0
- .v4_bx         0x00000000080027b4        0x0 linker stubs
+.v4_bx          0x00000000080027d4        0x0
+ .v4_bx         0x00000000080027d4        0x0 linker stubs
 
-.iplt           0x00000000080027b4        0x0
- .iplt          0x00000000080027b4        0x0 ./src/commonio.o
+.iplt           0x00000000080027d4        0x0
+ .iplt          0x00000000080027d4        0x0 ./src/commonio.o
 
-.rel.dyn        0x00000000080027b4        0x0
- .rel.iplt      0x00000000080027b4        0x0 ./src/commonio.o
+.rel.dyn        0x00000000080027d4        0x0
+ .rel.iplt      0x00000000080027d4        0x0 ./src/commonio.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x00000000080027b4                . = ALIGN (0x4)
-                0x00000000080027b4                __exidx_start = .
+                0x00000000080027d4                . = ALIGN (0x4)
+                0x00000000080027d4                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00000000080027b4                __exidx_end = .
-                0x00000000080027b4                . = ALIGN (0x4)
-                0x00000000080027b4                _etext = .
-                0x00000000080027b4                __etext = .
+                0x00000000080027d4                __exidx_end = .
+                0x00000000080027d4                . = ALIGN (0x4)
+                0x00000000080027d4                _etext = .
+                0x00000000080027d4                __etext = .
 
-.data_CCMRAM    0x0000000010000000        0x0 load address 0x00000000080027b4
+.data_CCMRAM    0x0000000010000000        0x0 load address 0x00000000080027d4
  FILL mask 0xff
  *(.data.CCMRAM .data.CCMRAM.*)
                 0x0000000010000000                . = ALIGN (0x4)
-                0x00000000080027b4                _sidata = LOADADDR (.data)
+                0x00000000080027d4                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000        0x4 load address 0x00000000080027b4
+.data           0x0000000020000000        0x8 load address 0x00000000080027d4
  FILL mask 0xff
                 0x0000000020000000                _sdata = .
                 0x0000000020000000                __data_start__ = .
@@ -542,97 +567,110 @@ END GROUP
  *(.data .data.*)
  .data          0x0000000020000000        0x0 ./src/commonio.o
  .data          0x0000000020000000        0x0 ./src/comms.o
- .data          0x0000000020000000        0x0 ./src/io.o
- .data          0x0000000020000000        0x0 ./src/main.o
- .data          0x0000000020000000        0x0 ./src/port.o
- .data          0x0000000020000000        0x0 ./src/startup.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .data          0x0000000020000000        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .data          0x0000000020000000        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
+ .data.usart1_tx_write_ptr
+                0x0000000020000000        0x2 ./src/comms.o
+ .data          0x0000000020000002        0x0 ./src/io.o
+ .data          0x0000000020000002        0x0 ./src/main.o
+ .data          0x0000000020000002        0x0 ./src/port.o
+ .data          0x0000000020000002        0x0 ./src/startup.o
+ .data          0x0000000020000002        0x0 ./src/utils.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .data          0x0000000020000002        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .data          0x0000000020000002        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
+ *fill*         0x0000000020000002        0x2 ff
  .data.SystemCoreClock
-                0x0000000020000000        0x4 ./STlib/src/cmsis/system_stm32f3xx.o
-                0x0000000020000000                SystemCoreClock
+                0x0000000020000004        0x4 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x0000000020000004                SystemCoreClock
  *(.data_end .data_end.*)
-                0x0000000020000004                . = ALIGN (0x4)
-                0x0000000020000004                _edata = .
-                0x0000000020000004                __data_end__ = .
+                0x0000000020000008                . = ALIGN (0x4)
+                0x0000000020000008                _edata = .
+                0x0000000020000008                __data_end__ = .
 
-.igot.plt       0x0000000020000004        0x0 load address 0x00000000080027b8
- .igot.plt      0x0000000020000004        0x0 ./src/commonio.o
+.igot.plt       0x0000000020000008        0x0 load address 0x00000000080027dc
+ .igot.plt      0x0000000020000008        0x0 ./src/commonio.o
 
 .bss_CCMRAM     0x0000000010000000        0x0
  *(.bss.CCMRAM .bss.CCMRAM.*)
 
-.bss            0x0000000020000004        0x8
-                0x0000000020000004                __bss_start__ = .
-                0x0000000020000004                _sbss = .
+.bss            0x0000000020000008      0x10c
+                0x0000000020000008                __bss_start__ = .
+                0x0000000020000008                _sbss = .
  *(.bss_begin .bss_begin.*)
  *(.bss .bss.*)
- .bss           0x0000000020000004        0x0 ./src/commonio.o
- .bss           0x0000000020000004        0x0 ./src/comms.o
- .bss           0x0000000020000004        0x0 ./src/io.o
- .bss.led_on    0x0000000020000004        0x1 ./src/io.o
- *fill*         0x0000000020000005        0x3 
+ .bss           0x0000000020000008        0x0 ./src/commonio.o
+ .bss           0x0000000020000008        0x0 ./src/comms.o
+ .bss.transmissions
+                0x0000000020000008        0x2 ./src/comms.o
+                0x0000000020000008                transmissions
+ .bss.usart1_tx_buffer
+                0x000000002000000a      0x100 ./src/comms.o
+ .bss           0x000000002000010a        0x0 ./src/io.o
+ .bss.led_n_on  0x000000002000010a        0x1 ./src/io.o
+ *fill*         0x000000002000010b        0x1 
  .bss.led_timer
-                0x0000000020000008        0x4 ./src/io.o
- .bss           0x000000002000000c        0x0 ./src/main.o
- .bss           0x000000002000000c        0x0 ./src/port.o
- .bss           0x000000002000000c        0x0 ./src/startup.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .bss           0x000000002000000c        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .bss           0x000000002000000c        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x000000002000010c        0x4 ./src/io.o
+ .bss.led_w_on  0x0000000020000110        0x1 ./src/io.o
+ .bss           0x0000000020000111        0x0 ./src/main.o
+ .bss           0x0000000020000111        0x0 ./src/port.o
+ .bss           0x0000000020000111        0x0 ./src/startup.o
+ .bss           0x0000000020000111        0x0 ./src/utils.o
+ *fill*         0x0000000020000111        0x1 
+ .bss.timer     0x0000000020000112        0x2 ./src/utils.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .bss           0x0000000020000114        0x0 ./STlib/src/cmsis/system_stm32f3xx.o
  *(COMMON)
  *(.bss_end .bss_end.*)
-                0x000000002000000c                . = ALIGN (0x4)
-                0x000000002000000c                __bss_end__ = .
-                0x000000002000000c                _ebss = .
+                0x0000000020000114                . = ALIGN (0x4)
+                0x0000000020000114                __bss_end__ = .
+                0x0000000020000114                _ebss = .
 
 .noinit_CCMRAM
  *(.noinit.CCMRAM .noinit.CCMRAM.*)
 
-.noinit         0x000000002000000c        0x0
-                0x000000002000000c                _noinit = .
+.noinit         0x0000000020000114        0x0
+                0x0000000020000114                _noinit = .
  *(.noinit .noinit.*)
-                0x000000002000000c                . = ALIGN (0x4)
-                0x000000002000000c                _end_noinit = .
+                0x0000000020000114                . = ALIGN (0x4)
+                0x0000000020000114                _end_noinit = .
                 [!provide]                        PROVIDE (end = _end_noinit)
                 [!provide]                        PROVIDE (_end = _end_noinit)
                 [!provide]                        PROVIDE (__end = _end_noinit)
                 [!provide]                        PROVIDE (__end__ = _end_noinit)
 
-._check_stack   0x000000002000000c      0x100
-                0x000000002000010c                . = (. + _Minimum_Stack_Size)
- *fill*         0x000000002000000c      0x100 
+._check_stack   0x0000000020000114      0x100
+                0x0000000020000214                . = (. + _Minimum_Stack_Size)
+ *fill*         0x0000000020000114      0x100 
 
 .b1text
  *(.b1text)
@@ -686,6 +724,7 @@ END GROUP
  .comment       0x000000000000004d       0x4e ./src/main.o
  .comment       0x000000000000004d       0x4e ./src/port.o
  .comment       0x000000000000004d       0x4e ./src/startup.o
+ .comment       0x000000000000004d       0x4e ./src/utils.o
  .comment       0x000000000000004d       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
  .comment       0x000000000000004d       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
  .comment       0x000000000000004d       0x4e ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
@@ -720,41 +759,43 @@ END GROUP
  .ARM.attributes
                 0x00000000000000e6       0x2e ./src/startup.o
  .ARM.attributes
-                0x0000000000000114       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000000000114       0x2e ./src/utils.o
  .ARM.attributes
-                0x0000000000000142       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x0000000000000142       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
  .ARM.attributes
-                0x0000000000000170       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+                0x0000000000000170       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
  .ARM.attributes
-                0x000000000000019e       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x000000000000019e       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
  .ARM.attributes
-                0x00000000000001cc       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x00000000000001cc       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
  .ARM.attributes
-                0x00000000000001fa       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x00000000000001fa       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
  .ARM.attributes
-                0x0000000000000228       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+                0x0000000000000228       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
  .ARM.attributes
-                0x0000000000000256       0x33 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+                0x0000000000000256       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
  .ARM.attributes
-                0x0000000000000289       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+                0x0000000000000284       0x33 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
  .ARM.attributes
-                0x00000000000002b7       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x00000000000002b7       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
  .ARM.attributes
-                0x00000000000002e5       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+                0x00000000000002e5       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
  .ARM.attributes
-                0x0000000000000313       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000000000313       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
  .ARM.attributes
-                0x0000000000000341       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000000000341       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
  .ARM.attributes
-                0x000000000000036f       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x000000000000036f       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
  .ARM.attributes
-                0x000000000000039d       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x000000000000039d       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
  .ARM.attributes
-                0x00000000000003cb       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000000003cb       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
  .ARM.attributes
-                0x00000000000003f9       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x00000000000003f9       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
  .ARM.attributes
-                0x0000000000000427       0x2e ./STlib/src/cmsis/system_stm32f3xx.o
+                0x0000000000000427       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .ARM.attributes
+                0x0000000000000455       0x2e ./STlib/src/cmsis/system_stm32f3xx.o
 
 .debug
  *(.debug)
@@ -768,241 +809,249 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000      0x5d8
+.debug_aranges  0x0000000000000000      0x628
  *(.debug_aranges)
  .debug_aranges
                 0x0000000000000000       0x28 ./src/commonio.o
  .debug_aranges
-                0x0000000000000028       0x28 ./src/comms.o
+                0x0000000000000028       0x40 ./src/comms.o
  .debug_aranges
-                0x0000000000000050       0x60 ./src/io.o
+                0x0000000000000068       0x40 ./src/io.o
  .debug_aranges
-                0x00000000000000b0       0x28 ./src/main.o
+                0x00000000000000a8       0x28 ./src/main.o
  .debug_aranges
-                0x00000000000000d8       0x28 ./src/port.o
+                0x00000000000000d0       0x30 ./src/port.o
  .debug_aranges
-                0x0000000000000100       0x28 ./src/startup.o
+                0x0000000000000100       0x50 ./src/startup.o
  .debug_aranges
-                0x0000000000000128       0x68 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+                0x0000000000000150       0x28 ./src/utils.o
  .debug_aranges
-                0x0000000000000190       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+                0x0000000000000178       0x68 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
  .debug_aranges
-                0x00000000000001c0       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+                0x00000000000001e0       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
  .debug_aranges
-                0x00000000000001e0       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+                0x0000000000000210       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
  .debug_aranges
-                0x0000000000000210       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+                0x0000000000000230       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
  .debug_aranges
-                0x0000000000000240       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+                0x0000000000000260       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
  .debug_aranges
-                0x0000000000000270       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+                0x0000000000000290       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
  .debug_aranges
-                0x00000000000002a0       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+                0x00000000000002c0       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
  .debug_aranges
-                0x00000000000002b8       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+                0x00000000000002f0       0x18 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
  .debug_aranges
-                0x00000000000002e8       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+                0x0000000000000308       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
  .debug_aranges
-                0x0000000000000318       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+                0x0000000000000338       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
  .debug_aranges
-                0x0000000000000338       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+                0x0000000000000368       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
  .debug_aranges
-                0x00000000000003c8       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+                0x0000000000000388       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
  .debug_aranges
-                0x0000000000000448       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+                0x0000000000000418       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
  .debug_aranges
-                0x00000000000004a0       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+                0x0000000000000498       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
  .debug_aranges
-                0x0000000000000520       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+                0x00000000000004f0       0x80 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
  .debug_aranges
-                0x0000000000000560       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+                0x0000000000000570       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
  .debug_aranges
-                0x00000000000005b0       0x28 ./STlib/src/cmsis/system_stm32f3xx.o
+                0x00000000000005b0       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_aranges
+                0x0000000000000600       0x28 ./STlib/src/cmsis/system_stm32f3xx.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0xbb2a
+.debug_info     0x0000000000000000     0xc110
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0xae0 ./src/commonio.o
- .debug_info    0x0000000000000ae0      0x24a ./src/comms.o
- .debug_info    0x0000000000000d2a      0xbc6 ./src/io.o
- .debug_info    0x00000000000018f0       0xdd ./src/main.o
- .debug_info    0x00000000000019cd      0x4b4 ./src/port.o
- .debug_info    0x0000000000001e81      0x32b ./src/startup.o
- .debug_info    0x00000000000021ac      0xd6d ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_info    0x0000000000002f19      0x26d ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_info    0x0000000000003186      0x3ea ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_info    0x0000000000003570      0x439 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_info    0x00000000000039a9      0x68e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_info    0x0000000000004037      0x75d ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_info    0x0000000000004794      0xab2 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_info    0x0000000000005246       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .debug_info    0x00000000000052aa      0x712 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_info    0x00000000000059bc      0x226 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_info    0x0000000000005be2      0x20a ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_info    0x0000000000005dec      0xc58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_info    0x0000000000006a44     0x17ee ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_info    0x0000000000008232      0x8d0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_info    0x0000000000008b02     0x1728 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_info    0x000000000000a22a      0x8b7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_info    0x000000000000aae1      0xc42 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_info    0x000000000000b723      0x407 ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_info    0x0000000000000ae0      0xe76 ./src/comms.o
+ .debug_info    0x0000000000001956      0x4ae ./src/io.o
+ .debug_info    0x0000000000001e04      0x1cf ./src/main.o
+ .debug_info    0x0000000000001fd3      0x379 ./src/port.o
+ .debug_info    0x000000000000234c      0x385 ./src/startup.o
+ .debug_info    0x00000000000026d1       0xc1 ./src/utils.o
+ .debug_info    0x0000000000002792      0xd6d ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_info    0x00000000000034ff      0x26d ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_info    0x000000000000376c      0x3ea ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_info    0x0000000000003b56      0x439 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_info    0x0000000000003f8f      0x68e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_info    0x000000000000461d      0x75d ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_info    0x0000000000004d7a      0xab2 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_info    0x000000000000582c       0x64 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .debug_info    0x0000000000005890      0x712 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_info    0x0000000000005fa2      0x226 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_info    0x00000000000061c8      0x20a ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_info    0x00000000000063d2      0xc58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_info    0x000000000000702a     0x17ee ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_info    0x0000000000008818      0x8d0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_info    0x00000000000090e8     0x1728 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_info    0x000000000000a810      0x8b7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_info    0x000000000000b0c7      0xc42 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_info    0x000000000000bd09      0x407 ./STlib/src/cmsis/system_stm32f3xx.o
 
-.debug_abbrev   0x0000000000000000     0x2e21
+.debug_abbrev   0x0000000000000000     0x2edf
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000      0x1f5 ./src/commonio.o
- .debug_abbrev  0x00000000000001f5      0x123 ./src/comms.o
- .debug_abbrev  0x0000000000000318      0x2bb ./src/io.o
- .debug_abbrev  0x00000000000005d3       0x82 ./src/main.o
- .debug_abbrev  0x0000000000000655      0x15f ./src/port.o
- .debug_abbrev  0x00000000000007b4      0x137 ./src/startup.o
- .debug_abbrev  0x00000000000008eb      0x228 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_abbrev  0x0000000000000b13      0x16b ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_abbrev  0x0000000000000c7e      0x178 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_abbrev  0x0000000000000df6      0x1bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_abbrev  0x0000000000000fb1      0x24e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_abbrev  0x00000000000011ff      0x1f6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_abbrev  0x00000000000013f5      0x250 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_abbrev  0x0000000000001645       0x26 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .debug_abbrev  0x000000000000166b      0x1bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_abbrev  0x0000000000001826      0x169 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_abbrev  0x000000000000198f      0x127 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_abbrev  0x0000000000001ab6      0x31e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_abbrev  0x0000000000001dd4      0x351 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_abbrev  0x0000000000002125      0x31a ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_abbrev  0x000000000000243f      0x2ab ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_abbrev  0x00000000000026ea      0x271 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_abbrev  0x000000000000295b      0x3ad ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_abbrev  0x0000000000002d08      0x119 ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_abbrev  0x00000000000001f5      0x2ce ./src/comms.o
+ .debug_abbrev  0x00000000000004c3       0xdc ./src/io.o
+ .debug_abbrev  0x000000000000059f       0xa6 ./src/main.o
+ .debug_abbrev  0x0000000000000645      0x197 ./src/port.o
+ .debug_abbrev  0x00000000000007dc      0x137 ./src/startup.o
+ .debug_abbrev  0x0000000000000913       0x96 ./src/utils.o
+ .debug_abbrev  0x00000000000009a9      0x228 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_abbrev  0x0000000000000bd1      0x16b ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_abbrev  0x0000000000000d3c      0x178 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_abbrev  0x0000000000000eb4      0x1bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_abbrev  0x000000000000106f      0x24e ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_abbrev  0x00000000000012bd      0x1f6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_abbrev  0x00000000000014b3      0x250 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_abbrev  0x0000000000001703       0x26 ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .debug_abbrev  0x0000000000001729      0x1bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_abbrev  0x00000000000018e4      0x169 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_abbrev  0x0000000000001a4d      0x127 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_abbrev  0x0000000000001b74      0x31e ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_abbrev  0x0000000000001e92      0x351 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_abbrev  0x00000000000021e3      0x31a ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_abbrev  0x00000000000024fd      0x2ab ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_abbrev  0x00000000000027a8      0x271 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_abbrev  0x0000000000002a19      0x3ad ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_abbrev  0x0000000000002dc6      0x119 ./STlib/src/cmsis/system_stm32f3xx.o
 
-.debug_line     0x0000000000000000     0x6246
+.debug_line     0x0000000000000000     0x6494
  *(.debug_line)
  .debug_line    0x0000000000000000      0x370 ./src/commonio.o
- .debug_line    0x0000000000000370      0x11e ./src/comms.o
- .debug_line    0x000000000000048e      0x4aa ./src/io.o
- .debug_line    0x0000000000000938       0x92 ./src/main.o
- .debug_line    0x00000000000009ca      0x20c ./src/port.o
- .debug_line    0x0000000000000bd6      0x17c ./src/startup.o
- .debug_line    0x0000000000000d52      0x654 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_line    0x00000000000013a6      0x1ef ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_line    0x0000000000001595      0x1eb ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_line    0x0000000000001780      0x21c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_line    0x000000000000199c      0x3a7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_line    0x0000000000001d43      0x447 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_line    0x000000000000218a      0x541 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_line    0x00000000000026cb       0x1d ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
- .debug_line    0x00000000000026e8      0x2f3 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_line    0x00000000000029db      0x1fe ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_line    0x0000000000002bd9      0x159 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_line    0x0000000000002d32      0x9a6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_line    0x00000000000036d8      0xd44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_line    0x000000000000441c      0x4ca ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_line    0x00000000000048e6      0xb8a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_line    0x0000000000005470      0x4ad ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_line    0x000000000000591d      0x777 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_line    0x0000000000006094      0x1b2 ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_line    0x0000000000000370      0x469 ./src/comms.o
+ .debug_line    0x00000000000007d9      0x1b2 ./src/io.o
+ .debug_line    0x000000000000098b       0xb6 ./src/main.o
+ .debug_line    0x0000000000000a41      0x237 ./src/port.o
+ .debug_line    0x0000000000000c78      0x23f ./src/startup.o
+ .debug_line    0x0000000000000eb7       0xe9 ./src/utils.o
+ .debug_line    0x0000000000000fa0      0x654 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_line    0x00000000000015f4      0x1ef ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_line    0x00000000000017e3      0x1eb ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_line    0x00000000000019ce      0x21c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_line    0x0000000000001bea      0x3a7 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_line    0x0000000000001f91      0x447 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_line    0x00000000000023d8      0x541 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_line    0x0000000000002919       0x1d ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .debug_line    0x0000000000002936      0x2f3 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_line    0x0000000000002c29      0x1fe ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_line    0x0000000000002e27      0x159 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_line    0x0000000000002f80      0x9a6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_line    0x0000000000003926      0xd44 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_line    0x000000000000466a      0x4ca ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_line    0x0000000000004b34      0xb8a ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_line    0x00000000000056be      0x4ad ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_line    0x0000000000005b6b      0x777 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_line    0x00000000000062e2      0x1b2 ./STlib/src/cmsis/system_stm32f3xx.o
 
-.debug_frame    0x0000000000000000      0xbe8
+.debug_frame    0x0000000000000000      0xc50
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x3c ./src/commonio.o
- .debug_frame   0x000000000000003c       0x40 ./src/comms.o
- .debug_frame   0x000000000000007c      0x11c ./src/io.o
- .debug_frame   0x0000000000000198       0x48 ./src/main.o
- .debug_frame   0x00000000000001e0       0x30 ./src/port.o
- .debug_frame   0x0000000000000210       0x40 ./src/startup.o
- .debug_frame   0x0000000000000250       0xf0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_frame   0x0000000000000340       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_frame   0x0000000000000388       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_frame   0x00000000000003a8       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_frame   0x00000000000003f4       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_frame   0x0000000000000440       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_frame   0x000000000000048c       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_frame   0x00000000000004e4       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_frame   0x000000000000052c       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_frame   0x0000000000000578       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_frame   0x0000000000000598      0x198 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_frame   0x0000000000000730      0x164 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_frame   0x0000000000000894       0xc4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_frame   0x0000000000000958      0x118 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_frame   0x0000000000000a70       0x78 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_frame   0x0000000000000ae8       0xc8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_frame   0x0000000000000bb0       0x38 ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_frame   0x000000000000003c       0x78 ./src/comms.o
+ .debug_frame   0x00000000000000b4       0x98 ./src/io.o
+ .debug_frame   0x000000000000014c       0x48 ./src/main.o
+ .debug_frame   0x0000000000000194       0x50 ./src/port.o
+ .debug_frame   0x00000000000001e4       0xa4 ./src/startup.o
+ .debug_frame   0x0000000000000288       0x30 ./src/utils.o
+ .debug_frame   0x00000000000002b8       0xf0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_frame   0x00000000000003a8       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_frame   0x00000000000003f0       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_frame   0x0000000000000410       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_frame   0x000000000000045c       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_frame   0x00000000000004a8       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_frame   0x00000000000004f4       0x58 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_frame   0x000000000000054c       0x48 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_frame   0x0000000000000594       0x4c ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_frame   0x00000000000005e0       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_frame   0x0000000000000600      0x198 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_frame   0x0000000000000798      0x164 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_frame   0x00000000000008fc       0xc4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_frame   0x00000000000009c0      0x118 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_frame   0x0000000000000ad8       0x78 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_frame   0x0000000000000b50       0xc8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_frame   0x0000000000000c18       0x38 ./STlib/src/cmsis/system_stm32f3xx.o
 
-.debug_str      0x0000000000000000     0x37ab
+.debug_str      0x0000000000000000     0x3a02
  *(.debug_str)
  .debug_str     0x0000000000000000      0x8ea ./src/commonio.o
                                         0x941 (size before relaxing)
- .debug_str     0x00000000000008ea      0x10a ./src/comms.o
-                                        0x2c0 (size before relaxing)
- .debug_str     0x00000000000009f4      0x523 ./src/io.o
-                                        0x70e (size before relaxing)
- .debug_str     0x0000000000000f17       0x26 ./src/main.o
-                                        0x1ee (size before relaxing)
- .debug_str     0x0000000000000f3d       0x3a ./src/port.o
-                                        0x53b (size before relaxing)
- .debug_str     0x0000000000000f77       0x74 ./src/startup.o
-                                        0x27b (size before relaxing)
- .debug_str     0x0000000000000feb      0x4bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_str     0x00000000000008ea      0x3ae ./src/comms.o
+                                        0xaa3 (size before relaxing)
+ .debug_str     0x0000000000000c98      0x443 ./src/io.o
+                                        0x617 (size before relaxing)
+ .debug_str     0x00000000000010db       0x43 ./src/main.o
+                                        0x230 (size before relaxing)
+ .debug_str     0x000000000000111e       0xdf ./src/port.o
+                                        0x382 (size before relaxing)
+ .debug_str     0x00000000000011fd       0xcc ./src/startup.o
+                                        0x2d3 (size before relaxing)
+ .debug_str     0x00000000000012c9        0xf ./src/utils.o
+                                        0x1ce (size before relaxing)
+ .debug_str     0x00000000000012d8      0x4bb ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
                                         0x722 (size before relaxing)
- .debug_str     0x00000000000014a6       0xfd ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_str     0x0000000000001793       0xfd ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
                                         0x2c4 (size before relaxing)
- .debug_str     0x00000000000015a3      0x126 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_str     0x0000000000001890      0x126 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
                                         0x323 (size before relaxing)
- .debug_str     0x00000000000016c9      0x16a ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_str     0x00000000000019b6      0x16a ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
                                         0x390 (size before relaxing)
- .debug_str     0x0000000000001833      0x250 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_str     0x0000000000001b20      0x157 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
                                         0x451 (size before relaxing)
- .debug_str     0x0000000000001a83      0x2cb ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_str     0x0000000000001c77      0x2cb ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
                                         0x4a9 (size before relaxing)
- .debug_str     0x0000000000001d4e       0x92 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_str     0x0000000000001f42      0x103 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
                                         0x3db (size before relaxing)
- .debug_str     0x0000000000001de0       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
+ .debug_str     0x0000000000002045       0x2e ./STlib/src/stm32f3-hal/stm32f3xx_ll_hrtim.o
                                         0x1c1 (size before relaxing)
- .debug_str     0x0000000000001e0e      0x1b1 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_str     0x0000000000002073      0x1b1 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
                                         0x40e (size before relaxing)
- .debug_str     0x0000000000001fbf       0xdd ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_str     0x0000000000002224       0xdd ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
                                         0x29a (size before relaxing)
- .debug_str     0x000000000000209c       0x3a ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_str     0x0000000000002301       0x3a ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
                                         0x27d (size before relaxing)
- .debug_str     0x00000000000020d6      0x46a ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_str     0x000000000000233b      0x46a ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
                                         0x72d (size before relaxing)
- .debug_str     0x0000000000002540      0x58a ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_str     0x00000000000027a5      0x58a ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
                                         0x7bc (size before relaxing)
- .debug_str     0x0000000000002aca      0x250 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_str     0x0000000000002d2f      0x250 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
                                         0x542 (size before relaxing)
- .debug_str     0x0000000000002d1a      0x640 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_str     0x0000000000002f7f      0x640 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
                                         0x90d (size before relaxing)
- .debug_str     0x000000000000335a      0x185 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_str     0x00000000000035bf      0x177 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
                                         0x4f2 (size before relaxing)
- .debug_str     0x00000000000034df      0x270 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_str     0x0000000000003736      0x270 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
                                         0x638 (size before relaxing)
- .debug_str     0x000000000000374f       0x5c ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_str     0x00000000000039a6       0x5c ./STlib/src/cmsis/system_stm32f3xx.o
                                         0x2e7 (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x628e
+.debug_loc      0x0000000000000000     0x5e6e
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0x114 ./src/commonio.o
- .debug_loc     0x0000000000000114      0x714 ./src/io.o
- .debug_loc     0x0000000000000828      0x116 ./src/port.o
- .debug_loc     0x000000000000093e       0xa5 ./src/startup.o
- .debug_loc     0x00000000000009e3      0x4e3 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_loc     0x0000000000000ec6       0xe2 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_loc     0x0000000000000fa8      0x1a4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_loc     0x000000000000114c      0x156 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_loc     0x00000000000012a2      0x2ff ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_loc     0x00000000000015a1      0x1e6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_loc     0x0000000000001787      0x5ae ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_loc     0x0000000000001d35      0x23f ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_loc     0x0000000000001f74       0xff ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_loc     0x0000000000002073       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_loc     0x00000000000020a3      0x6e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_loc     0x0000000000002783     0x1688 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_loc     0x0000000000003e0b      0x582 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_loc     0x000000000000438d     0x1331 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_loc     0x00000000000056be      0x47f ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_loc     0x0000000000005b3d      0x653 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_loc     0x0000000000006190       0xfe ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_loc     0x0000000000000000      0x115 ./src/commonio.o
+ .debug_loc     0x0000000000000115      0x2c6 ./src/comms.o
+ .debug_loc     0x00000000000003db      0x143 ./src/port.o
+ .debug_loc     0x000000000000051e       0xa5 ./src/startup.o
+ .debug_loc     0x00000000000005c3      0x4e3 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_loc     0x0000000000000aa6       0xe2 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_loc     0x0000000000000b88      0x1a4 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_loc     0x0000000000000d2c      0x156 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_loc     0x0000000000000e82      0x2ff ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_loc     0x0000000000001181      0x1e6 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_loc     0x0000000000001367      0x5ae ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_loc     0x0000000000001915      0x23f ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_loc     0x0000000000001b54       0xff ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_loc     0x0000000000001c53       0x30 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_loc     0x0000000000001c83      0x6e0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_loc     0x0000000000002363     0x1688 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_loc     0x00000000000039eb      0x582 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_loc     0x0000000000003f6d     0x1331 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_loc     0x000000000000529e      0x47f ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_loc     0x000000000000571d      0x653 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_loc     0x0000000000005d70       0xfe ./STlib/src/cmsis/system_stm32f3xx.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1021,27 +1070,28 @@ END GROUP
 OUTPUT(ryansullivan-quadcopter-firmware.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_ranges   0x0000000000000000      0xf40
+.debug_ranges   0x0000000000000000     0x1018
  .debug_ranges  0x0000000000000000       0x18 ./src/commonio.o
- .debug_ranges  0x0000000000000018       0x18 ./src/comms.o
- .debug_ranges  0x0000000000000030       0x80 ./src/io.o
- .debug_ranges  0x00000000000000b0       0x18 ./src/main.o
- .debug_ranges  0x00000000000000c8       0x48 ./src/port.o
- .debug_ranges  0x0000000000000110       0x18 ./src/startup.o
- .debug_ranges  0x0000000000000128      0x180 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
- .debug_ranges  0x00000000000002a8       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
- .debug_ranges  0x00000000000002c8       0x28 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
- .debug_ranges  0x00000000000002f0       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
- .debug_ranges  0x0000000000000330       0x68 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
- .debug_ranges  0x0000000000000398       0x98 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
- .debug_ranges  0x0000000000000430       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
- .debug_ranges  0x00000000000004c0       0x70 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
- .debug_ranges  0x0000000000000530       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
- .debug_ranges  0x0000000000000580       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
- .debug_ranges  0x0000000000000590      0x1e8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
- .debug_ranges  0x0000000000000778      0x388 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
- .debug_ranges  0x0000000000000b00       0xf8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
- .debug_ranges  0x0000000000000bf8       0xf0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
- .debug_ranges  0x0000000000000ce8       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
- .debug_ranges  0x0000000000000d78      0x1b0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
- .debug_ranges  0x0000000000000f28       0x18 ./STlib/src/cmsis/system_stm32f3xx.o
+ .debug_ranges  0x0000000000000018      0x128 ./src/comms.o
+ .debug_ranges  0x0000000000000140       0x30 ./src/io.o
+ .debug_ranges  0x0000000000000170       0x18 ./src/main.o
+ .debug_ranges  0x0000000000000188       0x20 ./src/port.o
+ .debug_ranges  0x00000000000001a8       0x40 ./src/startup.o
+ .debug_ranges  0x00000000000001e8       0x18 ./src/utils.o
+ .debug_ranges  0x0000000000000200      0x180 ./STlib/src/stm32f3-hal/stm32f3xx_ll_adc.o
+ .debug_ranges  0x0000000000000380       0x20 ./STlib/src/stm32f3-hal/stm32f3xx_ll_comp.o
+ .debug_ranges  0x00000000000003a0       0x28 ./STlib/src/stm32f3-hal/stm32f3xx_ll_crc.o
+ .debug_ranges  0x00000000000003c8       0x40 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dac.o
+ .debug_ranges  0x0000000000000408       0x68 ./STlib/src/stm32f3-hal/stm32f3xx_ll_dma.o
+ .debug_ranges  0x0000000000000470       0x98 ./STlib/src/stm32f3-hal/stm32f3xx_ll_exti.o
+ .debug_ranges  0x0000000000000508       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_gpio.o
+ .debug_ranges  0x0000000000000598       0x70 ./STlib/src/stm32f3-hal/stm32f3xx_ll_i2c.o
+ .debug_ranges  0x0000000000000608       0x50 ./STlib/src/stm32f3-hal/stm32f3xx_ll_opamp.o
+ .debug_ranges  0x0000000000000658       0x10 ./STlib/src/stm32f3-hal/stm32f3xx_ll_pwr.o
+ .debug_ranges  0x0000000000000668      0x1e8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rcc.o
+ .debug_ranges  0x0000000000000850      0x388 ./STlib/src/stm32f3-hal/stm32f3xx_ll_rtc.o
+ .debug_ranges  0x0000000000000bd8       0xf8 ./STlib/src/stm32f3-hal/stm32f3xx_ll_spi.o
+ .debug_ranges  0x0000000000000cd0       0xf0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_tim.o
+ .debug_ranges  0x0000000000000dc0       0x90 ./STlib/src/stm32f3-hal/stm32f3xx_ll_usart.o
+ .debug_ranges  0x0000000000000e50      0x1b0 ./STlib/src/stm32f3-hal/stm32f3xx_ll_utils.o
+ .debug_ranges  0x0000000000001000       0x18 ./STlib/src/cmsis/system_stm32f3xx.o

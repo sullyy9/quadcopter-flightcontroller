@@ -94,6 +94,7 @@ void commonio_initialise_clocks( void )
         | LL_AHB1_GRP1_PERIPH_GPIOD
         | LL_AHB1_GRP1_PERIPH_GPIOE
         | LL_AHB1_GRP1_PERIPH_GPIOF
+        | LL_AHB1_GRP1_PERIPH_DMA1
     );
 
     LL_APB2_GRP1_EnableClock

@@ -9,7 +9,8 @@ C_SRCS += \
 ../src/io.c \
 ../src/main.c \
 ../src/port.c \
-../src/startup.c 
+../src/startup.c \
+../src/utils.c 
 
 OBJS += \
 ./src/commonio.o \
@@ -17,7 +18,8 @@ OBJS += \
 ./src/io.o \
 ./src/main.o \
 ./src/port.o \
-./src/startup.o 
+./src/startup.o \
+./src/utils.o 
 
 C_DEPS += \
 ./src/commonio.d \
@@ -25,7 +27,8 @@ C_DEPS += \
 ./src/io.d \
 ./src/main.d \
 ./src/port.d \
-./src/startup.d 
+./src/startup.d \
+./src/utils.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

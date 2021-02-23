@@ -12,7 +12,9 @@
 
 #include "main.h"
 #include "io.h"
+#include "utils.h"
 #include "commonio.h"
+#include "comms.h"
 #include "port.h"
 
 /*----------------------------------------------------------------------------*/
@@ -42,6 +44,20 @@ int main( void )
 
     commonio_clear_reset_flags( );
 
+    utils_wait_ms( 3000 );
+
+    io_toggle_w_led( );
+
+    comms_usart1_tx_byte( 'h' );
+    comms_usart1_tx_byte( 'e' );
+    comms_usart1_tx_byte( 'l' );
+    comms_usart1_tx_byte( 'l' );
+    comms_usart1_tx_byte( 'o' );
+    comms_usart1_tx_byte( '\r' );
+    comms_usart1_tx_byte( '\n' );
+
+    utils_wait_ms( 1000 );
+
     while( 1 );
 
     return( 0 );
@@ -52,6 +68,7 @@ int main( void )
 void main_1ms_timer_isr( void )
 {
     io_1ms_poll( );
+    utils_1ms_poll( );
 }
 
 /*----------------------------------------------------------------------------*/
