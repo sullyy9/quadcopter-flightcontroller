@@ -28,12 +28,14 @@ extern unsigned long _estack;
 /*----------------------------------------------------------------------------*/
 
 void reset_isr(void)                __attribute__((__interrupt__,used));
+void fault( uint8_t );
 void dummy_isr(void)                __attribute__((__interrupt__,used));
 void non_maskable_int_isr(void)     __attribute__((__interrupt__,used));
 void hard_fault_isr(void)           __attribute__((__interrupt__,used));
 void memory_management_isr(void)    __attribute__((__interrupt__,used));
 void bus_fault_isr(void)            __attribute__((__interrupt__,used));
 void usage_fault_isr(void)          __attribute__((__interrupt__,used));
+void watch_dog_isr(void)            __attribute__((__interrupt__,used));
 
 /*----------------------------------------------------------------------------*/
 /*-vector-table---------------------------------------------------------------*/
@@ -59,7 +61,7 @@ void (* const vector_table[])(void) =
 /* 0x0034 Reserved                   */  0,
 /* 0x0038 PendSV_IRQn                */  dummy_isr,
 /* 0x003C SysTick_IRQn               */  main_1ms_timer_isr,
-/* 0x0040 WWDG_IRQn             (00) */  dummy_isr,
+/* 0x0040 WWDG_IRQn             (00) */  watch_dog_isr,
 /* 0x0044 PVD_IRQn              (01) */  dummy_isr,
 /* 0x0048 TAMPER_IRQn           (02) */  dummy_isr,
 /* 0x004C RTC_IRQn              (03) */  dummy_isr,
@@ -183,8 +185,17 @@ void reset_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+void fault( uint8_t type )
+{
+    type += 0;
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
 void dummy_isr( void )
 {
+    fault( 0 );
     while( 1 );
 }
 
@@ -192,6 +203,7 @@ void dummy_isr( void )
 
 void non_maskable_int_isr(void)
 {
+    fault( 1 );
     while( 1 );
 }
 
@@ -199,6 +211,7 @@ void non_maskable_int_isr(void)
 
 void hard_fault_isr(void)
 {
+    fault( 2 );
     while( 1 );
 }
 
@@ -206,6 +219,7 @@ void hard_fault_isr(void)
 
 void memory_management_isr(void)
 {
+    fault( 3 );
     while( 1 );
 }
 
@@ -213,6 +227,7 @@ void memory_management_isr(void)
 
 void bus_fault_isr(void)
 {
+    fault( 4 );
     while( 1 );
 }
 
@@ -220,6 +235,15 @@ void bus_fault_isr(void)
 
 void usage_fault_isr(void)
 {
+    fault( 5 );
+    while( 1 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void watch_dog_isr(void)
+{
+    fault( 6 );
     while( 1 );
 }
 

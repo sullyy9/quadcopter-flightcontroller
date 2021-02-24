@@ -13,6 +13,7 @@
 #include "main.h"
 #include "io.h"
 #include "utils.h"
+#include "debug.h"
 #include "commonio.h"
 #include "comms.h"
 #include "port.h"
@@ -29,6 +30,9 @@
 /*-static-variables-----------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+volatile uint16_t frick_timer = 0;
+
+
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -44,19 +48,18 @@ int main( void )
 
     commonio_clear_reset_flags( );
 
-    utils_wait_ms( 3000 );
-
-    io_toggle_w_led( );
-
-    comms_usart1_tx_byte( 'h' );
-    comms_usart1_tx_byte( 'e' );
-    comms_usart1_tx_byte( 'l' );
-    comms_usart1_tx_byte( 'l' );
-    comms_usart1_tx_byte( 'o' );
-    comms_usart1_tx_byte( '\r' );
-    comms_usart1_tx_byte( '\n' );
-
     utils_wait_ms( 1000 );
+
+    debug_printf( "\r\n" );
+    debug_printf( "start------\r\n" );
+
+    uint32_t count = 0;
+    while( 1 )
+    {
+        debug_printf( "hello hello hello again: %d\r\n", count );
+        utils_wait_ms( 10 );
+        count++;
+    }
 
     while( 1 );
 

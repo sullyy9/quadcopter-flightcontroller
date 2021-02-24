@@ -43,7 +43,7 @@
 /*----------------------------------------------------------------------------*/
 
 static volatile uint32_t led_timer   = 0;
-static          bool     led_n_on    = false;
+static volatile bool     led_n_on    = false;
 static          bool     led_w_on    = false;
 
 /*----------------------------------------------------------------------------*/
@@ -89,7 +89,7 @@ void io_toggle_w_led( void )
 
 void io_1ms_poll( void )
 {
-    if( led_timer >= 1000 )
+    if( led_timer >= 200 )
     {
         led_timer = 0;
         if( led_n_on )

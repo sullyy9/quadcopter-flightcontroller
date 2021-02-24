@@ -12,6 +12,7 @@
 
 #include "stm32f3xx_ll_bus.h"
 #include "stm32f3xx_ll_rcc.h"
+#include "stm32f3xx_ll_system.h"
 
 #include "commonio.h"
 
@@ -74,6 +75,12 @@ void commonio_initialise_clocks( void )
     LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
     LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_2 );
     LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /*
+     * Setup flash memory parameters
+     */
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_1 );
+    LL_FLASH_EnablePrefetch( );
 
     LL_RCC_PLL_SetMainSource( LL_RCC_PLLSOURCE_HSI_DIV_2 );
     LL_RCC_PLL_ConfigDomain_SYS( LL_RCC_PLLSOURCE_HSI_DIV_2, LL_RCC_PLL_MUL_12 );

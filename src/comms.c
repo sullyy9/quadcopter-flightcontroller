@@ -21,9 +21,7 @@
 /*----------------------------------------------------------------------------*/
 
 #define USART1_TX_BUFFER_SIZE 256
-#define USART_TX_BUFFER_HALF_SIZE ( USART1_TX_BUFFER_SIZE / 2 )
-
-#define TX_REG 0x40013828
+#define USART1_TX_BUFFER_HALF_SIZE ( USART1_TX_BUFFER_SIZE / 2 )
 
 /*----------------------------------------------------------------------------*/
 /*-exported-variables---------------------------------------------------------*/
@@ -34,8 +32,7 @@
 /*----------------------------------------------------------------------------*/
 
 static volatile uint8_t     usart1_tx_buffer[ USART1_TX_BUFFER_SIZE ];
-static volatile uint16_t    usart1_tx_write_ptr = USART_TX_BUFFER_HALF_SIZE;
-volatile uint16_t           transmissions = 0;
+static volatile uint16_t    usart1_tx_write_ptr = USART1_TX_BUFFER_HALF_SIZE;
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -67,7 +64,7 @@ void comms_initialise( void )
     LL_USART_EnableDMAReq_TX( USART1 );
     LL_USART_Enable( USART1 );
 
-    NVIC_SetPriority( USART1_IRQn, 3 );
+    NVIC_SetPriority( USART1_IRQn, 1 );
     NVIC_EnableIRQ( USART1_IRQn );
 
     /*
@@ -90,7 +87,7 @@ void comms_initialise( void )
     LL_DMA_EnableIT_HT( DMA1, LL_DMA_CHANNEL_4 );
     LL_USART_ClearFlag_TC( USART1 );
 
-    NVIC_SetPriority( DMA1_Channel4_IRQn, 3 );
+    NVIC_SetPriority( DMA1_Channel4_IRQn, 2 );
     NVIC_EnableIRQ( DMA1_Channel4_IRQn );
 }
 
@@ -105,14 +102,8 @@ void comms_initialise( void )
 uint16_t comms_usart1_tx_free( void )
 {
     uint16_t free_space = 0;
-    if( usart1_tx_write_ptr < USART_TX_BUFFER_HALF_SIZE )
-    {
-        free_space = USART_TX_BUFFER_HALF_SIZE - usart1_tx_write_ptr;
-    }
-    else
-    {
-        free_space = USART1_TX_BUFFER_SIZE - usart1_tx_write_ptr;
-    }
+    free_space = usart1_tx_write_ptr % USART1_TX_BUFFER_HALF_SIZE;
+    free_space = USART1_TX_BUFFER_HALF_SIZE - free_space;
 
     return( free_space );
 }
@@ -158,21 +149,29 @@ void comms_dma1_channel4_isr( void )
      * all registers will be set to there initially configured
      * values
      */
-    if( ( usart1_tx_write_ptr == 0 ) || ( usart1_tx_write_ptr == USART_TX_BUFFER_HALF_SIZE ) )
+    if( ( usart1_tx_write_ptr == 0 ) || ( usart1_tx_write_ptr == USART1_TX_BUFFER_HALF_SIZE ) )
     {
         LL_DMA_DisableChannel( DMA1, LL_DMA_CHANNEL_4 );
-        usart1_tx_write_ptr = USART_TX_BUFFER_HALF_SIZE;
+        usart1_tx_write_ptr = USART1_TX_BUFFER_HALF_SIZE;
     }
 
     if( LL_DMA_IsActiveFlag_HT4( DMA1 ) )
     {
         LL_DMA_ClearFlag_HT4( DMA1 );
         usart1_tx_write_ptr = 0;
+        for( uint16_t i = 0; i < USART1_TX_BUFFER_HALF_SIZE; i++ )
+        {
+            usart1_tx_buffer[ i ] = 0;
+        }
     }
     else
     {
         LL_DMA_ClearFlag_TC4( DMA1 );
-        usart1_tx_write_ptr = USART_TX_BUFFER_HALF_SIZE;
+        usart1_tx_write_ptr = USART1_TX_BUFFER_HALF_SIZE;
+        for( uint16_t i = USART1_TX_BUFFER_HALF_SIZE; i < USART1_TX_BUFFER_SIZE; i++ )
+        {
+            usart1_tx_buffer[ i ] = 0;
+        }
     }
 }
 
@@ -185,7 +184,7 @@ void comms_dma1_channel4_isr( void )
  */
 void comms_usart1_isr( void )
 {
-    transmissions++;
+
 }
 
 /*----------------------------------------------------------------------------*/

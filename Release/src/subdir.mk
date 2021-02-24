@@ -6,6 +6,7 @@
 C_SRCS += \
 ../src/commonio.c \
 ../src/comms.c \
+../src/debug.c \
 ../src/io.c \
 ../src/main.c \
 ../src/port.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 OBJS += \
 ./src/commonio.o \
 ./src/comms.o \
+./src/debug.o \
 ./src/io.o \
 ./src/main.o \
 ./src/port.o \
@@ -24,6 +26,7 @@ OBJS += \
 C_DEPS += \
 ./src/commonio.d \
 ./src/comms.d \
+./src/debug.d \
 ./src/io.d \
 ./src/main.d \
 ./src/port.d \
