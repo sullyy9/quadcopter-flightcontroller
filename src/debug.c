@@ -12,7 +12,8 @@
 #include <stdarg.h>
 
 #include "debug.h"
-#include "comms.h"
+
+#include "usart.h"
 
 /*----------------------------------------------------------------------------*/
 /*-constant-definitions-------------------------------------------------------*/
@@ -109,8 +110,8 @@ void debug_printf( char const *string_ptr, ... )
 
 void print_character( char character )
 {
-    while( comms_usart1_tx_free( ) == 0 );
-    comms_usart1_tx_byte( character );
+    while( usart1_tx_free( ) == 0 );
+    usart1_tx_byte( character );
 }
 
 /*----------------------------------------------------------------------------*/
@@ -120,12 +121,13 @@ void printf_number( uint32_t number )
     char buffer[ 10 ];
     uint8_t buffer_ptr = 0;
 
-    while( number != 0 )
+    do
     {
         buffer[ buffer_ptr ] = ( '0' + ( number % 10 ) );
         number = number / 10;
         buffer_ptr++;
     }
+    while( number != 0 );
 
     while( buffer_ptr > 0 )
     {

@@ -5,32 +5,35 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/commonio.c \
-../src/comms.c \
 ../src/debug.c \
+../src/i2c.c \
 ../src/io.c \
 ../src/main.c \
 ../src/port.c \
 ../src/startup.c \
+../src/usart.c \
 ../src/utils.c 
 
 OBJS += \
 ./src/commonio.o \
-./src/comms.o \
 ./src/debug.o \
+./src/i2c.o \
 ./src/io.o \
 ./src/main.o \
 ./src/port.o \
 ./src/startup.o \
+./src/usart.o \
 ./src/utils.o 
 
 C_DEPS += \
 ./src/commonio.d \
-./src/comms.d \
 ./src/debug.d \
+./src/i2c.d \
 ./src/io.d \
 ./src/main.d \
 ./src/port.d \
 ./src/startup.d \
+./src/usart.d \
 ./src/utils.d 
 
 

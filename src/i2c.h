@@ -2,8 +2,8 @@
 /*
     Ryan Sullivan
 
-    Module Name     :   io.h
-    Description     :   header file
+    Module Name     : i2c.h
+    Description     : header file
 */
 /*----------------------------------------------------------------------------*/
 
@@ -19,13 +19,20 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void    io_initialise( void );
-void    io_toggle_w_led( void );
-bool    io_accelerometer_data_ready( void );
-void    io_initialise_accelerometer( void );
-void    io_read_accelerometer( int16_t *accel_x, int16_t *accel_y, int16_t *accel_z );
-void    io_1ms_poll( void );
-void    external_interupt_4_isr( void );
+void        i2c_initialise( void );
+
+uint16_t    i2c1_buffer_free( void );
+void        i2c1_tx_buffer_write( uint8_t data );
+void        i2c1_tx_buffer_clear( void );
+void        i2c1_tx_data( uint32_t device, bool auto_end );
+uint32_t    i2c1_rx_buffer_available( void );
+uint8_t     i2c1_rx_buffer_read( void );
+void        i2c1_rx_buffer_clear( void );
+void        i2c1_rx_data( uint32_t device, uint32_t number_bytes );
+
+void        i2c_dma1_channel6_isr( void );
+void        i2c_dma1_channel7_isr( void );
+void        i2c1_er_isr( void );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/

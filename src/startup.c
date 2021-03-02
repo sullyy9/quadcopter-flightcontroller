@@ -7,12 +7,16 @@
 */
 /*----------------------------------------------------------------------------*/
 
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "stm32f3xx.h"
 
 #include "commonio.h"
 #include "io.h"
-#include "comms.h"
 #include "main.h"
+#include "usart.h"
+#include "i2c.h"
 
 /*----------------------------------------------------------------------------*/
 
@@ -28,7 +32,7 @@ extern unsigned long _estack;
 /*----------------------------------------------------------------------------*/
 
 void reset_isr(void)                __attribute__((__interrupt__,used));
-void fault( uint8_t );
+void fault( uint8_t type );
 void dummy_isr(void)                __attribute__((__interrupt__,used));
 void non_maskable_int_isr(void)     __attribute__((__interrupt__,used));
 void hard_fault_isr(void)           __attribute__((__interrupt__,used));
@@ -71,14 +75,14 @@ void (* const vector_table[])(void) =
 /* 0x005C EXTI1_IRQn            (07) */  dummy_isr,
 /* 0x0060 EXTI2_IRQn            (08) */  dummy_isr,
 /* 0x0064 EXTI3_IRQn            (09) */  dummy_isr,
-/* 0x0068 EXTI4_IRQn            (10) */  dummy_isr,
+/* 0x0068 EXTI4_IRQn            (10) */  external_interupt_4_isr,
 /* 0x006C DMA1_Channel1_IRQn    (11) */  dummy_isr,
 /* 0x0070 DMA1_Channel2_IRQn    (12) */  dummy_isr,
 /* 0x0074 DMA1_Channel3_IRQn    (13) */  dummy_isr,
-/* 0x0078 DMA1_Channel4_IRQn    (14) */  comms_dma1_channel4_isr,
+/* 0x0078 DMA1_Channel4_IRQn    (14) */  usart_dma1_channel4_isr,
 /* 0x007C DMA1_Channel5_IRQn    (15) */  dummy_isr,
-/* 0x0080 DMA1_Channel6_IRQn    (16) */  dummy_isr,
-/* 0x0084 DMA1_Channel7_IRQn    (17) */  dummy_isr,
+/* 0x0080 DMA1_Channel6_IRQn    (16) */  i2c_dma1_channel6_isr,
+/* 0x0084 DMA1_Channel7_IRQn    (17) */  i2c_dma1_channel7_isr,
 /* 0x0088 ADC1_2_IRQn           (18) */  dummy_isr,
 /* 0x008C USB_HP_CAN1_TX_IRQn   (19) */  dummy_isr,
 /* 0x0090 USB_LP_CAN1_RX0_IRQn  (20) */  dummy_isr,
@@ -93,12 +97,12 @@ void (* const vector_table[])(void) =
 /* 0x00B4 TIM3_IRQn             (29) */  dummy_isr,
 /* 0x00B8 TIM4_IRQn             (30) */  dummy_isr,
 /* 0x00BC I2C1_EV_IRQn          (31) */  dummy_isr,
-/* 0x00C0 I2C1_ER_IRQn          (32) */  dummy_isr,
+/* 0x00C0 I2C1_ER_IRQn          (32) */  i2c1_er_isr,
 /* 0x00C4 I2C2_EV_IRQn          (33) */  dummy_isr,
 /* 0x00C8 I2C2_ER_IRQn          (34) */  dummy_isr,
 /* 0x00CC SPI1_IRQn             (35) */  dummy_isr,
 /* 0x00D0 SPI2_IRQn             (36) */  dummy_isr,
-/* 0x00D4 USART1_IRQn           (37) */  comms_usart1_isr,
+/* 0x00D4 USART1_IRQn           (37) */  dummy_isr,
 /* 0x00D8 USART2_IRQn           (38) */  dummy_isr,
 /* 0x00DC USART3_IRQn           (39) */  dummy_isr,
 /* 0x00E0 EXTI15_10_IRQn        (40) */  dummy_isr,

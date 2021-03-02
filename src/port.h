@@ -124,6 +124,9 @@ enum
     PORT_MODE_OPEN_DRAIN
 };
 
+#define PORT_MASK( port_pin )   ( (GPIO_TypeDef*)( GPIOA_BASE + ( ( port_pin / 16 ) * 0x400 ) ) )
+#define PIN_MASK( port_pin )    ( 1 << ( port_pin % 16 ) )
+
 /*----------------------------------------------------------------------------*/
 /*-exported-variables---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -132,9 +135,10 @@ enum
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void    port_initialise_pin( uint8_t port_pin, uint8_t mode, uint32_t alternate_function );
-void    port_set( uint32_t port_pin );
-void    port_clear( uint32_t port_pin );
+void        port_initialise_pin( uint8_t port_pin, uint8_t mode, uint32_t alternate_function );
+void        port_set( uint32_t port_pin );
+void        port_clear( uint32_t port_pin );
+uint32_t    port_read( uint32_t port_pin );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/

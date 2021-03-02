@@ -22,7 +22,7 @@
 
 #define     COMMONIO_HCLK_HZ        48000000L                       // HCLK
 
-#define     COMMONIO_CLOCK_HZ       (COMMONIO_HCLK_HZ)           // peripheral clock = HCLK/8
+#define     COMMONIO_CLOCK_HZ       (COMMONIO_HCLK_HZ)              // peripheral clock = HCLK/8
 #define     COMMONIO_TIMER_1US      (COMMONIO_CLOCK_HZ/1000000)     // 1.000us
 #define     COMMONIO_TIMER_1MS      ( 1L*(COMMONIO_CLOCK_HZ/1000))  // 1.000ms
 #define     COMMONIO_TIMER_20MS     (20L*(COMMONIO_CLOCK_HZ/1000))  // 20.000ms
@@ -68,7 +68,7 @@ void commonio_initialise_clocks( void )
     while( LL_RCC_HSI_IsReady( ) == 0 );
 
     /*
-     * Setup system, AHB and APB clocks ( all set to  MHz )
+     * Setup system, AHB and APB clocks ( all set to 48MHz )
      * AHB and APB2 = 48MHz
      * APB1 = 24MHz
      */
@@ -76,9 +76,6 @@ void commonio_initialise_clocks( void )
     LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_2 );
     LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
 
-    /*
-     * Setup flash memory parameters
-     */
     LL_FLASH_SetLatency( LL_FLASH_LATENCY_1 );
     LL_FLASH_EnablePrefetch( );
 
@@ -93,6 +90,9 @@ void commonio_initialise_clocks( void )
     /*
      * Enable peripheral clocks
      */
+    LL_RCC_SetI2CClockSource( LL_RCC_I2C1_CLKSOURCE_SYSCLK );
+    while( LL_RCC_GetI2CClockSource( LL_RCC_I2C1_CLKSOURCE ) != LL_RCC_I2C1_CLKSOURCE_SYSCLK );
+
     LL_AHB1_GRP1_EnableClock
     (
           LL_AHB1_GRP1_PERIPH_GPIOA
@@ -104,9 +104,15 @@ void commonio_initialise_clocks( void )
         | LL_AHB1_GRP1_PERIPH_DMA1
     );
 
+    LL_APB1_GRP1_EnableClock
+    (
+          LL_APB1_GRP1_PERIPH_I2C1
+    );
+
     LL_APB2_GRP1_EnableClock
     (
-          LL_APB2_GRP1_PERIPH_USART1
+          LL_APB2_GRP1_PERIPH_SYSCFG
+        | LL_APB2_GRP1_PERIPH_USART1
     );
 
     SysTick_Config( COMMONIO_TIMER_1MS );

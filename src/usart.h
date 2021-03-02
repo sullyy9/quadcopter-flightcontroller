@@ -2,7 +2,7 @@
 /*
     Ryan Sullivan
 
-    Module Name     : comms.h
+    Module Name     : usart.h
     Description     : header file
 */
 /*----------------------------------------------------------------------------*/
@@ -19,11 +19,10 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void        comms_initialise( void );
-uint16_t    comms_usart1_tx_free( void );
-void        comms_usart1_tx_byte( uint8_t data );
-void        comms_dma1_channel4_isr( void );
-void        comms_usart1_isr( void );
+void        usart_initialise( void );
+uint16_t    usart1_tx_free( void );
+void        usart1_tx_byte( uint8_t data );
+void        usart_dma1_channel4_isr( void );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/
