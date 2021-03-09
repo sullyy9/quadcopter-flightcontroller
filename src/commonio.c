@@ -25,9 +25,9 @@
 #define     HCLK_HZ        48000000L                    // HCLK
 #define     PCLK_HZ        (HCLK_HZ)                    // Peripheral bus 1 clock
 #define     SYS_CLOCK_HZ   (HCLK_HZ)                    // System timer clock
-#define     TIMER_1US      (CLOCK_HZ/1000000)           // 1.000us
+#define     TIMER_1US      (SYS_CLOCK_HZ/1000000)       // 1.000us
 #define     TIMER_1MS      ( 1L*(SYS_CLOCK_HZ/1000))    // 1.000ms
-#define     TIMER_20MS     (20L*(CLOCK_HZ/1000))        // 20.000ms
+#define     TIMER_20MS     (20L*(SYS_CLOCK_HZ/1000))    // 20.000ms
 
 #define     WWDG_RESET_TIME_MAX     ( ( 64 * 4096 * ( 1 << 3 ) ) / ( PCLK_HZ / 1000 ) ) // 43ms
 
@@ -132,6 +132,18 @@ void commonio_reset_wwdg( void )
 {
     LL_WWDG_SetCounter( WWDG, ( 63 + wwdg_reset_value ) );
 }
+
+/*----------------------------------------------------------------------------*/
+
+uint32_t commonio_get_systick_us( void )
+{
+    uint32_t systick_us;
+    systick_us = ( SysTick->LOAD - SysTick->VAL );
+    systick_us = ( systick_us / ( SYS_CLOCK_HZ / 1000000 ) );
+
+    return( systick_us );
+}
+
 
 /*----------------------------------------------------------------------------*/
 

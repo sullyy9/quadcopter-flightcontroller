@@ -100,7 +100,7 @@ enum
  *
  * accelerometer control register 1 MSB to LSB
  */
-#define ACCEL_DATA_RATE         ACCEL_DATA_RATE_25HZ
+#define ACCEL_DATA_RATE         ACCEL_DATA_RATE_50HZ
 #define ACCEL_LOW_POWER_ON      0               //disable
 #define ACCEL_Z_AXIS_ON         1               //enable
 #define ACCEL_Y_AXIS_ON         1               //enable
@@ -191,7 +191,7 @@ enum
 #define MAG_REBOOT_MEM          0       //disable
 #define MAG_SOFT_RESET          0       //disable
 #define MAG_LOW_POWER_ON        0       //high res mode
-#define MAG_DATA_RATE           MAG_DATA_RATE_20HZ
+#define MAG_DATA_RATE           MAG_DATA_RATE_50HZ
 #define MAG_MODE_SELECT         MAG_CONTINUOUS_MODE
 #define MAG_CONFIG_REG_A_VAL    ( ( MAG_TEMP_COMP_ON << 7 ) + ( MAG_REBOOT_MEM   << 6 ) + \
                                   ( MAG_SOFT_RESET   << 5 ) + ( MAG_LOW_POWER_ON << 4 ) + \
