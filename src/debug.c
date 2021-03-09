@@ -11,6 +11,9 @@
 #include <stdint.h>
 #include <stdarg.h>
 
+#include "stm32f3xx.h"
+#include "core_cm4.h"
+
 #include "debug.h"
 
 #include "usart.h"
@@ -19,6 +22,8 @@
 /*-constant-definitions-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+#define CORE_SPEED 48000000
+
 /*----------------------------------------------------------------------------*/
 /*-exported-variables---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -26,6 +31,9 @@
 /*----------------------------------------------------------------------------*/
 /*-static-variables-----------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
+
+static uint32_t stopwatch_start = 0;
+static uint32_t stopwatch_stop  = 0;
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -102,6 +110,39 @@ void debug_printf( char const *string_ptr, ... )
 
         string_ptr++;
     }
+}
+
+/*----------------------------------------------------------------------------*/
+
+void debug_stopwatch_initialise( void )
+{
+    /*
+     * Setup the CPU cycle counter
+     */
+    SET_BIT( CoreDebug->DEMCR, CoreDebug_DEMCR_TRCENA_Msk );
+    SET_BIT( DWT->CTRL, DWT_CTRL_CYCCNTENA_Msk );
+}
+
+/*----------------------------------------------------------------------------*/
+
+void debug_stopwatch_start( void )
+{
+    stopwatch_start = 0;
+    WRITE_REG( DWT->CYCCNT, 0 );
+}
+
+/*----------------------------------------------------------------------------*/
+
+/*
+ * @brief       Return the time elapsed in nano seconds
+ * @param       none
+ * @retval      time elapsed (nS)
+ */
+uint32_t debug_stopwatch_stop( void )
+{
+    stopwatch_stop = READ_REG( DWT->CYCCNT );
+
+    return( ( stopwatch_stop - stopwatch_start ) / ( (double)CORE_SPEED / 1000000000 ) );
 }
 
 /*----------------------------------------------------------------------------*/

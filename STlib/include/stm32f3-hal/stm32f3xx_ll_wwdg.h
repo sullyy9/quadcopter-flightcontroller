@@ -32,7 +32,7 @@ extern "C" {
   * @{
   */
 
-#if defined (WWDG)
+#if defined (USE_WWDG)
 
 /** @defgroup WWDG_LL WWDG
   * @{

@@ -20,7 +20,12 @@
 /*----------------------------------------------------------------------------*/
 
 void    commonio_clear_reset_flags( void );
+void    commonio_initialise_wwdg( uint32_t reset_time_ms  );
+void    commonio_reset_wwdg( void );
+
 void    commonio_initialise_clocks( void );
+
+void    commonio_wwdg_isr( void );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/

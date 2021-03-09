@@ -19,7 +19,11 @@
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void    debug_printf( char const *string_ptr, ... );
+void        debug_printf( char const *string_ptr, ... );
+
+void        debug_stopwatch_initialise( void );
+void        debug_stopwatch_start( void );
+uint32_t    debug_stopwatch_stop( void );
 
 /*----------------------------------------------------------------------------*/
 /*-end-of-module--------------------------------------------------------------*/

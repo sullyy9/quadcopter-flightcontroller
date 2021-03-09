@@ -10,6 +10,7 @@ C_SRCS += \
 ../src/io.c \
 ../src/main.c \
 ../src/port.c \
+../src/spi.c \
 ../src/startup.c \
 ../src/usart.c \
 ../src/utils.c 
@@ -21,6 +22,7 @@ OBJS += \
 ./src/io.o \
 ./src/main.o \
 ./src/port.o \
+./src/spi.o \
 ./src/startup.o \
 ./src/usart.o \
 ./src/utils.o 
@@ -32,6 +34,7 @@ C_DEPS += \
 ./src/io.d \
 ./src/main.d \
 ./src/port.d \
+./src/spi.d \
 ./src/startup.d \
 ./src/usart.d \
 ./src/utils.d 
@@ -41,7 +44,7 @@ C_DEPS += \
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GNU Arm Cross C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -DNDEBUG -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DHSE_VALUE=8000000 -I"../STlib/include/stm32f3-hal" -I"../STlib/include" -I"../STlib/include/cortexm" -I"../STlib/include/cmsis" -std=gnu11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -DNDEBUG -DUSE_WWDG -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DHSE_VALUE=8000000 -I"../STlib/include/stm32f3-hal" -I"../STlib/include" -I"../STlib/include/cortexm" -I"../STlib/include/cmsis" -std=gnu11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -45,38 +45,38 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-ryansullivan-quadcopter-firmware.bin \
+ryansullivan-quadcopter-flightcontroller.bin \
 
 SECONDARY_SIZE += \
-ryansullivan-quadcopter-firmware.siz \
+ryansullivan-quadcopter-flightcontroller.siz \
 
 
 # All Target
-all: ryansullivan-quadcopter-firmware.elf secondary-outputs
+all: ryansullivan-quadcopter-flightcontroller.elf secondary-outputs
 
 # Tool invocations
-ryansullivan-quadcopter-firmware.elf: $(OBJS) $(USER_OBJS)
+ryansullivan-quadcopter-flightcontroller.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GNU Arm Cross C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T libs.ld -T mem.ld -T sections.ld -nostartfiles -L"../ldscripts" -Wl,-Map,"ryansullivan-quadcopter-firmware.map" --specs=nano.specs -o "ryansullivan-quadcopter-firmware.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -Wall -Wextra  -g -T libs.ld -T mem.ld -T sections.ld -nostartfiles -L"../ldscripts" -Wl,-Map,"ryansullivan-quadcopter-flightcontroller.map" --specs=nano.specs -o "ryansullivan-quadcopter-flightcontroller.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-ryansullivan-quadcopter-firmware.bin: ryansullivan-quadcopter-firmware.elf
+ryansullivan-quadcopter-flightcontroller.bin: ryansullivan-quadcopter-flightcontroller.elf
 	@echo 'Invoking: GNU Arm Cross Create Flash Image'
-	arm-none-eabi-objcopy -O binary "ryansullivan-quadcopter-firmware.elf"  "ryansullivan-quadcopter-firmware.bin"
+	arm-none-eabi-objcopy -O binary "ryansullivan-quadcopter-flightcontroller.elf"  "ryansullivan-quadcopter-flightcontroller.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-ryansullivan-quadcopter-firmware.siz: ryansullivan-quadcopter-firmware.elf
+ryansullivan-quadcopter-flightcontroller.siz: ryansullivan-quadcopter-flightcontroller.elf
 	@echo 'Invoking: GNU Arm Cross Print Size'
-	arm-none-eabi-size --format=berkeley "ryansullivan-quadcopter-firmware.elf"
+	arm-none-eabi-size --format=berkeley "ryansullivan-quadcopter-flightcontroller.elf"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) ryansullivan-quadcopter-firmware.elf
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) ryansullivan-quadcopter-flightcontroller.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)

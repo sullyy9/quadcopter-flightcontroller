@@ -21,7 +21,7 @@
 /*-constant-definitions-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-#define USART1_TX_BUFFER_SIZE 256
+#define USART1_TX_BUFFER_SIZE 512
 #define USART1_TX_BUFFER_HALF_SIZE ( USART1_TX_BUFFER_SIZE / 2 )
 
 /*----------------------------------------------------------------------------*/
@@ -66,9 +66,6 @@ void usart_initialise( void )
     LL_USART_EnableDMAReq_TX( USART1 );
     LL_USART_Enable( USART1 );
 
-    NVIC_SetPriority( USART1_IRQn, 3 );
-    NVIC_EnableIRQ( USART1_IRQn );
-
     /*
      * Setup DMA to transfer data from the transmit buffer to the
      * USART1 transmit register
@@ -83,11 +80,13 @@ void usart_initialise( void )
     dma_initialisation_structure.PeriphOrM2MSrcAddress     = LL_USART_DMA_GetRegAddr( USART1, LL_USART_DMA_REG_DATA_TRANSMIT );
     dma_initialisation_structure.PeriphOrM2MSrcDataSize    = LL_DMA_PDATAALIGN_BYTE;
     dma_initialisation_structure.PeriphOrM2MSrcIncMode     = LL_DMA_PERIPH_NOINCREMENT;
-    dma_initialisation_structure.Priority                  = LL_DMA_PRIORITY_LOW;
+    dma_initialisation_structure.Priority                  = LL_DMA_PRIORITY_MEDIUM;
     LL_DMA_Init( DMA1, LL_DMA_CHANNEL_4, &dma_initialisation_structure );
     LL_DMA_EnableIT_TC( DMA1, LL_DMA_CHANNEL_4 );
     LL_DMA_EnableIT_HT( DMA1, LL_DMA_CHANNEL_4 );
     LL_USART_ClearFlag_TC( USART1 );
+
+    //LL_DMA_EnableChannel( DMA1, LL_DMA_CHANNEL_4 );
 
     NVIC_SetPriority( DMA1_Channel4_IRQn, 3 );
     NVIC_EnableIRQ( DMA1_Channel4_IRQn );

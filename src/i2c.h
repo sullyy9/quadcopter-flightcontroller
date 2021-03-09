@@ -21,17 +21,17 @@
 
 void        i2c_initialise( void );
 
-uint16_t    i2c1_buffer_free( void );
+bool        i2c1_transfer_in_progress( void );
+
 void        i2c1_tx_buffer_write( uint8_t data );
-void        i2c1_tx_buffer_clear( void );
 void        i2c1_tx_data( uint32_t device, bool auto_end );
-uint32_t    i2c1_rx_buffer_available( void );
+
 uint8_t     i2c1_rx_buffer_read( void );
-void        i2c1_rx_buffer_clear( void );
 void        i2c1_rx_data( uint32_t device, uint32_t number_bytes );
 
-void        i2c_dma1_channel6_isr( void );
-void        i2c_dma1_channel7_isr( void );
+void        i2c1_dma1_channel6_isr( void );
+void        i2c1_dma1_channel7_isr( void );
+void        i2c1_ev_isr( void );
 void        i2c1_er_isr( void );
 
 /*----------------------------------------------------------------------------*/
