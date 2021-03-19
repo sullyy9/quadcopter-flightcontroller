@@ -61,9 +61,9 @@ static struct inertial_data
         int16_t gyro_y_raw;
         int16_t gyro_z_raw;
 
-        int16_t gyro_x_dps;
-        int16_t gyro_y_dps;
-        int16_t gyro_z_dps;
+        int16_t gyro_pitch_dps;
+        int16_t gyro_roll_dps;
+        int16_t gyro_yaw_dps;
 
         int16_t roll_mrad;
         int16_t pitch_mrad;
@@ -212,15 +212,15 @@ int main( void )
             /*
              * convert raw gyroscope data to dps
              */
-            inertial_data.gyro_x_dps =
-            (
-                ( (int32_t)inertial_data.gyro_x_raw * GYRO_RANGE ) / 32768
-            );
-            inertial_data.gyro_y_dps =
+            inertial_data.gyro_roll_dps =
             (
                 ( (int32_t)inertial_data.gyro_y_raw * GYRO_RANGE ) / 32768
             );
-            inertial_data.gyro_z_dps =
+            inertial_data.gyro_pitch_dps =
+            (
+                ( (int32_t)inertial_data.gyro_x_raw * GYRO_RANGE ) / 32768
+            );
+            inertial_data.gyro_yaw_dps =
             (
                 ( (int32_t)inertial_data.gyro_z_raw * GYRO_RANGE ) / 32768
             );
@@ -230,7 +230,7 @@ int main( void )
 
         /*
          * Process the raw data to get a roll, pitch and heading angle
-         * Takes about 650uS, TODO some optimisation
+         * Takes about 1.1ms - 1.25ms, TODO some optimisation
          */
         if( ( new_accel_data == true ) && ( new_mag_data == true ) && ( new_gyro_data == true ) )
         {
@@ -277,7 +277,8 @@ int main( void )
                 roll_rad = atan2( inertial_data.accel_x_raw, inertial_data.accel_z_raw );
 
                 /*
-                 * Calculate accelerometer pitch angle
+                 * Calculate accelerometer pitch angle. Must first calculate Z in respect to earth
+                 * rather than its own orientation
                  */
                 double gz2 =
                 (
@@ -286,8 +287,8 @@ int main( void )
                 );
                 pitch_rad = atan( inertial_data.accel_y_raw / gz2 );
 
-                inertial_data.roll_mrad     = (int16_t)(roll_rad    * 1000);
-                inertial_data.pitch_mrad    = (int16_t)(pitch_rad   * 1000);
+                inertial_data.roll_mrad  = (int16_t)( roll_rad  * 1000 );
+                inertial_data.pitch_mrad = (int16_t)( pitch_rad * 1000 );
 
                 /*
                  * Calculate accelerometer and magnetometer yaw angle if the data is good.
@@ -303,23 +304,23 @@ int main( void )
                     double yaw_rad;
 
                     double by2 =
-                        (
-                            ( inertial_data.mag_z_raw * sin( pitch_rad ) ) -
-                            ( inertial_data.mag_y_raw * cos( pitch_rad ) )
-                        );
+                    (
+                        ( inertial_data.mag_z_raw * sin( pitch_rad ) ) -
+                        ( inertial_data.mag_y_raw * cos( pitch_rad ) )
+                    );
                     double bz2 =
-                        (
-                            ( inertial_data.mag_y_raw * sin( pitch_rad ) ) +
-                            ( inertial_data.mag_z_raw * cos( pitch_rad ) )
-                        );
+                    (
+                        ( inertial_data.mag_y_raw * sin( pitch_rad ) ) +
+                        ( inertial_data.mag_z_raw * cos( pitch_rad ) )
+                    );
                     double bx3 =
-                        (
-                            ( inertial_data.mag_x_raw * cos( ( roll_rad * -1 ) ) ) +
-                            ( bz2 * sin( ( roll_rad * -1 ) ) )
-                        );
+                    (
+                        ( inertial_data.mag_x_raw * cos( ( roll_rad * -1 ) ) ) +
+                        ( bz2 * sin( ( roll_rad * -1 ) ) )
+                    );
                     yaw_rad = atan2( by2, bx3 );
 
-                    inertial_data.yaw_mrad      = (int16_t)(yaw_rad     * 1000);
+                    inertial_data.yaw_mrad = (int16_t)( yaw_rad * 1000 );
                 }
 
                 inertial_data.roll_mdeg  = (int32_t)( inertial_data.roll_mrad   * ( 180 / M_PI ) );
@@ -327,6 +328,7 @@ int main( void )
                 inertial_data.yaw_mdeg   = (int32_t)( inertial_data.yaw_mrad    * ( 180 / M_PI ) );
 
                 apply_kalman_filter( );
+                //debug_printf( "loop runtime: %u \r\n", debug_stopwatch_stop( ) );
             }
 
             static uint32_t print_every = 0;
@@ -349,9 +351,9 @@ int main( void )
                 debug_printf( "DATA:MAGX:%d\r\n",   inertial_data.mag_x_mG );
                 debug_printf( "DATA:MAGY:%d\r\n",   inertial_data.mag_y_mG );
                 debug_printf( "DATA:MAGZ:%d\r\n",   inertial_data.mag_z_mG );
-                debug_printf( "DATA:GYROX:%d\r\n",  inertial_data.gyro_x_dps );
-                debug_printf( "DATA:GYROY:%d\r\n",  inertial_data.gyro_y_dps );
-                debug_printf( "DATA:GYROZ:%d\r\n",  inertial_data.gyro_z_dps );
+                debug_printf( "DATA:GYROROLL:%d\r\n",  inertial_data.gyro_roll_dps );
+                debug_printf( "DATA:GYROPITCH:%d\r\n",  inertial_data.gyro_pitch_dps );
+                debug_printf( "DATA:GYROYAW:%d\r\n",  inertial_data.gyro_yaw_dps );
                 debug_printf( "\r\n" );
             }
 
@@ -392,7 +394,7 @@ void apply_kalman_filter( void )
      * Estimate angle from gyroscope data
      */
     int32_t roll_rate_dps;
-    roll_rate_dps = inertial_data.gyro_y_dps - kalman_filter.roll_drift;
+    roll_rate_dps = inertial_data.gyro_roll_dps - kalman_filter.roll_drift;
 
     kalman_filter.roll_mdeg += ( ( roll_rate_dps * inertial_data.time_change_us ) / 1000 );
 
@@ -435,8 +437,8 @@ void apply_kalman_filter( void )
      * Calculate Kalman gain
      */
     double roll_kalman_gain[2];
-    roll_kalman_gain[0] = kalman_filter.roll_error_covariance[0][0] / roll_innovation_covariance;
-    roll_kalman_gain[1] = kalman_filter.roll_error_covariance[1][0] / roll_innovation_covariance;
+    roll_kalman_gain[0] = (double)kalman_filter.roll_error_covariance[0][0] / roll_innovation_covariance;
+    roll_kalman_gain[1] = (double)kalman_filter.roll_error_covariance[1][0] / roll_innovation_covariance;
 
     /*
      * Update the estimate angle
@@ -467,7 +469,7 @@ void apply_kalman_filter( void )
      * Estimate angle from gyroscope data
      */
     int32_t pitch_rate_dps;
-    pitch_rate_dps = inertial_data.gyro_x_dps - kalman_filter.pitch_drift;
+    pitch_rate_dps = inertial_data.gyro_pitch_dps - kalman_filter.pitch_drift;
 
     kalman_filter.pitch_mdeg += ( ( pitch_rate_dps * inertial_data.time_change_us ) / 1000 );
 
@@ -510,8 +512,8 @@ void apply_kalman_filter( void )
      * Calculate Kalman gain
      */
     double pitch_kalman_gain[2];
-    pitch_kalman_gain[0] = kalman_filter.pitch_error_covariance[0][0] / pitch_innovation_covariance;
-    pitch_kalman_gain[1] = kalman_filter.pitch_error_covariance[1][0] / pitch_innovation_covariance;
+    pitch_kalman_gain[0] = (double)kalman_filter.pitch_error_covariance[0][0] / pitch_innovation_covariance;
+    pitch_kalman_gain[1] = (double)kalman_filter.pitch_error_covariance[1][0] / pitch_innovation_covariance;
 
     /*
      * Update the estimate angle
@@ -541,7 +543,7 @@ void apply_kalman_filter( void )
      * Estimate angle from gyroscope data
      */
     int32_t yaw_rate_dps;
-    yaw_rate_dps = inertial_data.gyro_z_dps - kalman_filter.yaw_drift;
+    yaw_rate_dps = inertial_data.gyro_yaw_dps - kalman_filter.yaw_drift;
 
     kalman_filter.yaw_mdeg += ( ( yaw_rate_dps * inertial_data.time_change_us ) / 1000 );
 
@@ -584,8 +586,8 @@ void apply_kalman_filter( void )
      * Calculate Kalman gain
      */
     double yaw_kalman_gain[2];
-    yaw_kalman_gain[0] = kalman_filter.yaw_error_covariance[0][0] / yaw_innovation_covariance;
-    yaw_kalman_gain[1] = kalman_filter.yaw_error_covariance[1][0] / yaw_innovation_covariance;
+    yaw_kalman_gain[0] = (double)kalman_filter.yaw_error_covariance[0][0] / yaw_innovation_covariance;
+    yaw_kalman_gain[1] = (double)kalman_filter.yaw_error_covariance[1][0] / yaw_innovation_covariance;
 
     /*
      * Update the estimate angle

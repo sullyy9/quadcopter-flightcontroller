@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcmsis.a  CMakeFiles/cmsis.dir/src/cmsis/system_stm32f3xx.c.o
+/usr/bin/ranlib libcmsis.a

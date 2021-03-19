@@ -34,11 +34,11 @@
 /*----------------------------------------------------------------------------*/
 
 static volatile uint8_t     spi1_tx_buffer[ SPI1_TX_BUFFER_SIZE ];
-static volatile uint32_t    spi1_tx_write_ptr       = 0;
+static volatile uint32_t    spi1_tx_write_ptr = 0;
 
 static volatile uint8_t     spi1_rx_buffer[ SPI1_RX_BUFFER_SIZE ];
-static volatile uint32_t    spi1_rx_read_ptr            = 0;
-static volatile bool        spi1_transfer_ongoing       = false;
+static volatile uint32_t    spi1_rx_read_ptr      = 0;
+static volatile bool        spi1_transfer_ongoing = false;
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -54,7 +54,7 @@ void spi_initialise( void )
      * Setup SPI1 for communication with the gyroscope
      */
     LL_SPI_InitTypeDef spi_initialisation_structure;
-    spi_initialisation_structure.BaudRate           = LL_SPI_BAUDRATEPRESCALER_DIV8;
+    spi_initialisation_structure.BaudRate           = LL_SPI_BAUDRATEPRESCALER_DIV16;
     spi_initialisation_structure.BitOrder           = LL_SPI_MSB_FIRST;
     spi_initialisation_structure.CRCCalculation     = LL_SPI_CRCCALCULATION_DISABLE;
     spi_initialisation_structure.CRCPoly            = 0;
@@ -235,7 +235,6 @@ void spi1_error_isr( void )
     {
         debug_printf( "ERR:SPI1_UNKNOWN\r\n" );
     }
-    while( 1 );
 }
 
 /*----------------------------------------------------------------------------*/
