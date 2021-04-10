@@ -1,11 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/*
-    Ryan Sullivan
-
-    Module Name     :
-    Description     :
-*/
-/*----------------------------------------------------------------------------*/
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @author  Ryan Sullivan (ryansullivan@googlemail.com)
+ *
+ * @file    port.c
+ * @brief   Module for controlling GPIO pins.
+ *
+ * @date    2021-04-09
+ * -------------------------------------------------------------------------------------------------
+ */
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -15,167 +17,165 @@
 
 #include "port.h"
 
-/*----------------------------------------------------------------------------*/
-/*-constant-definitions-------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-constant-definitions---------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-exported-variables---------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-exported-variables-----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-static-variables-----------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-static-variables-------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-forward-declarations-------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-forward-declarations---------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-exported-functions---------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-exported-functions-----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*
- * @brief           initialise a pin to the specified mode
- * @param port_pin: port and pin to be initialised. refer to port.h for
- *                  possible arguments
- * @param mode:     mode pin is to be initialised to. refer to port.h
- *                  for possible arguments
- * @retval          none
+/**
+ * @brief                    Initialise a pin to the specified mode.
+ * @param pin                Pin to be initialised.
+ * @param mode               Mode the pin will be initialised to.
+ * @param alternate_function Alternate function of the pin.
  */
-void port_initialise_pin( uint8_t port_pin, uint8_t mode, uint32_t alternate_function )
+void port_initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function)
 {
     LL_GPIO_InitTypeDef gpio_initialisation_structure;
-    gpio_initialisation_structure.Alternate     = alternate_function;
-    gpio_initialisation_structure.Pin           = ( 1 << ( port_pin % 16 ) );
-    gpio_initialisation_structure.Speed         = LL_GPIO_SPEED_FREQ_HIGH;
+    gpio_initialisation_structure.Alternate = alternate_function;
+    gpio_initialisation_structure.Pin       = (1 << (pin % 16));
+    gpio_initialisation_structure.Speed     = LL_GPIO_SPEED_FREQ_HIGH;
 
-    switch( mode )
+    switch(mode)
     {
-        case PORT_MODE_ANALOG :
+        case PORT_MODE_ANALOG:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_ANALOG;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ANALOG;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_FLOATING :
+        case PORT_MODE_FLOATING:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_INPUT_PULLDOWN :
+        case PORT_MODE_INPUT_PULLDOWN:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_DOWN;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_DOWN;
             break;
         }
 
-        case PORT_MODE_INPUT_PULLUP :
+        case PORT_MODE_INPUT_PULLUP:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_UP;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_UP;
             break;
         }
 
-        case PORT_MODE_OPEN_DRAIN :
+        case PORT_MODE_OPEN_DRAIN:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_OUTPUT;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_OPENDRAIN;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_OUTPUT;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_PUSH_PULL :
+        case PORT_MODE_PUSH_PULL:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_OUTPUT;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_OUTPUT;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_ALT_OPEN_DRAIN :
+        case PORT_MODE_ALT_OPEN_DRAIN:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_ALTERNATE;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_OPENDRAIN;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ALTERNATE;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_ALT_OUTPUT :
+        case PORT_MODE_ALT_OUTPUT:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_ALTERNATE;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ALTERNATE;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
         default:
         {
-            gpio_initialisation_structure.Mode          = LL_GPIO_MODE_ANALOG;
-            gpio_initialisation_structure.OutputType    = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull          = LL_GPIO_PULL_NO;
+            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ANALOG;
+            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
             break;
         }
     }
 
-    LL_GPIO_Init
-    (
-        (GPIO_TypeDef*)( GPIOA_BASE + ( ( port_pin / 16 ) * 0x400 ) ),
-        &gpio_initialisation_structure
-    );
+    LL_GPIO_Init(PORT_MASK(pin), &gpio_initialisation_structure);
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void port_set( uint32_t port_pin )
+/**
+ * @brief     Set a pin to a high logic level.
+ * @param pin Pin to set.
+ */
+void port_set(pin_t pin)
 {
-    LL_GPIO_SetOutputPin
-    (
-        (GPIO_TypeDef*)( GPIOA_BASE + ( ( port_pin / 16 ) * 0x400 ) ),
-        ( 1 << ( port_pin % 16 ) )
-    );
+    LL_GPIO_SetOutputPin(PORT_MASK(pin), PIN_MASK(pin));
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void port_clear( uint32_t port_pin )
+/**
+ * @brief     Set a pin to a low logic level.
+ * @param pin Pin to set.
+ */
+void port_clear(pin_t pin)
 {
-    LL_GPIO_ResetOutputPin
-    (
-        (GPIO_TypeDef*)( GPIOA_BASE + ( ( port_pin / 16 ) * 0x400 ) ),
-        ( 1 << ( port_pin % 16 ) )
-    );
+    LL_GPIO_ResetOutputPin(PORT_MASK(pin), PIN_MASK(pin));
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-uint32_t port_read( uint32_t port_pin )
+/**
+ * @brief           Read a pins logic level.
+ * @param pin       Pin to read.
+ * @return uint32_t Value of the pin. 1 or 0.
+ */
+uint32_t port_read(pin_t pin)
 {
-    uint32_t port_value = 0;
-    uint32_t pin        = ( 1 << ( port_pin % 16 ) );
-    port_value = LL_GPIO_ReadInputPort( (GPIO_TypeDef*)( GPIOA_BASE + ( ( port_pin / 16 ) * 0x400 ) ) );
+    uint32_t port_value;
+    port_value = LL_GPIO_ReadInputPort(PORT_MASK(pin));
 
-    if( ( port_value & pin ) == 0 )
+    if((port_value & PIN_MASK(pin)) == 0)
     {
-        return( 0 );
+        return (0);
     }
     else
     {
-        return( 1 );
+        return (1);
     }
 }
 
-/*----------------------------------------------------------------------------*/
-/*-static-functions-----------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-static-functions-------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-end-of-module--------------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-end-of-module----------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/

@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Windows",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "forcedInclude": [
+            ],
+            "defines": [
+            ],
+            "browse": {
+                "path": [
+                ],
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compileCommands": "${workspaceFolder}/.vscode/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

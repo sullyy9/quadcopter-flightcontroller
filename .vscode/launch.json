@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/ryansullivan-quadcopter-flightcontroller.elf",
+            "request": "launch",
+            "servertype": "openocd",
+            "device": "STM32F303VCT6",
+            "svdFile": "./tools/STM32F303.svd",
+            "configFiles": [
+                "./tools/stlink.cfg",
+                "./tools/stm32f3x.cfg"
+            ],
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 48000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    { "type": "console", "label": "ITM", "port": 0 }
+                ]
+            }
+        }
+    ]
+}

@@ -1,11 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/*
-    Ryan Sullivan
-
-    Module Name     : debug.c
-    Description     : functions for printing debug messages
-*/
-/*----------------------------------------------------------------------------*/
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @author  Ryan Sullivan (ryansullivan@googlemail.com)
+ *
+ * @file    debug.c
+ * @brief   Module for debugging.
+ *
+ * @date    2021-04-04
+ * -------------------------------------------------------------------------------------------------
+ */
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -18,86 +20,106 @@
 
 #include "usart.h"
 
-/*----------------------------------------------------------------------------*/
-/*-constant-definitions-------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-constant-definitions---------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
 #define CORE_SPEED 48000000
 
-/*----------------------------------------------------------------------------*/
-/*-exported-variables---------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-exported-variables-----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/*-static-variables-----------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-static-variables-------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
 static uint32_t stopwatch_start = 0;
 static uint32_t stopwatch_stop  = 0;
 
-/*----------------------------------------------------------------------------*/
-/*-forward-declarations-------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-forward-declarations---------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void    print_character( char character );
-void    printf_number( uint32_t number );
+void print_character(char character);
+void print_number(uint32_t number);
 
-/*----------------------------------------------------------------------------*/
-/*-exported-functions---------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-exported-functions-----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void debug_printf( char const *string_ptr, ... )
+/**
+ * @brief               Printf-like function for debugging.
+ * @param string_ptr    String to print.
+ * @param ...           Variable embedded in the string.
+ */
+void debug_printf(char const *string_ptr, ...)
 {
     va_list argument_list;
 
-    va_start( argument_list, string_ptr );
-    while( *string_ptr != 0 )
+    va_start(argument_list, string_ptr);
+    while(*string_ptr != 0)
     {
-        if( *string_ptr != '%' )
+        /*
+         * Print a character or if its an embedded variable, process it.
+         */
+        if(*string_ptr != '%')
         {
-            print_character( *string_ptr );
+            print_character(*string_ptr);
         }
         else
         {
             /*
-             * get the next character to find the format of the argument
+             * Depending on the type of variable, process it differently.
              */
             string_ptr++;
-
-            switch( *string_ptr )
+            switch(*string_ptr)
             {
+                /*
+                 * Character.
+                 */
                 case 'c':
                 {
-                    print_character( va_arg( argument_list, int ) );
+                    char c = (char)va_arg(argument_list, int);
+                    print_character(c);
                     break;
                 }
 
+                /*
+                 * String.
+                 */
                 case 's':
                 {
-                    char *ptr = va_arg( argument_list, char* );
-                    while( *ptr != 0 )
+                    char *ptr = va_arg(argument_list, char *);
+                    while(*ptr != 0)
                     {
-                        print_character( *ptr );
+                        print_character(*ptr);
                         ptr++;
                     }
                     break;
                 }
 
+                /*
+                 * Signed integer.
+                 */
                 case 'd':
                 {
-                    int32_t number = va_arg( argument_list, int32_t );
-                    if( number < 0 )
+                    int32_t number = va_arg(argument_list, int32_t);
+                    if(number < 0)
                     {
-                        print_character( '-' );
+                        print_character('-');
                         number = 0 - number;
                     }
-                    printf_number( (uint32_t)number );
+                    print_number((uint32_t)number);
                     break;
                 }
 
+                /*
+                 * Unsigned integer.
+                 */
                 case 'u':
                 {
-                    printf_number( va_arg( argument_list, uint32_t ) );
+                    print_number(va_arg(argument_list, uint32_t));
                     break;
                 }
 
@@ -112,71 +134,80 @@ void debug_printf( char const *string_ptr, ... )
     }
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void debug_stopwatch_initialise( void )
+/**
+ * @brief Setup the CPU cycle counter.
+ */
+void debug_stopwatch_initialise(void)
 {
-    /*
-     * Setup the CPU cycle counter
-     */
-    SET_BIT( CoreDebug->DEMCR, CoreDebug_DEMCR_TRCENA_Msk );
-    SET_BIT( DWT->CTRL, DWT_CTRL_CYCCNTENA_Msk );
+    SET_BIT(CoreDebug->DEMCR, CoreDebug_DEMCR_TRCENA_Msk);
+    SET_BIT(DWT->CTRL, DWT_CTRL_CYCCNTENA_Msk);
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void debug_stopwatch_start( void )
+/**
+ * @brief Start counting CPU cycles.
+ */
+void debug_stopwatch_start(void)
 {
     stopwatch_start = 0;
-    WRITE_REG( DWT->CYCCNT, 0 );
+    WRITE_REG(DWT->CYCCNT, 0);
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-/*
- * @brief       Return the time elapsed in nano seconds
- * @param       none
- * @retval      time elapsed (nS)
+/**
+ * @brief           Stop counting CPU cycles and figure out how many nano-seconds they equate to.
+ * @return uint32_t Time elapsed in nano-seconds.
  */
-uint32_t debug_stopwatch_stop( void )
+uint32_t debug_stopwatch_stop(void)
 {
-    stopwatch_stop = READ_REG( DWT->CYCCNT );
+    stopwatch_stop = READ_REG(DWT->CYCCNT);
 
-    return( ( stopwatch_stop - stopwatch_start ) / ( (double)CORE_SPEED / 1000000000 ) );
+    return (((stopwatch_stop - stopwatch_start) * 1000) / (CORE_SPEED / 1000000));
 }
 
-/*----------------------------------------------------------------------------*/
-/*-static-functions-----------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-static-functions-------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void print_character( char character )
+/**
+ * @brief           Print a character via UART.
+ * @param character Character to print.
+ */
+void print_character(char character)
 {
-    while( usart1_tx_free( ) == 0 );
-    usart1_tx_byte( character );
+    while(usart1_tx_free() == 0) {}
+    usart1_tx_byte(character);
 }
 
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
 
-void printf_number( uint32_t number )
+/**
+ * @brief        Print a number via UART.
+ * @param number Number to print.
+ */
+void print_number(uint32_t number)
 {
-    char buffer[ 10 ];
+    char    buffer[10];
     uint8_t buffer_ptr = 0;
 
     do
     {
-        buffer[ buffer_ptr ] = ( '0' + ( number % 10 ) );
-        number = number / 10;
+        buffer[buffer_ptr] = ('0' + (number % 10));
+        number             = number / 10;
         buffer_ptr++;
-    }
-    while( number != 0 );
+    } while(number != 0);
 
-    while( buffer_ptr > 0 )
+    while(buffer_ptr > 0)
     {
         buffer_ptr--;
-        print_character( buffer[ buffer_ptr ] );
+        print_character(buffer[buffer_ptr]);
     }
 }
 
-/*----------------------------------------------------------------------------*/
-/*-end-of-module--------------------------------------------------------------*/
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/*-end-of-module----------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/

@@ -1,0 +1,22 @@
+---
+CompileFlags:
+    Add: ["--target=arm-arm-none-eabi"]
+
+---
+If:
+    PathMatch: .*\.h
+    PathExclude: .*\types.h
+
+CompileFlags:
+    Add: [--include=<stdint.h>,
+          --include=<stdbool.h>]
+
+---
+If:
+    PathMatch: *\src\*
+    PathExclude: *\lib\*
+
+CompileFlags:
+    Add: [-Weverything,
+          -Wno-covered-switch-default,
+          -Wno-gnu-binary-literal]

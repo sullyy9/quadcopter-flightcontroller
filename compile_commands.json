@@ -1,0 +1,362 @@
+[
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/cmsis/system_stm32f3xx.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/debug.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/debug.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/debug.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/i2c.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i2c.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i2c.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/io.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/io.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/io.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/main.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/main.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/main.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/port.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/port.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/port.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/spi.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/spi.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/spi.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/startup.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/startup.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/startup.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/system.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/system.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/system.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/usart.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/usart.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/usart.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/utils.c.obj -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/utils.c",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/utils.c"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32f3xx.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32f3xx.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32f303xc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32f303xc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/core_cm4.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/core_cm4.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_version.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_version.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_compiler.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_compiler.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_armcc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_armcc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_armclang.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_armclang.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_gcc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_gcc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_iccarm.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/cmsis_iccarm.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/mpu_armv7.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/mpu_armv7.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/system_stm32f3xx.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/system_stm32f3xx.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_adc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_adc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_bus.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_bus.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32_assert.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis/stm32_assert.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_comp.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_comp.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_crc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_crc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_dac.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_dac.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_dma.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_dma.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_exti.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_exti.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_gpio.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_gpio.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_hrtim.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_hrtim.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_i2c.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_i2c.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_opamp.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_opamp.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_pwr.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_pwr.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_rcc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_rcc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_rtc.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_rtc.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_cortex.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_cortex.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_spi.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_spi.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_tim.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_tim.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_usart.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_usart.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_utils.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_utils.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_system.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_system.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/debug.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/debug.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/usart.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/usart.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i2c.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i2c.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/lsm303agr.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/lsm303agr.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i3g4250d.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/i3g4250d.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/io.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/io.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/system.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/system.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/port.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/port.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/spi.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/spi.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/main.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/main.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/utils.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/src/utils.h"
+},
+{
+  "directory": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/build",
+  "command": "C:/Users/ryans/Tools/GNU-Arm-Embedded-Toolchain/10-2020-q4-major/bin/arm-none-eabi-gcc.exe -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -IC:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -c C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_wwdg.h",
+  "file": "C:/Users/ryans/Documents/Workspaces/VSCodeWorkspace/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal/stm32f3xx_ll_wwdg.h"
+}
+]

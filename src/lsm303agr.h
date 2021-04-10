@@ -11,12 +11,6 @@
 /*-constant-definitions-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-/*
- * Device addresses
- */
-#define ACCEL_I2C_ADDR  0b00110010
-#define MAG_I2C_ADDR    0b00111100
-
 #define ACCEL_INC( address ) ( 0b10000000 + address )
 
 /*
