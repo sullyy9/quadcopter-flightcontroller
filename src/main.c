@@ -45,21 +45,21 @@ static struct inertial_data
     int32_t accel_y_raw;
     int32_t accel_z_raw;
 
-    int32_t accel_x_mg;
-    int32_t accel_y_mg;
-    int32_t accel_z_mg;
-
     int32_t mag_x_raw;
     int32_t mag_y_raw;
     int32_t mag_z_raw;
 
-    int32_t mag_x_mG;
-    int32_t mag_y_mG;
-    int32_t mag_z_mG;
-
     int32_t gyro_x_raw;
     int32_t gyro_y_raw;
     int32_t gyro_z_raw;
+
+    int32_t accel_x_mg;
+    int32_t accel_y_mg;
+    int32_t accel_z_mg;
+
+    int32_t mag_x_mG;
+    int32_t mag_y_mG;
+    int32_t mag_z_mG;
 
     int32_t gyro_pitch_dps;
     int32_t gyro_roll_dps;
@@ -326,6 +326,9 @@ int main(void)
 
 /*------------------------------------------------------------------------------------------------*/
 
+/**
+ * @brief Main poll. Called by the systick interupt.
+ */
 void main_1ms_timer_isr(void)
 {
     io_1ms_poll();    // NOLINT - ignore clangd warning
@@ -337,10 +340,11 @@ void main_1ms_timer_isr(void)
 /*-static-functions-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-/*
- * Kalman filter tutorial:
- * http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
- */
+ /**
+  * @brief Apply a kalman filter to the acceleroeter, magnetometer and gyroscope data sets.
+  *
+  * http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
+  */
 void apply_kalman_filter(void)
 {
     /*

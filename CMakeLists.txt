@@ -1,3 +1,22 @@
+# Set the toolchain.
+####################################################################################################
+set(CMAKE_SYSTEM_NAME           "Generic")
+set(CMAKE_SYSTEM_PROCESSOR      "arm")
+set(CMAKE_CROSSCOMPILING 1)
+
+set(CMAKE_AR           "arm-none-eabi-ar")
+set(CMAKE_ASM_COMPILER "arm-none-eabi-gcc")
+set(CMAKE_C_COMPILER   "arm-none-eabi-gcc")
+set(CMAKE_CXX_COMPILER "arm-none-eabi-g++")
+set(CMAKE_LINKER       "arm-none-eabi-ld")
+set(CMAKE_OBJCOPY      "arm-none-eabi-objcopy")
+set(CMAKE_RANLIB       "arm-none-eabi-ranlib")
+set(CMAKE_STRIP        "arm-none-eabi-strip")
+set(CMAKE_SIZE         "arm-none-eabi-size")
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
+# Set project.
+####################################################################################################
 cmake_minimum_required(VERSION 3.00)
 project(ryansullivan-quadcopter-flightcontroller
     VERSION 1.0
@@ -55,6 +74,10 @@ target_include_directories(${ST_LIB}
     PUBLIC "lib/include/stm32f3-hal"
     )
 
+set_target_properties(${ST_LIB}
+    PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/built"
+    )
+
 # Configure the elf file.
 ####################################################################################################
 add_executable(${PROJECT_ELF}
@@ -65,15 +88,14 @@ target_compile_options(${PROJECT_ELF}
     PUBLIC -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef
     )
-
 target_link_options(${PROJECT_ELF}
     PRIVATE -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -nostartfiles
     PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT}"
     )
 
-target_link_libraries(${PROJECT_ELF} ${ST_LIB})
-target_link_libraries(${PROJECT_ELF} m)
+target_link_libraries(${PROJECT_ELF} PRIVATE ${ST_LIB})
+target_link_libraries(${PROJECT_ELF} PRIVATE m)
 
 # Add bin and hex files.
 ####################################################################################################

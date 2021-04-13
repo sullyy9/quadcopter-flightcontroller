@@ -65,7 +65,7 @@
 /*-static-variables-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-static volatile uint32_t led_timer = 0;
+static volatile uint32_t led_timer  = 0;
 static volatile uint32_t led_active = LED_NW;
 
 static volatile bool accel_data_ready = true;
@@ -297,7 +297,12 @@ void io_gyroscope_initialise(void)
 {
     while(spi1_transfer_in_progress() == true) {}
 
-    spi1_tx_buffer_write(GYRO_WRITE(GYRO_INC(GYRO_CTRL_REG_1_ADDR)));
+    uint8_t address;
+    address = GYRO_CTRL_REG_1_ADDR;
+    address = GYRO_SET_INCREMENT_BIT(address);
+    address = GYRO_SET_WRITE_BIT(address);
+
+    spi1_tx_buffer_write(address);
     spi1_tx_buffer_write(GYRO_CTRL_REG_1_VAL);
     spi1_tx_buffer_write(GYRO_CTRL_REG_2_VAL);
     spi1_tx_buffer_write(GYRO_CTRL_REG_3_VAL);
@@ -339,9 +344,13 @@ void io_gyroscope_read(int32_t *gyro_x, int32_t *gyro_y, int32_t *gyro_z)
     while(spi1_transfer_in_progress() == true) {}
 
     /*
-     * Incrementally read from all 6 output registers
+     * Read from all 6 output registers
      */
-    spi1_tx_buffer_write(GYRO_READ(GYRO_INC(GYRO_OUT_REG_X_L_ADDR)));
+    uint8_t address;
+    address = GYRO_OUT_REG_X_L_ADDR;
+    address = GYRO_SET_INCREMENT_BIT(address);
+    address = GYRO_SET_READ_BIT(address);
+    spi1_tx_buffer_write(address);
 
     gyro_slave_select_toggle(ON);
     spi1_transfer_data(6);

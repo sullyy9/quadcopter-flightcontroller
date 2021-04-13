@@ -14,10 +14,10 @@
 /*
  * Read, write and auto increment macros
  */
-#define GYRO_READ(address)  (0b10000000 + address)
-#define GYRO_WRITE(address) (address)
+#define GYRO_SET_READ_BIT(address)  (0b10000000 + address)
+#define GYRO_SET_WRITE_BIT(address) (address)
 
-#define GYRO_INC(address) (0b01000000 + address)
+#define GYRO_SET_INCREMENT_BIT(address) (0b01000000 + address)
 
 /*
  * Register addresses

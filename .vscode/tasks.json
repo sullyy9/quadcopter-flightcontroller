@@ -4,33 +4,28 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "configure",
+            "label": "cmake generate",
             "type": "shell",
-            "command": "${workspaceFolder}/tools/cmake_configure.bat",
+            "command": "cmake -S . -B ./build",
             "problemMatcher": []
         },
         {
-            "label": "build",
+            "label": "cmake build",
             "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "${workspaceFolder}/build",
-                "--clean-first"
-            ],
+            "command": "cmake --build ./build",
             "problemMatcher": []
         },
         {
             "label": "flash",
             "type": "shell",
-            "command": "openocd",
+            "command": "/mnt/c/Users/ryans/Tools/Openocd-0.11.0/bin/openocd.exe",
             "args": [
-                "-f./tools/stlink.cfg",
-                "-f./tools/stm32f3x.cfg",
-                "-cprogram ./build/ryansullivan-quadcopter-flightcontroller.elf verify reset exit"
+                "-f${workspaceFolder}/tools/stlink.cfg",
+                "-f${workspaceFolder}/tools/stm32f3x.cfg",
+                "-cprogram ${workspaceFolder}/build/ryansullivan-quadcopter-flightcontroller.elf verify reset exit"
             ],
             "dependsOn": "build",
             "problemMatcher": []
-        }
+        },
     ]
 }
