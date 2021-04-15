@@ -9,18 +9,18 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
 
-#include "lsm303agr.h"
 #include "i3g4250d.h"
+#include "lsm303agr.h"
 
-#include "main.h"
-#include "io.h"
-#include "utils.h"
 #include "debug.h"
+#include "io.h"
+#include "main.h"
 #include "system.h"
+#include "utils.h"
 
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
@@ -41,11 +41,14 @@
 static volatile bool     run_program       = true;
 static volatile uint32_t system_runtime_ms = 0;
 
-typedef struct
+typedef struct accel_data
 {
-    int32_t x_raw; // x in the range of the register size, reflecting the acceleration in gs
-    int32_t y_raw; // y in the range of the register size, reflecting the acceleration in gs
-    int32_t z_raw; // z in the range of the register size, reflecting the acceleration in gs
+    int32_t x_raw; // x in the range of the register size, reflecting the
+                   // acceleration in gs
+    int32_t y_raw; // y in the range of the register size, reflecting the
+                   // acceleration in gs
+    int32_t z_raw; // z in the range of the register size, reflecting the
+                   // acceleration in gs
 
     float x_g; // x in terms of earth gravity
     float y_g; // y in terms of earth gravity
@@ -59,7 +62,7 @@ typedef struct
 
 } accel_data_t;
 
-typedef struct
+typedef struct mag_data
 {
     int32_t x_raw; // x in milli-Gauss / 1.5
     int32_t y_raw; // y in milli-Gauss / 1.5
@@ -74,11 +77,14 @@ typedef struct
 
 } mag_data_t;
 
-typedef struct
+typedef struct gyro_data
 {
-    int32_t x_raw; // x in the range of the register size, reflecting rotation in degrees per second
-    int32_t y_raw; // y in the range of the register size, reflecting rotation in degrees per second
-    int32_t z_raw; // z in the range of the register size, reflecting rotation in degrees per second
+    int32_t x_raw; // x in the range of the register size, reflecting rotation in
+                   // degrees per second
+    int32_t y_raw; // y in the range of the register size, reflecting rotation in
+                   // degrees per second
+    int32_t z_raw; // z in the range of the register size, reflecting rotation in
+                   // degrees per second
 
     float pitch_dps; // pitch in degrees per second
     float roll_dps;  // roll in degrees per second
@@ -86,7 +92,7 @@ typedef struct
 
 } gyro_data_t;
 
-typedef struct
+typedef struct time_data
 {
     int32_t current_us;
     int32_t previous_us;
@@ -94,7 +100,7 @@ typedef struct
 
 } time_data_t;
 
-typedef struct
+typedef struct kalman_data
 {
     float bank_deg;
     float attitude_deg;
@@ -109,6 +115,12 @@ typedef struct
     float heading_error_covariance[2][2];
 
 } kalman_data_t;
+
+static accel_data_t  accel_data;
+static mag_data_t    mag_data;
+static gyro_data_t   gyro_data;
+static time_data_t   time_data;
+static kalman_data_t kalman_data;
 
 static bool new_accel_data = false;
 static bool new_mag_data   = false;
@@ -147,14 +159,29 @@ int main(void)
     debug_printf("initialisation complete\r\n");
     utils_wait_ms(1000);
 
+    kalman_data.bank_deg       = 0;
+    kalman_data.attitude_deg   = 0;
+    kalman_data.heading_deg    = 0;
+    kalman_data.bank_drift     = 0;
+    kalman_data.attitude_drift = 0;
+    kalman_data.heading_drift  = 0;
+
+    kalman_data.bank_error_covariance[0][0] = 0;
+    kalman_data.bank_error_covariance[0][1] = 0;
+    kalman_data.bank_error_covariance[1][0] = 0;
+    kalman_data.bank_error_covariance[1][1] = 0;
+
+    kalman_data.attitude_error_covariance[0][0] = 0;
+    kalman_data.attitude_error_covariance[0][1] = 0;
+    kalman_data.attitude_error_covariance[1][0] = 0;
+    kalman_data.attitude_error_covariance[1][1] = 0;
+
+    kalman_data.heading_error_covariance[0][0] = 0;
+    kalman_data.heading_error_covariance[0][1] = 0;
+    kalman_data.heading_error_covariance[1][0] = 0;
+    kalman_data.heading_error_covariance[1][1] = 0;
+
     system_initialise_wwdg(40);
-
-    accel_data_t accel_data;
-    mag_data_t   mag_data;
-    gyro_data_t  gyro_data;
-    time_data_t  time_data;
-
-    kalman_data_t kalman_data;
 
     /*
      * main loop
@@ -234,14 +261,14 @@ int main(void)
             time_data.previous_us = time_data.current_us;
 
             /*
-             * Convert acceleration and magnetometer data to roll, pitch and yaw angle.
-             * If the modulus of the acceleration or magnetometer values is not near 1g or earth's
-             * field strength respectively, we can't use the data.
+             * Convert acceleration and magnetometer data to roll, pitch and yaw
+             * angle. If the modulus of the acceleration or magnetometer values is not
+             * near 1g or earth's field strength respectively, we can't use the data.
              *
              * See document DT0058 for calculation details however:
-             * The documentation takes x as the forward facing axis, so roll is around the x axis
-             * and pitch is around the y axis. I have flipped that so that y is the forward facing
-             * axis.
+             * The documentation takes x as the forward facing axis, so roll is around
+             * the x axis and pitch is around the y axis. I have flipped that so that
+             * y is the forward facing axis.
              */
             float accel_modulus;
             accel_modulus = powf(accel_data.x_g, 2);
@@ -257,8 +284,8 @@ int main(void)
                 accel_data.bank_rad = atan2f(accel_data.x_g, accel_data.z_g);
 
                 /*
-                 * Calculate accelerometer pitch angle. Must first calculate Z in respect to earth
-                 * rather than its own orientation
+                 * Calculate accelerometer pitch angle. Must first calculate Z in
+                 * respect to earth rather than its own orientation
                  */
                 float gz2 = ((accel_data.x_g * sinf(accel_data.bank_rad)) +
                              (accel_data.z_g * cosf(accel_data.bank_rad)));
@@ -266,9 +293,9 @@ int main(void)
                 accel_data.attitude_rad = atanf(accel_data.y_g / gz2);
 
                 /*
-                 * Calculate accelerometer and magnetometer yaw angle if the data is good.
-                 * Earth's normal field strength is between 300mG ( southern hemisphere ) and
-                 * 600mG ( northern hemisphere ).
+                 * Calculate accelerometer and magnetometer yaw angle if the data is
+                 * good. Earth's normal field strength is between 300mG ( southern
+                 * hemisphere ) and 600mG ( northern hemisphere ).
                  */
                 float mag_mod;
                 mag_mod = powf(mag_data.x_gauss, 2);
@@ -294,8 +321,8 @@ int main(void)
                 accel_data.attitude_deg = (accel_data.attitude_rad * (180 / PI));
                 mag_data.heading_deg    = (mag_data.heading_rad * (180 / PI));
 
-                // apply_kalman_filter();
-                // debug_printf("loop runtime: %u \r\n", debug_stopwatch_stop());
+                apply_kalman_filter();
+                // debug_printf("loop runtime (ns): %u \r\n", debug_stopwatch_stop());
             }
 
             static uint32_t print_every = 0;
@@ -346,224 +373,222 @@ void main_1ms_timer_isr(void)
 /*------------------------------------------------------------------------------------------------*/
 
 /**
- * @brief Apply a kalman filter to the acceleroeter, magnetometer and gyroscope data sets.
+ * @brief Apply a kalman filter to the acceleroeter, magnetometer and gyroscope
+ * data sets.
  *
  * http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
  */
-// void apply_kalman_filter(void)
-// {
-//     /*
-//      * Roll angle
-//      */
-//     int32_t q_bias_roll    = 0;
-//     int32_t q_angle_roll   = 0;
-//     int32_t r_measure_roll = 0;
+void apply_kalman_filter(void)
+{
+    float delta_t;
+    delta_t = ((float)time_data.change_us / 1000000);
 
-//     /*
-//      * Estimate angle from gyroscope data
-//      */
-//     int32_t roll_rate_dps;
-//     roll_rate_dps = inertial_data.gyro_roll_dps - kalman_filter.roll_drift;
+    // debug_printf("delta_t: %d\r\n", (int32_t)(delta_t * 1000));
 
-//     kalman_filter.roll_mdeg += ((roll_rate_dps * inertial_data.time_change_us) / 1000);
+    /*
+     * Roll angle
+     */
+    const float q_bias_roll    = 0.003f;
+    const float q_angle_roll   = 0.001f;
+    const float r_measure_roll = 0.03f;
 
-//     /*
-//      * Calculate the error covariance ( estimate trust in estimated angle )
-//      */
-//     kalman_filter.roll_error_covariance[0][0] +=
-//         (inertial_data.time_change_us *
-//          ((inertial_data.time_change_us * kalman_filter.roll_error_covariance[1][1]) -
-//           kalman_filter.roll_error_covariance[0][1] - kalman_filter.roll_error_covariance[1][0] +
-//           q_angle_roll));
+    /*
+     * Estimate angle from gyroscope data
+     */
+    float roll_rate_dps;
+    roll_rate_dps = gyro_data.roll_dps - kalman_data.bank_drift;
 
-//     kalman_filter.roll_error_covariance[0][1] -=
-//         (inertial_data.time_change_us * kalman_filter.roll_error_covariance[1][1]);
+    kalman_data.bank_deg += (roll_rate_dps * delta_t);
 
-//     kalman_filter.roll_error_covariance[1][0] -=
-//         (inertial_data.time_change_us * kalman_filter.roll_error_covariance[1][1]);
+    /*
+     * Calculate the error covariance ( estimate trust in estimated angle )
+     */
+    kalman_data.bank_error_covariance[0][0] +=
+        (delta_t * ((delta_t * kalman_data.bank_error_covariance[1][1]) -
+                    kalman_data.bank_error_covariance[0][1] -
+                    kalman_data.bank_error_covariance[1][0] + q_angle_roll));
 
-//     kalman_filter.roll_error_covariance[1][1] += (q_bias_roll * inertial_data.time_change_us);
+    kalman_data.bank_error_covariance[0][1] -= (delta_t * kalman_data.bank_error_covariance[1][1]);
+    kalman_data.bank_error_covariance[1][0] -= (delta_t * kalman_data.bank_error_covariance[1][1]);
+    kalman_data.bank_error_covariance[1][1] += (q_bias_roll * delta_t);
 
-//     /*
-//      * Calculate innovation ( difference between estimated angle and accelerometer angle ).
-//      */
-//     int32_t roll_innovation;
-//     roll_innovation = inertial_data.roll_mdeg - kalman_filter.roll_mdeg;
+    /*
+     * Calculate innovation ( difference between estimated angle and
+     accelerometer angle ).
+     */
+    float roll_innovation;
+    roll_innovation = accel_data.bank_deg - kalman_data.bank_deg;
 
-//     /*
-//      * Estimate trust in the accelerometer measurement
-//      */
-//     int32_t roll_innovation_covariance;
-//     roll_innovation_covariance = kalman_filter.roll_error_covariance[0][0] + r_measure_roll;
+    /*
+     * Estimate trust in the accelerometer measurement
+     */
+    float roll_innovation_covariance;
+    roll_innovation_covariance = kalman_data.bank_error_covariance[0][0] + r_measure_roll;
 
-//     /*
-//      * Calculate Kalman gain
-//      */
-//     double roll_kalman_gain[2];
-//     roll_kalman_gain[0] =
-//         (double)kalman_filter.roll_error_covariance[0][0] / roll_innovation_covariance;
-//     roll_kalman_gain[1] =
-//         (double)kalman_filter.roll_error_covariance[1][0] / roll_innovation_covariance;
+    /*
+     * Calculate Kalman gain
+     */
+    float roll_kalman_gain[2];
+    roll_kalman_gain[0] = kalman_data.bank_error_covariance[0][0] / roll_innovation_covariance;
+    roll_kalman_gain[1] = kalman_data.bank_error_covariance[1][0] / roll_innovation_covariance;
 
-//     /*
-//      * Update the estimate angle
-//      */
-//     kalman_filter.roll_mdeg += (int32_t)(roll_kalman_gain[0] * roll_innovation);
-//     kalman_filter.roll_drift += (int32_t)(roll_kalman_gain[1] * roll_innovation);
+    /*
+     * Update the estimate angle
+     */
+    kalman_data.bank_deg += (roll_kalman_gain[0] * roll_innovation);
+    kalman_data.bank_drift += (roll_kalman_gain[1] * roll_innovation);
 
-//     /*
-//      * Update the error covariance
-//      */
-//     int32_t hold_00 = kalman_filter.roll_error_covariance[0][0];
-//     int32_t hold_01 = kalman_filter.roll_error_covariance[0][1];
+    /*
+     * Update the error covariance
+     */
+    float hold_00 = kalman_data.bank_error_covariance[0][0];
+    float hold_01 = kalman_data.bank_error_covariance[0][1];
 
-//     kalman_filter.roll_error_covariance[0][0] -= (int32_t)(roll_kalman_gain[0] * hold_00);
-//     kalman_filter.roll_error_covariance[0][1] -= (int32_t)(roll_kalman_gain[0] * hold_01);
-//     kalman_filter.roll_error_covariance[1][0] -= (int32_t)(roll_kalman_gain[1] * hold_00);
-//     kalman_filter.roll_error_covariance[1][1] -= (int32_t)(roll_kalman_gain[1] * hold_01);
+    kalman_data.bank_error_covariance[0][0] -= (roll_kalman_gain[0] * hold_00);
+    kalman_data.bank_error_covariance[0][1] -= (roll_kalman_gain[0] * hold_01);
+    kalman_data.bank_error_covariance[1][0] -= (roll_kalman_gain[1] * hold_00);
+    kalman_data.bank_error_covariance[1][1] -= (roll_kalman_gain[1] * hold_01);
 
-//     /*
-//      * Pitch angle
-//      */
-//     int32_t q_bias_pitch    = 0;
-//     int32_t q_angle_pitch   = 0;
-//     int32_t r_measure_pitch = 0;
+    /*
+     * Pitch angle
+     */
+    const float q_bias_pitch    = 0.003f;
+    const float q_angle_pitch   = 0.001f;
+    const float r_measure_pitch = 0.03f;
 
-//     /*
-//      * Estimate angle from gyroscope data
-//      */
-//     int32_t pitch_rate_dps;
-//     pitch_rate_dps = inertial_data.gyro_pitch_dps - kalman_filter.pitch_drift;
+    /*
+     * Estimate angle from gyroscope data
+     */
+    float pitch_rate_dps;
+    pitch_rate_dps = gyro_data.pitch_dps - kalman_data.attitude_drift;
 
-//     kalman_filter.pitch_mdeg += ((pitch_rate_dps * inertial_data.time_change_us) / 1000);
+    kalman_data.attitude_deg += ((pitch_rate_dps * delta_t) / 1000);
 
-//     /*
-//      * Calculate the error covariance ( estimate trust in estimated angle )
-//      */
-//     kalman_filter.pitch_error_covariance[0][0] +=
-//         (inertial_data.time_change_us *
-//          ((inertial_data.time_change_us * kalman_filter.pitch_error_covariance[1][1]) -
-//           kalman_filter.pitch_error_covariance[0][1] - kalman_filter.pitch_error_covariance[1][0]
-//           + q_angle_pitch));
+    /*
+     * Calculate the error covariance ( estimate trust in estimated angle )
+     */
+    kalman_data.attitude_error_covariance[0][0] +=
+        (delta_t * ((delta_t * kalman_data.attitude_error_covariance[1][1]) -
+                    kalman_data.attitude_error_covariance[0][1] -
+                    kalman_data.attitude_error_covariance[1][0] + q_angle_pitch));
 
-//     kalman_filter.pitch_error_covariance[0][1] -=
-//         (inertial_data.time_change_us * kalman_filter.pitch_error_covariance[1][1]);
+    kalman_data.attitude_error_covariance[0][1] -=
+        (delta_t * kalman_data.attitude_error_covariance[1][1]);
 
-//     kalman_filter.pitch_error_covariance[1][0] -=
-//         (inertial_data.time_change_us * kalman_filter.pitch_error_covariance[1][1]);
+    kalman_data.attitude_error_covariance[1][0] -=
+        (delta_t * kalman_data.attitude_error_covariance[1][1]);
 
-//     kalman_filter.pitch_error_covariance[1][1] += (q_bias_pitch * inertial_data.time_change_us);
+    kalman_data.attitude_error_covariance[1][1] += (q_bias_pitch * delta_t);
 
-//     /*
-//      * Calculate innovation ( difference between estimated angle and accelerometer angle ).
-//      */
-//     int32_t pitch_innovation;
-//     pitch_innovation = (inertial_data.pitch_mdeg - kalman_filter.pitch_mdeg);
+    /*
+     * Calculate innovation ( difference between estimated angle and
+     accelerometer angle ).
+     */
+    float pitch_innovation;
+    pitch_innovation = (accel_data.attitude_deg - kalman_data.attitude_deg);
 
-//     /*
-//      * Estimate trust in the accelerometer measurement
-//      */
-//     int32_t pitch_innovation_covariance;
-//     pitch_innovation_covariance = kalman_filter.pitch_error_covariance[0][0] + r_measure_pitch;
+    /*
+     * Estimate trust in the accelerometer measurement
+     */
+    float pitch_innovation_covariance;
+    pitch_innovation_covariance = kalman_data.attitude_error_covariance[0][0] + r_measure_pitch;
 
-//     /*
-//      * Calculate Kalman gain
-//      */
-//     double pitch_kalman_gain[2];
-//     pitch_kalman_gain[0] =
-//         (double)kalman_filter.pitch_error_covariance[0][0] / pitch_innovation_covariance;
+    /*
+     * Calculate Kalman gain
+     */
+    float pitch_kalman_gain[2];
+    pitch_kalman_gain[0] =
+        kalman_data.attitude_error_covariance[0][0] / pitch_innovation_covariance;
 
-//     pitch_kalman_gain[1] =
-//         (double)kalman_filter.pitch_error_covariance[1][0] / pitch_innovation_covariance;
+    pitch_kalman_gain[1] =
+        kalman_data.attitude_error_covariance[1][0] / pitch_innovation_covariance;
 
-//     /*
-//      * Update the estimate angle
-//      */
-//     kalman_filter.pitch_mdeg += (int32_t)(pitch_kalman_gain[0] * pitch_innovation);
-//     kalman_filter.pitch_drift += (int32_t)(pitch_kalman_gain[1] * pitch_innovation);
+    /*
+     * Update the estimate angle
+     */
+    kalman_data.attitude_deg += (pitch_kalman_gain[0] * pitch_innovation);
+    kalman_data.attitude_drift += (pitch_kalman_gain[1] * pitch_innovation);
 
-//     /*
-//      * Update the error covariance
-//      */
-//     hold_00 = kalman_filter.pitch_error_covariance[0][0];
-//     hold_01 = kalman_filter.pitch_error_covariance[0][1];
+    /*
+     * Update the error covariance
+     */
+    hold_00 = kalman_data.attitude_error_covariance[0][0];
+    hold_01 = kalman_data.attitude_error_covariance[0][1];
 
-//     kalman_filter.pitch_error_covariance[0][0] -= (int32_t)(pitch_kalman_gain[0] * hold_00);
-//     kalman_filter.pitch_error_covariance[0][1] -= (int32_t)(pitch_kalman_gain[0] * hold_01);
-//     kalman_filter.pitch_error_covariance[1][0] -= (int32_t)(pitch_kalman_gain[1] * hold_00);
-//     kalman_filter.pitch_error_covariance[1][1] -= (int32_t)(pitch_kalman_gain[1] * hold_01);
+    kalman_data.attitude_error_covariance[0][0] -= (pitch_kalman_gain[0] * hold_00);
+    kalman_data.attitude_error_covariance[0][1] -= (pitch_kalman_gain[0] * hold_01);
+    kalman_data.attitude_error_covariance[1][0] -= (pitch_kalman_gain[1] * hold_00);
+    kalman_data.attitude_error_covariance[1][1] -= (pitch_kalman_gain[1] * hold_01);
 
-//     /*
-//      * yaw angle
-//      */
-//     int32_t q_bias_yaw    = 0;
-//     int32_t q_angle_yaw   = 0;
-//     int32_t r_measure_yaw = 0;
+    /*
+     * yaw angle
+     */
+    const float q_bias_yaw    = 0.003f;
+    const float q_angle_yaw   = 0.001f;
+    const float r_measure_yaw = 0.03f;
 
-//     /*
-//      * Estimate angle from gyroscope data
-//      */
-//     int32_t yaw_rate_dps;
-//     yaw_rate_dps = (inertial_data.gyro_yaw_dps - kalman_filter.yaw_drift);
+    /*
+     * Estimate angle from gyroscope data
+     */
+    float yaw_rate_dps;
+    yaw_rate_dps = (gyro_data.yaw_dps - kalman_data.heading_drift);
 
-//     kalman_filter.yaw_mdeg += ((yaw_rate_dps * inertial_data.time_change_us) / 1000);
+    kalman_data.heading_deg += ((yaw_rate_dps * delta_t) / 1000);
 
-//     /*
-//      * Calculate the error covariance ( estimate trust in estimated angle )
-//      */
-//     kalman_filter.yaw_error_covariance[0][0] +=
-//         (inertial_data.time_change_us *
-//          ((inertial_data.time_change_us * kalman_filter.yaw_error_covariance[1][1]) -
-//           kalman_filter.yaw_error_covariance[0][1] - kalman_filter.yaw_error_covariance[1][0] +
-//           q_angle_yaw));
+    /*
+     * Calculate the error covariance ( estimate trust in estimated angle )
+     */
 
-//     kalman_filter.yaw_error_covariance[0][1] -=
-//         (inertial_data.time_change_us * kalman_filter.yaw_error_covariance[1][1]);
+    kalman_data.heading_error_covariance[0][0] +=
+        (delta_t * ((delta_t * kalman_data.heading_error_covariance[1][1]) -
+                    kalman_data.heading_error_covariance[0][1] -
+                    kalman_data.heading_error_covariance[1][0] + q_angle_yaw));
 
-//     kalman_filter.yaw_error_covariance[1][0] -=
-//         (inertial_data.time_change_us * kalman_filter.yaw_error_covariance[1][1]);
+    kalman_data.heading_error_covariance[0][1] -=
+        (delta_t * kalman_data.heading_error_covariance[1][1]);
 
-//     kalman_filter.yaw_error_covariance[1][1] += (q_bias_yaw * inertial_data.time_change_us);
+    kalman_data.heading_error_covariance[1][0] -=
+        (delta_t * kalman_data.heading_error_covariance[1][1]);
 
-//     /*
-//      * Calculate innovation ( difference between estimated angle and accelerometer angle ).
-//      */
-//     int32_t yaw_innovation;
-//     yaw_innovation = (inertial_data.yaw_mdeg - kalman_filter.yaw_mdeg);
+    kalman_data.heading_error_covariance[1][1] += (q_bias_yaw * delta_t);
 
-//     /*
-//      * Estimate trust in the accelerometer measurement
-//      */
-//     int32_t yaw_innovation_covariance;
-//     yaw_innovation_covariance = (kalman_filter.yaw_error_covariance[0][0] + r_measure_yaw);
+    /*
+     * Calculate innovation ( difference between estimated angle and
+     accelerometer angle ).
+     */
+    float yaw_innovation;
+    yaw_innovation = (mag_data.heading_deg - kalman_data.heading_deg);
 
-//     /*
-//      * Calculate Kalman gain
-//      */
-//     double yaw_kalman_gain[2];
-//     yaw_kalman_gain[0] =
-//         (double)kalman_filter.yaw_error_covariance[0][0] / yaw_innovation_covariance;
+    /*
+     * Estimate trust in the accelerometer measurement
+     */
+    float yaw_innovation_covariance;
+    yaw_innovation_covariance = (kalman_data.heading_error_covariance[0][0] + r_measure_yaw);
 
-//     yaw_kalman_gain[1] =
-//         (double)kalman_filter.yaw_error_covariance[1][0] / yaw_innovation_covariance;
+    /*
+     * Calculate Kalman gain
+     */
+    float yaw_kalman_gain[2];
+    yaw_kalman_gain[0] = kalman_data.heading_error_covariance[0][0] / yaw_innovation_covariance;
+    yaw_kalman_gain[1] = kalman_data.heading_error_covariance[1][0] / yaw_innovation_covariance;
 
-//     /*
-//      * Update the estimate angle
-//      */
-//     kalman_filter.yaw_mdeg += (int32_t)(yaw_kalman_gain[0] * yaw_innovation);
-//     kalman_filter.yaw_drift += (int32_t)(yaw_kalman_gain[1] * yaw_innovation);
+    /*
+     * Update the estimate angle
+     */
+    kalman_data.heading_deg += (yaw_kalman_gain[0] * yaw_innovation);
+    kalman_data.heading_drift += (yaw_kalman_gain[1] * yaw_innovation);
 
-//     /*
-//      * Update the error covariance
-//      */
-//     hold_00 = kalman_filter.yaw_error_covariance[0][0];
-//     hold_01 = kalman_filter.yaw_error_covariance[0][1];
+    /*
+     * Update the error covariance
+     */
+    hold_00 = kalman_data.heading_error_covariance[0][0];
+    hold_01 = kalman_data.heading_error_covariance[0][1];
 
-//     kalman_filter.yaw_error_covariance[0][0] -= (int32_t)(yaw_kalman_gain[0] * hold_00);
-//     kalman_filter.yaw_error_covariance[0][1] -= (int32_t)(yaw_kalman_gain[0] * hold_01);
-//     kalman_filter.yaw_error_covariance[1][0] -= (int32_t)(yaw_kalman_gain[1] * hold_00);
-//     kalman_filter.yaw_error_covariance[1][1] -= (int32_t)(yaw_kalman_gain[1] * hold_01);
-// }
+    kalman_data.heading_error_covariance[0][0] -= (yaw_kalman_gain[0] * hold_00);
+    kalman_data.heading_error_covariance[0][1] -= (yaw_kalman_gain[0] * hold_01);
+    kalman_data.heading_error_covariance[1][0] -= (yaw_kalman_gain[1] * hold_00);
+    kalman_data.heading_error_covariance[1][1] -= (yaw_kalman_gain[1] * hold_01);
+}
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/

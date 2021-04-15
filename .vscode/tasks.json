@@ -14,18 +14,6 @@
             "type": "shell",
             "command": "cmake --build ./build",
             "problemMatcher": []
-        },
-        {
-            "label": "flash",
-            "type": "shell",
-            "command": "/tools/openocd/bin/openocd.exe",
-            "args": [
-                "-f${workspaceFolder}/tools/stlink.cfg",
-                "-f${workspaceFolder}/tools/stm32f3x.cfg",
-                "-cprogram ${workspaceFolder}/build/ryansullivan-quadcopter-flightcontroller.elf verify reset exit"
-            ],
-            "dependsOn": "build",
-            "problemMatcher": []
-        },
+        }
     ]
 }
