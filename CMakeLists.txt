@@ -61,7 +61,7 @@ add_library(${ST_LIB} STATIC
     )   
 
 target_compile_options(${ST_LIB}
-    PRIVATE -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PRIVATE -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -W
     )
 
@@ -85,11 +85,11 @@ add_executable(${PROJECT_ELF}
     )
 
 target_compile_options(${PROJECT_ELF}
-    PUBLIC -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PUBLIC -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef
     )
 target_link_options(${PROJECT_ELF}
-    PRIVATE -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PRIVATE -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -nostartfiles
     PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT}"
     )

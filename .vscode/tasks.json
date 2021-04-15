@@ -18,7 +18,7 @@
         {
             "label": "flash",
             "type": "shell",
-            "command": "/mnt/c/Users/ryans/Tools/Openocd-0.11.0/bin/openocd.exe",
+            "command": "/tools/openocd/bin/openocd.exe",
             "args": [
                 "-f${workspaceFolder}/tools/stlink.cfg",
                 "-f${workspaceFolder}/tools/stm32f3x.cfg",
