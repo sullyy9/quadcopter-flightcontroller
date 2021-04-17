@@ -1,142 +1,142 @@
 [
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/debug.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/debug.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/debug.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/debug.c.obj -c /workspaces/quadcopter-flightcontroller/src/debug.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/debug.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/i2c.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/i2c.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/i2c.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/i2c.c.obj -c /workspaces/quadcopter-flightcontroller/src/i2c.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/i2c.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/io.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/io.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/io.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/io.c.obj -c /workspaces/quadcopter-flightcontroller/src/io.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/io.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/main.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/main.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/main.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/main.c.obj -c /workspaces/quadcopter-flightcontroller/src/main.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/main.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/port.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/port.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/port.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/port.c.obj -c /workspaces/quadcopter-flightcontroller/src/port.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/port.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/spi.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/spi.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/spi.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/spi.c.obj -c /workspaces/quadcopter-flightcontroller/src/spi.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/spi.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/startup.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/startup.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/startup.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/startup.c.obj -c /workspaces/quadcopter-flightcontroller/src/startup.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/startup.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/system.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/system.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/system.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/system.c.obj -c /workspaces/quadcopter-flightcontroller/src/system.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/system.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/usart.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/usart.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/usart.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/usart.c.obj -c /workspaces/quadcopter-flightcontroller/src/usart.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/usart.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/ryansullivan-quadcopter-flightcontroller.elf.dir/src/utils.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/src/utils.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/src/utils.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -o CMakeFiles/quadcopter-flightcontroller.elf.dir/src/utils.c.obj -c /workspaces/quadcopter-flightcontroller/src/utils.c",
+  "file": "/workspaces/quadcopter-flightcontroller/src/utils.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/cmsis/system_stm32f3xx.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/cmsis/system_stm32f3xx.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/cmsis/system_stm32f3xx.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_adc.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_comp.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_crc.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dac.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_dma.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_exti.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_gpio.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_hrtim.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_i2c.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_opamp.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_pwr.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rcc.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_rtc.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_spi.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_tim.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_usart.c"
 },
 {
-  "directory": "/workspaces/ryansullivan-quadcopter-flightcontroller/build",
-  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/ryansullivan-quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c.obj -c /workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c",
-  "file": "/workspaces/ryansullivan-quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c"
+  "directory": "/workspaces/quadcopter-flightcontroller/build",
+  "command": "/tools/toolchain/bin/arm-none-eabi-gcc -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG -I/workspaces/quadcopter-flightcontroller/lib/include/cmsis -I/workspaces/quadcopter-flightcontroller/lib/include/stm32f3-hal -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -W -o CMakeFiles/stm32f3_ll.dir/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c.obj -c /workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c",
+  "file": "/workspaces/quadcopter-flightcontroller/lib/src/stm32f3-hal/stm32f3xx_ll_utils.c"
 }
 ]

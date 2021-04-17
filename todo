@@ -1,5 +1,6 @@
-Floatify the kalman filter function
 Stateify the main process
 Create new module for error transfer to visualizer application  over uart
 Create new module for data transfer to visualizer application over uart with dynamic data sets (Are debug messages part of this???)
+Run core at 72MHz
 Add a clang build target for better static analysis (Is this better than clangd???)
+Move compile commands from CMakeLists

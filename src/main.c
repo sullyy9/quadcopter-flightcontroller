@@ -159,34 +159,12 @@ int main(void)
     debug_printf("initialisation complete\r\n");
     utils_wait_ms(1000);
 
-    kalman_data.bank_deg       = 0;
-    kalman_data.attitude_deg   = 0;
-    kalman_data.heading_deg    = 0;
-    kalman_data.bank_drift     = 0;
-    kalman_data.attitude_drift = 0;
-    kalman_data.heading_drift  = 0;
-
-    kalman_data.bank_error_covariance[0][0] = 0;
-    kalman_data.bank_error_covariance[0][1] = 0;
-    kalman_data.bank_error_covariance[1][0] = 0;
-    kalman_data.bank_error_covariance[1][1] = 0;
-
-    kalman_data.attitude_error_covariance[0][0] = 0;
-    kalman_data.attitude_error_covariance[0][1] = 0;
-    kalman_data.attitude_error_covariance[1][0] = 0;
-    kalman_data.attitude_error_covariance[1][1] = 0;
-
-    kalman_data.heading_error_covariance[0][0] = 0;
-    kalman_data.heading_error_covariance[0][1] = 0;
-    kalman_data.heading_error_covariance[1][0] = 0;
-    kalman_data.heading_error_covariance[1][1] = 0;
-
     system_initialise_wwdg(40);
 
     /*
      * main loop
      */
-    while(run_program)
+    while(run_program == true)
     {
         system_reset_wwdg();
         debug_stopwatch_start();

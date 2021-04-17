@@ -18,7 +18,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 # Set project.
 ####################################################################################################
 cmake_minimum_required(VERSION 3.00)
-project(ryansullivan-quadcopter-flightcontroller
+project(quadcopter-flightcontroller
     VERSION 1.0
     LANGUAGES C
     )
