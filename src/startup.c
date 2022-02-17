@@ -24,12 +24,13 @@
 
 /*----------------------------------------------------------------------------*/
 
-extern unsigned long _etext;
-extern unsigned long _sdata;
-extern unsigned long _edata;
+extern unsigned long __rodata_start__;
+extern unsigned long __rodata_end__;
+extern unsigned long __data_start__;
+extern unsigned long __data_end__;
 extern unsigned long __bss_start__;
 extern unsigned long __bss_end__;
-extern unsigned long _estack;
+extern unsigned long __stack__;
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -50,7 +51,7 @@ void watch_dog_isr(void) __attribute__((__interrupt__, used));
 
 /* stm32 vectors for application - these are linked to the start of the App area */
 __attribute__((section(".isr_vector"), used)) static void (*const vector_table[])(void) = {
-    /* 0x0000 Reset Stack Pointer        */ (void (*)(void))((unsigned long)&_estack),
+    /* 0x0000 Reset Stack Pointer        */ (void (*)(void))((unsigned long)&__stack__),
     /* 0x0004 Reset Vector               */ reset_isr,
     /* 0x0008 NonMaskableInt_IRQn        */ non_maskable_int_isr,
     /* 0x000c HardFault_IRQn             */ hard_fault_isr,
@@ -154,49 +155,46 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
 /*-startup-code---------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void reset_isr(void)
 {
     SCB->VTOR = 0 | ((uint32_t)vector_table & (uint32_t)0x1FFFFF80);
 
     unsigned long *pSrc, *pDest;
 
-    /*
-     * copy the data segment initialisers from flash to SRAM
-     */
-    pSrc = &_etext;
-    for(pDest = &_sdata; pDest < &_edata;)
+    // Copy the initialised data (which is initialy placed after the read only
+    // data in flash) to it's location in RAM.
+    pSrc = &__rodata_end__;
+    for(pDest = &__data_start__; pDest < &__data_end__;)
     {
         *pDest++ = *pSrc++;
     }
-
-    /*
-     * zero fill the bss segment
-     */
+    
+    // Make sure any variable that are in the uninitialised data section are set
+    // to 0. 
     for(pDest = &__bss_start__; pDest < &__bss_end__;)
     {
         *pDest++ = 0;
     }
 
-    /*
-     * call the application
-     */
+    // Run the application.
     main(); // NOLINT - ignore clangd warning
 
-    /*
-     * if main exits, sit here
-     */
+    // Main should never exit, but if it does; wait here.
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-void dummy_isr(void)
+__attribute__((noreturn))
+void dummy_isr(void) 
 {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void non_maskable_int_isr(void)
 {
     while(1) {}
@@ -204,6 +202,7 @@ void non_maskable_int_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void hard_fault_isr(void)
 {
     while(1) {}
@@ -211,6 +210,7 @@ void hard_fault_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void memory_management_isr(void)
 {
     while(1) {}
@@ -218,6 +218,7 @@ void memory_management_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void bus_fault_isr(void)
 {
     while(1) {}
@@ -225,6 +226,7 @@ void bus_fault_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void usage_fault_isr(void)
 {
     while(1) {}
@@ -232,6 +234,7 @@ void usage_fault_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
+__attribute__((noreturn))
 void watch_dog_isr(void)
 {
     while(1) {}

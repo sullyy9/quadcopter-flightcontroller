@@ -19,7 +19,9 @@
         "llvm-vs-code-extensions.vscode-clangd",
         "twxs.cmake",
         "cschlosser.doxdocgen",
-        "maziac.hex-hover-converter"
+        "maziac.hex-hover-converter",
+        "ZixuanWang.linkerscript",
+        "trond-snekvik.gnu-mapfiles"
     ]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

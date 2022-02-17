@@ -25,12 +25,12 @@ RUN wget ${TOOLCHAIN_TARBALL_URL} \
 ENV PATH="${TOOLCHAIN_PATH}/bin:${PATH}"
 
 # Install clangd
-ARG CLANGD_ZIP_URL="https://github.com/clangd/clangd/releases/download/11.0.0/clangd-linux-11.0.0.zip"
+ARG CLANGD_ZIP_URL="https://github.com/clangd/clangd/releases/download/13.0.0/clangd-linux-13.0.0.zip"
 ARG CLANGD_PATH=${TOOLS_PATH}/clangd
 RUN wget ${CLANGD_ZIP_URL} \
     && export CLANGD_ZIP_FILENAME=$(basename "${CLANGD_ZIP_URL}") \
     && unzip ${CLANGD_ZIP_FILENAME} \
-    && mv clangd_11.0.0 ${CLANGD_PATH} \
+    && mv clangd_13.0.0 ${CLANGD_PATH} \
     && rm ${CLANGD_ZIP_FILENAME}
 
 ENV PATH="${CLANGD_PATH}/bin:${PATH}"

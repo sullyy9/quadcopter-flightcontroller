@@ -4,8 +4,8 @@ CompileFlags:
 
 ---
 If:
-    PathMatch: .*\.h
-    PathExclude: .*\types.h
+    PathMatch: [.*\.h]
+    PathExclude: [.*/types.h]
 
 CompileFlags:
     Add: [--include=<stdint.h>,
@@ -13,10 +13,11 @@ CompileFlags:
 
 ---
 If:
-    PathMatch: *\src\*
-    PathExclude: *\lib\*
+    PathMatch: [src/.*]
+    PathExclude: [lib/.*]
 
 CompileFlags:
     Add: [-Weverything,
           -Wno-covered-switch-default,
-          -Wno-gnu-binary-literal]
+          -Wno-gnu-binary-literal,
+          -Wno-reserved-identifier]

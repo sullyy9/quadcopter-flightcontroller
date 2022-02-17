@@ -44,7 +44,7 @@ set(CMAKE_C_FLAGS_RELWITHDEBINFO "")
 file(GLOB_RECURSE USER_SOURCES  "src/*.c")
 file(GLOB_RECURSE CMSIS_SOURCES "lib/src/cmsis/*.c")
 file(GLOB_RECURSE HAL_SOURCES   "lib/src/stm32f3-hal/*.c")
-set(LINKER_SCRIPT               "${CMAKE_SOURCE_DIR}/src/linker.ld")
+set(LINKER_SCRIPT               "${CMAKE_SOURCE_DIR}/src/application.ld")
 
 # Set output file names.
 ####################################################################################################
@@ -52,6 +52,7 @@ set(ST_LIB      "stm32f3_ll")
 set(PROJECT_ELF "${PROJECT_NAME}.elf")
 set(PROJECT_HEX "${PROJECT_NAME}.hex")
 set(PROJECT_BIN "${PROJECT_NAME}.bin")
+set(PROJECT_MAP "${PROJECT_NAME}.map")
 
 # Configure the peripheral library.
 ####################################################################################################
@@ -91,7 +92,7 @@ target_compile_options(${PROJECT_ELF}
 target_link_options(${PROJECT_ELF}
     PRIVATE -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -nostartfiles
-    PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT}"
+    PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT},-Map=${PROJECT_MAP}"
     )
 
 target_link_libraries(${PROJECT_ELF} PRIVATE ${ST_LIB})
