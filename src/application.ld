@@ -36,6 +36,7 @@ SECTIONS
         FILL(0xFF)
         
         __vectors_start__ = .;
+        __code_start__ = .;
         KEEP(*(.isr_vector))
 
         . = ALIGN(4);
@@ -80,6 +81,29 @@ SECTIONS
         . = ALIGN(4);
         __rodata_end__ = .;
     } >CODE
+
+    /*
+     * Code area and symbols used by default C++ libraries. 
+     */
+	.ARM.extab : ALIGN(4)
+   	{
+       *(.ARM.extab* .gnu.linkonce.armextab.*)
+       
+       . = ALIGN(4);
+   	} > CODE
+   	
+   	.ARM.exidx : ALIGN(4)
+   	{
+        __exidx_start = .;
+       *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+
+       . = ALIGN(4);
+       __exidx_end = .;
+       __code_end__ = .;
+   	} > CODE
+   	
+   	
+    
 
     /*
      * Initialised data.

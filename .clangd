@@ -14,10 +14,13 @@ CompileFlags:
 ---
 If:
     PathMatch: [src/.*]
-    PathExclude: [lib/.*]
 
 CompileFlags:
     Add: [-Weverything,
           -Wno-covered-switch-default,
           -Wno-gnu-binary-literal,
-          -Wno-reserved-identifier]
+          -Wno-reserved-identifier,
+          -Wno-deprecated-volatile,
+          -Wno-c++98-c++11-compat-binary-literal,
+          -Wno-c++98-compat,
+          -Wno-old-style-cast]

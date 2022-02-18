@@ -6,7 +6,7 @@
         {
             "label": "cmake clean",
             "type": "shell",
-            "command": "rm -r ./build",
+            "command": "rm -rf ./build",
             "problemMatcher": []
         },
         {

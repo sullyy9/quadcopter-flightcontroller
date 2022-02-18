@@ -20,7 +20,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 cmake_minimum_required(VERSION 3.00)
 project(quadcopter-flightcontroller
     VERSION 1.0
-    LANGUAGES C
+    LANGUAGES C CXX
     )
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -39,44 +39,46 @@ set(CMAKE_C_FLAGS_RELEASE        "")
 set(CMAKE_C_FLAGS_MINSIZEREL     "")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "")
 
+set(CMAKE_CXX_FLAGS                "")
+set(CMAKE_CXX_FLAGS_DEBUG          "")
+set(CMAKE_CXX_FLAGS_RELEASE        "")
+set(CMAKE_CXX_FLAGS_MINSIZEREL     "")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
+
 # Set input files.
 ####################################################################################################
-file(GLOB_RECURSE USER_SOURCES  "src/*.c")
-file(GLOB_RECURSE CMSIS_SOURCES "lib/src/cmsis/*.c")
-file(GLOB_RECURSE HAL_SOURCES   "lib/src/stm32f3-hal/*.c")
+file(GLOB_RECURSE USER_SOURCES  "src/*.cpp")
+file(GLOB_RECURSE CMSIS_SOURCES "lib/cmsis/*.c")
+file(GLOB_RECURSE HAL_SOURCES   "lib/ll-drivers/*.c")
 set(LINKER_SCRIPT               "${CMAKE_SOURCE_DIR}/src/application.ld")
 
 # Set output file names.
 ####################################################################################################
-set(ST_LIB      "stm32f3_ll")
-set(PROJECT_ELF "${PROJECT_NAME}.elf")
-set(PROJECT_HEX "${PROJECT_NAME}.hex")
-set(PROJECT_BIN "${PROJECT_NAME}.bin")
-set(PROJECT_MAP "${PROJECT_NAME}.map")
+set(DEVICE_DRIVERS  "device-drivers")
+set(PROJECT_ELF     "${PROJECT_NAME}.elf")
+set(PROJECT_HEX     "${PROJECT_NAME}.hex")
+set(PROJECT_BIN     "${PROJECT_NAME}.bin")
+set(PROJECT_MAP     "${PROJECT_NAME}.map")
 
 # Configure the peripheral library.
 ####################################################################################################
-add_library(${ST_LIB} STATIC
+add_library(${DEVICE_DRIVERS} STATIC
     ${CMSIS_SOURCES}
     ${HAL_SOURCES}
     )   
 
-target_compile_options(${ST_LIB}
+target_compile_options(${DEVICE_DRIVERS}
     PRIVATE -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
     PRIVATE -W
     )
 
-target_compile_definitions(${ST_LIB}
+target_compile_definitions(${DEVICE_DRIVERS}
     PUBLIC STM32F303xC USE_FULL_LL_DRIVER USE_WWDG
     )
 
-target_include_directories(${ST_LIB}
-    PUBLIC "lib/include/cmsis"
-    PUBLIC "lib/include/stm32f3-hal"
-    )
-
-set_target_properties(${ST_LIB}
-    PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/built"
+target_include_directories(${DEVICE_DRIVERS}
+    PUBLIC "lib/cmsis"
+    PUBLIC "lib/ll-drivers"
     )
 
 # Configure the elf file.
@@ -86,16 +88,16 @@ add_executable(${PROJECT_ELF}
     )
 
 target_compile_options(${PROJECT_ELF}
-    PUBLIC -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
-    PRIVATE -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef
+    PUBLIC -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PRIVATE -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -Wno-volatile
     )
 target_link_options(${PROJECT_ELF}
-    PRIVATE -std=c99 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
-    PRIVATE -nostartfiles
+    PRIVATE -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PRIVATE -nostartfiles -specs=nosys.specs -fno-unwind-tables
     PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT},-Map=${PROJECT_MAP}"
     )
 
-target_link_libraries(${PROJECT_ELF} PRIVATE ${ST_LIB})
+target_link_libraries(${PROJECT_ELF} PRIVATE ${DEVICE_DRIVERS})
 target_link_libraries(${PROJECT_ELF} PRIVATE m)
 
 # Add bin and hex files.
