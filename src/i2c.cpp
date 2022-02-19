@@ -19,12 +19,13 @@
 
 #include "debug.hpp"
 
+using namespace i2c;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-#define I2C1_TX_BUFFER_SIZE 128
-#define I2C1_RX_BUFFER_SIZE 128
+#define TX_BUFFER_SIZE 128
+#define RX_BUFFER_SIZE 128
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -34,13 +35,13 @@
 /*-static-variables-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-static volatile uint8_t  i2c1_tx_buffer[I2C1_TX_BUFFER_SIZE];
-static volatile uint32_t i2c1_tx_write_ptr = 0;
+static volatile uint8_t  tx_buffer[TX_BUFFER_SIZE];
+static volatile uint32_t tx_write_ptr = 0;
 
-static volatile uint8_t  i2c1_rx_buffer[I2C1_RX_BUFFER_SIZE];
-static volatile uint32_t i2c1_rx_read_ptr = 0;
+static volatile uint8_t  rx_buffer[RX_BUFFER_SIZE];
+static volatile uint32_t rx_read_ptr = 0;
 
-static volatile bool i2c1_transfer_ongoing = false;
+static volatile bool transfer_ongoing = false;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-forward-declarations---------------------------------------------------------------------------*/
@@ -53,7 +54,7 @@ static volatile bool i2c1_transfer_ongoing = false;
 /**
  * @brief Initialise the I2C peripherals and respective DMA channels.
  */
-void i2c_initialise(void)
+void i2c::initialise(void)
 {
     /*
      * Setup I2C1 for communication with the accelerometer
@@ -82,11 +83,11 @@ void i2c_initialise(void)
      */
     LL_DMA_InitTypeDef dma_init;
     dma_init.Direction              = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
-    dma_init.MemoryOrM2MDstAddress  = (uint32_t)i2c1_rx_buffer;
+    dma_init.MemoryOrM2MDstAddress  = (uint32_t)rx_buffer;
     dma_init.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
     dma_init.MemoryOrM2MDstIncMode  = LL_DMA_MEMORY_INCREMENT;
     dma_init.Mode                   = LL_DMA_MODE_CIRCULAR;
-    dma_init.NbData                 = I2C1_RX_BUFFER_SIZE;
+    dma_init.NbData                 = RX_BUFFER_SIZE;
     dma_init.PeriphOrM2MSrcAddress  = LL_I2C_DMA_GetRegAddr(I2C1, LL_I2C_DMA_REG_DATA_RECEIVE);
     dma_init.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
     dma_init.PeriphOrM2MSrcIncMode  = LL_DMA_PERIPH_NOINCREMENT;
@@ -101,11 +102,11 @@ void i2c_initialise(void)
      * Setup DMA1 channel 6 to transfer data from the transmit buffer to the I2C1 transmit register
      */
     dma_init.Direction              = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
-    dma_init.MemoryOrM2MDstAddress  = (uint32_t)i2c1_tx_buffer;
+    dma_init.MemoryOrM2MDstAddress  = (uint32_t)tx_buffer;
     dma_init.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
     dma_init.MemoryOrM2MDstIncMode  = LL_DMA_MEMORY_INCREMENT;
     dma_init.Mode                   = LL_DMA_MODE_CIRCULAR;
-    dma_init.NbData                 = I2C1_TX_BUFFER_SIZE;
+    dma_init.NbData                 = TX_BUFFER_SIZE;
     dma_init.PeriphOrM2MSrcAddress  = LL_I2C_DMA_GetRegAddr(I2C1, LL_I2C_DMA_REG_DATA_TRANSMIT);
     dma_init.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
     dma_init.PeriphOrM2MSrcIncMode  = LL_DMA_PERIPH_NOINCREMENT;
@@ -123,9 +124,9 @@ void i2c_initialise(void)
  * @brief       Return whether a transfer is in progress.
  * @return bool Transfer in progress.
  */
-bool i2c1_transfer_in_progress(void)
+bool i2c::transfer_in_progress(void)
 {
-    return (i2c1_transfer_ongoing);
+    return (transfer_ongoing);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -134,10 +135,10 @@ bool i2c1_transfer_in_progress(void)
  * @brief      Write a byte into the transmission buffer.
  * @param data Byte to be written.
  */
-void i2c1_tx_buffer_write(uint8_t data)
+void i2c::tx_buffer_write(uint8_t data)
 {
-    i2c1_tx_buffer[i2c1_tx_write_ptr] = data;
-    i2c1_tx_write_ptr++;
+    tx_buffer[tx_write_ptr] = data;
+    tx_write_ptr++;
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -148,20 +149,20 @@ void i2c1_tx_buffer_write(uint8_t data)
  * @param type   Type of transmission. Request transmissions must be left open so data can be
  *               received.
  */
-void i2c1_tx_data(i2c_address_t device, i2c_transmit_type_t type)
+void i2c::tx_data(address_t device, transmit_type_t type)
 {
     uint32_t end_type     = 0;
-    i2c1_transfer_ongoing = true;
-    LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_6, i2c1_tx_write_ptr);
+    transfer_ongoing = true;
+    LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_6, tx_write_ptr);
 
     switch(type)
     {
-        case I2C_TRANSMIT_NORMAL:
+        case TRANSMIT_NORMAL:
         {
             end_type = LL_I2C_MODE_AUTOEND;
             break;
         }
-        case I2C_TRANSMIT_REQUEST:
+        case TRANSMIT_REQUEST:
         {
             end_type = LL_I2C_MODE_SOFTEND;
             break;
@@ -175,7 +176,7 @@ void i2c1_tx_data(i2c_address_t device, i2c_transmit_type_t type)
     LL_I2C_HandleTransfer(I2C1,
                           device,
                           LL_I2C_ADDRSLAVE_7BIT,
-                          i2c1_tx_write_ptr,
+                          tx_write_ptr,
                           end_type,
                           LL_I2C_GENERATE_START_WRITE);
 
@@ -188,9 +189,9 @@ void i2c1_tx_data(i2c_address_t device, i2c_transmit_type_t type)
  * @brief          Read a byte from the receive buffer.
  * @return uint8_t Read byte.
  */
-uint8_t i2c1_rx_buffer_read(void)
+uint8_t i2c::rx_buffer_read(void)
 {
-    return (i2c1_rx_buffer[i2c1_rx_read_ptr++]);
+    return (rx_buffer[rx_read_ptr++]);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -200,9 +201,9 @@ uint8_t i2c1_rx_buffer_read(void)
  * @param device       Device address.
  * @param number_bytes Number of bytes to receive.
  */
-void i2c1_rx_data(i2c_address_t device, uint32_t number_bytes)
+void i2c::rx_data(address_t device, uint32_t number_bytes)
 {
-    i2c1_transfer_ongoing = true;
+    transfer_ongoing = true;
     LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_7, number_bytes);
 
     LL_I2C_HandleTransfer(I2C1,
@@ -220,13 +221,13 @@ void i2c1_rx_data(i2c_address_t device, uint32_t number_bytes)
 /**
  * @brief Interrupt for DMA1 channel 6. called when a data transmission is complete.
  */
-void i2c1_dma1_channel6_isr(void)
+void i2c::dma1_channel6_isr(void)
 {
     LL_DMA_ClearFlag_TC6(DMA1);
     LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_6);
 
-    i2c1_tx_write_ptr     = 0;
-    i2c1_transfer_ongoing = false;
+    tx_write_ptr     = 0;
+    transfer_ongoing = false;
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -234,13 +235,13 @@ void i2c1_dma1_channel6_isr(void)
 /**
  * @brief Interrupt for DMA1 channel 7. called when a data reception is complete.
  */
-void i2c1_dma1_channel7_isr(void)
+void i2c::dma1_channel7_isr(void)
 {
     LL_DMA_ClearFlag_TC7(DMA1);
     LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_7);
 
-    i2c1_rx_read_ptr      = 0;
-    i2c1_transfer_ongoing = false;
+    rx_read_ptr      = 0;
+    transfer_ongoing = false;
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -248,12 +249,12 @@ void i2c1_dma1_channel7_isr(void)
 /**
  * @brief Interrupt for I2C1 event errors.
  */
-void i2c1_ev_isr(void)
+void i2c::ev_isr(void)
 {
     if(LL_I2C_IsActiveFlag_NACK(I2C1))
     {
         LL_I2C_ClearFlag_NACK(I2C1);
-        debug_printf("ERR:I2C1_NACK\r\n");
+        debug::printf("ERR:I2C1_NACK\r\n");
     }
 }
 
@@ -262,22 +263,22 @@ void i2c1_ev_isr(void)
 /**
  * @brief Interupt for I2C1 errors.
  */
-void i2c1_er_isr(void)
+void i2c::er_isr(void)
 {
     if(LL_I2C_IsActiveFlag_BERR(I2C1))
     {
         LL_I2C_ClearFlag_BERR(I2C1);
-        debug_printf("ERR:I2C1_BUS\r\n");
+        debug::printf("ERR:I2C1_BUS\r\n");
     }
     if(LL_I2C_IsActiveFlag_ARLO(I2C1))
     {
         LL_I2C_ClearFlag_ARLO(I2C1);
-        debug_printf("ERR:I2C1_ARBRITRATION_LOSS\r\n");
+        debug::printf("ERR:I2C1_ARBRITRATION_LOSS\r\n");
     }
     if(LL_I2C_IsActiveFlag_OVR(I2C1))
     {
         LL_I2C_ClearFlag_OVR(I2C1);
-        debug_printf("ERR:I2C1_OVER_UNDERRUN\r\n");
+        debug::printf("ERR:I2C1_OVER_UNDERRUN\r\n");
     }
 }
 

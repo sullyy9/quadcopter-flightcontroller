@@ -9,20 +9,21 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+namespace io {
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
 typedef enum led
 {
-    IO_LED_NW = 0,
-    IO_LED_N  = 1,
-    IO_LED_NE = 2,
-    IO_LED_E  = 3,
-    IO_LED_SE = 4,
-    IO_LED_S  = 5,
-    IO_LED_SW = 6,
-    IO_LED_W  = 7
+    LED_NW = 0,
+    LED_N  = 1,
+    LED_NE = 2,
+    LED_E  = 3,
+    LED_SE = 4,
+    LED_S  = 5,
+    LED_SW = 6,
+    LED_W  = 7
 
 } led_t;
 
@@ -41,21 +42,21 @@ typedef enum toggle
 /*-exported-functions-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-void io_initialise(void);
+void initialise(void);
 
-void io_accelerometer_initialise(void);
-bool io_accelerometer_data_ready(void);
-void io_accelerometer_read(int32_t *accel_x, int32_t *accel_y, int32_t *accel_z);
+void accelerometer_initialise(void);
+bool accelerometer_data_ready(void);
+void accelerometer_read(int32_t *accel_x, int32_t *accel_y, int32_t *accel_z);
 
-void io_magnetometer_initialise(void);
-bool io_magnetometer_data_ready(void);
-void io_magnetometer_read(int32_t *mag_x, int32_t *mag_y, int32_t *mag_z);
+void magnetometer_initialise(void);
+bool magnetometer_data_ready(void);
+void magnetometer_read(int32_t *mag_x, int32_t *mag_y, int32_t *mag_z);
 
-void io_gyroscope_initialise(void);
-bool io_gyroscope_data_ready(void);
-void io_gyroscope_read(int32_t *gyro_x, int32_t *gyro_y, int32_t *gyro_z);
+void gyroscope_initialise(void);
+bool gyroscope_data_ready(void);
+void gyroscope_read(int32_t *gyro_x, int32_t *gyro_y, int32_t *gyro_z);
 
-void io_1ms_poll(void);
+void poll(void);
 void external_interupt_1_isr(void);
 void external_interupt_2_isr(void);
 void external_interupt_4_isr(void);
@@ -63,3 +64,4 @@ void external_interupt_4_isr(void);
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
+}

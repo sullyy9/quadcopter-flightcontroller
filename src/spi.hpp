@@ -9,6 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+namespace spi {
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -21,17 +22,18 @@
 /*-exported-functions-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-void spi_initialise(void);
+void initialise(void);
 
-bool    spi1_transfer_in_progress(void);
-uint8_t spi1_rx_buffer_read(void);
-void    spi1_tx_buffer_write(uint8_t byte);
-void    spi1_transfer_data(uint32_t rx_bytes);
+bool    transfer_in_progress(void);
+uint8_t rx_buffer_read(void);
+void    tx_buffer_write(uint8_t byte);
+void    transfer_data(uint32_t rx_bytes);
 
-void spi1_dma1_channel2_isr(void);
-void spi1_dma1_channel3_isr(void);
-void spi1_error_isr(void);
+void dma1_channel2_isr(void);
+void dma1_channel3_isr(void);
+void error_isr(void);
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
+}

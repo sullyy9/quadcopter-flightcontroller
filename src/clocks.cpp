@@ -20,11 +20,11 @@
 #include "stm32f3xx_ll_wwdg.h"
 #pragma GCC diagnostic pop
 
-#include "system.hpp"
-#include "utils.hpp"
+#include "clocks.hpp"
 
 #include "debug.hpp"
 
+using namespace clocks;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -41,10 +41,7 @@
 #define SYSCLK            48000000
 #define HCLK_HZ           (SYSCLK)                          // Core clock
 #define PCLK1_HZ          (HCLK_HZ)                         // Peripheral bus 1 clock
-#define PCLK2_HZ          (HCLK_HZ)                         // Peripheral bus 1 clock
-#define SYS_TIMER_1US     (uint32_t)(HCLK_HZ / 1000000)     // 1.000us
 #define SYS_TIMER_1MS     (uint32_t)(1 * (HCLK_HZ / 1000))  // 1.000ms
-#define SYS_TIMER_20MS    (uint32_t)(20 * (HCLK_HZ / 1000)) // 20.000ms
 #define WATCHDOG_TIMER_HZ (uint32_t)(PCLK1_HZ / 4096)       // Window watchdog clock
 
 #define WWDG_RESET_MAX     64
@@ -73,7 +70,7 @@ static uint32_t wwdg_reset_value = 1;
 /**
  * @brief Clear any flags set during the last reset.
  */
-void system_clear_reset_flags(void)
+void clocks::clear_reset_flags(void)
 {
     LL_RCC_ClearResetFlags();
 }
@@ -84,7 +81,7 @@ void system_clear_reset_flags(void)
  * @brief               Setup the window watchdog.
  * @param reset_time_ms time period after which a system reset is triggered. Maximum of 43ms.
  */
-void system_initialise_wwdg(uint32_t reset_time_ms)
+void clocks::initialise_wwdg(uint32_t reset_time_ms)
 {
     /*
      * Calculate the prescaler an reset value.
@@ -155,7 +152,7 @@ void system_initialise_wwdg(uint32_t reset_time_ms)
 /**
  * @brief Reset the watchdog timer.
  */
-void system_reset_wwdg(void)
+void clocks::reset_wwdg(void)
 {
     LL_WWDG_SetCounter(WWDG, (63 + wwdg_reset_value));
 }
@@ -166,7 +163,7 @@ void system_reset_wwdg(void)
  * @brief           Get the number of microseconds elapsed since the last system timer interupt.
  * @return uint32_t Microseconds since last system timer interupt.
  */
-uint32_t system_get_system_timer_us(void)
+uint32_t clocks::get_system_timer_us(void)
 {
     uint32_t systick_us = 0;
     systick_us          = (SysTick->LOAD - SysTick->VAL);
@@ -180,7 +177,7 @@ uint32_t system_get_system_timer_us(void)
 /**
  * @brief Setup system clocks
  */
-void system_initialise_clocks(void)
+void clocks::initialise(void)
 {
     /*
      * Setup clock sources (HSI running at 8MHz, LSI at 40KHz).
@@ -252,7 +249,7 @@ void system_initialise_clocks(void)
 /**
  * @brief Interrupt triggered by the window watchdog.
  */
-void system_wwdg_isr(void)
+void clocks::wwdg_isr(void)
 {
     LL_WWDG_ClearFlag_EWKUP(WWDG);
 }

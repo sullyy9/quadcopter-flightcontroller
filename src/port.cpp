@@ -17,6 +17,7 @@
 
 #include "port.hpp"
 
+using namespace port;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -43,89 +44,89 @@
  * @param mode               Mode the pin will be initialised to.
  * @param alternate_function Alternate function of the pin.
  */
-void port_initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function)
+void port::initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function)
 {
-    LL_GPIO_InitTypeDef gpio_initialisation_structure;
-    gpio_initialisation_structure.Alternate = alternate_function;
-    gpio_initialisation_structure.Pin       = (1 << (pin % 16));
-    gpio_initialisation_structure.Speed     = LL_GPIO_SPEED_FREQ_HIGH;
+    LL_GPIO_InitTypeDef gpio_pin;
+    gpio_pin.Alternate = alternate_function;
+    gpio_pin.Pin       = (1 << (pin % 16));
+    gpio_pin.Speed     = LL_GPIO_SPEED_FREQ_HIGH;
 
     switch(mode)
     {
-        case PORT_MODE_ANALOG:
+        case MODE_ANALOG:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ANALOG;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_ANALOG;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_FLOATING:
+        case MODE_FLOATING:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_INPUT_PULLDOWN:
+        case MODE_INPUT_PULLDOWN:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_DOWN;
+            gpio_pin.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_DOWN;
             break;
         }
 
-        case PORT_MODE_INPUT_PULLUP:
+        case MODE_INPUT_PULLUP:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_INPUT;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_UP;
+            gpio_pin.Mode       = LL_GPIO_MODE_INPUT;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_UP;
             break;
         }
 
-        case PORT_MODE_OPEN_DRAIN:
+        case MODE_OPEN_DRAIN:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_OUTPUT;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_OUTPUT;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_PUSH_PULL:
+        case MODE_PUSH_PULL:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_OUTPUT;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_OUTPUT;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_ALT_OPEN_DRAIN:
+        case MODE_ALT_OPEN_DRAIN:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ALTERNATE;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_ALTERNATE;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
-        case PORT_MODE_ALT_OUTPUT:
+        case MODE_ALT_OUTPUT:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ALTERNATE;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_ALTERNATE;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
 
         default:
         {
-            gpio_initialisation_structure.Mode       = LL_GPIO_MODE_ANALOG;
-            gpio_initialisation_structure.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-            gpio_initialisation_structure.Pull       = LL_GPIO_PULL_NO;
+            gpio_pin.Mode       = LL_GPIO_MODE_ANALOG;
+            gpio_pin.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+            gpio_pin.Pull       = LL_GPIO_PULL_NO;
             break;
         }
     }
 
-    LL_GPIO_Init(PORT_MASK(pin), &gpio_initialisation_structure);
+    LL_GPIO_Init(PORT_MASK(pin), &gpio_pin);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -134,7 +135,7 @@ void port_initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function
  * @brief     Set a pin to a high logic level.
  * @param pin Pin to set.
  */
-void port_set(pin_t pin)
+void port::set(pin_t pin)
 {
     LL_GPIO_SetOutputPin(PORT_MASK(pin), PIN_MASK(pin));
 }
@@ -145,7 +146,7 @@ void port_set(pin_t pin)
  * @brief     Set a pin to a low logic level.
  * @param pin Pin to set.
  */
-void port_clear(pin_t pin)
+void port::clear(pin_t pin)
 {
     LL_GPIO_ResetOutputPin(PORT_MASK(pin), PIN_MASK(pin));
 }
@@ -157,7 +158,7 @@ void port_clear(pin_t pin)
  * @param pin       Pin to read.
  * @return uint32_t Value of the pin. 1 or 0.
  */
-uint32_t port_read(pin_t pin)
+uint32_t port::read(pin_t pin)
 {
     uint32_t port_value;
     port_value = LL_GPIO_ReadInputPort(PORT_MASK(pin));

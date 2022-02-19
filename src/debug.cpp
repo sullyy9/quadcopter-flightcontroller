@@ -20,6 +20,7 @@
 
 #include "debug.hpp"
 
+using namespace debug;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -33,9 +34,6 @@
 /*------------------------------------------------------------------------------------------------*/
 /*-static-variables-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
-
-static uint32_t stopwatch_start = 0;
-static uint32_t stopwatch_stop  = 0;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-forward-declarations---------------------------------------------------------------------------*/
@@ -53,7 +51,7 @@ void print_number(uint32_t number);
  * @param string_ptr    String to print.
  * @param ...           Variable embedded in the string.
  */
-void debug_printf(char const *string_ptr, ...)
+void debug::printf(char const *string_ptr, ...)
 {
     va_list argument_list;
 
@@ -139,7 +137,7 @@ void debug_printf(char const *string_ptr, ...)
 /**
  * @brief Setup the CPU cycle counter.
  */
-void debug_stopwatch_initialise(void)
+void debug::stopwatch_initialise(void)
 {
     
     SET_BIT(CoreDebug->DEMCR, CoreDebug_DEMCR_TRCENA_Msk);
@@ -152,9 +150,8 @@ void debug_stopwatch_initialise(void)
 /**
  * @brief Start counting CPU cycles.
  */
-void debug_stopwatch_start(void)
+void debug::stopwatch_start(void)
 {
-    stopwatch_start = 0;
     WRITE_REG(DWT->CYCCNT, 0);
 }
 
@@ -164,11 +161,11 @@ void debug_stopwatch_start(void)
  * @brief           Stop counting CPU cycles and figure out how many nano-seconds they equate to.
  * @return uint32_t Time elapsed in nano-seconds.
  */
-uint32_t debug_stopwatch_stop(void)
+uint32_t debug::stopwatch_stop(void)
 {
-    stopwatch_stop = READ_REG(DWT->CYCCNT);
+    uint32_t stop_time = READ_REG(DWT->CYCCNT);
 
-    return (((stopwatch_stop - stopwatch_start) * 1000) / (CORE_SPEED / 1000000));
+    return ((stop_time * 1000) / (CORE_SPEED / 1000000));
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -181,8 +178,8 @@ uint32_t debug_stopwatch_stop(void)
  */
 void print_character(char character)
 {
-    while(usart1_tx_free() == 0) {}
-    usart1_tx_byte(character);
+    while(usart::tx_free() == 0) {}
+    usart::tx_byte(character);
 }
 
 /*------------------------------------------------------------------------------------------------*/

@@ -9,23 +9,24 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+namespace i2c {
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-typedef enum i2c_addresses
+typedef enum addresses
 {
-    I2C_ADDRESS_ACCEL = 0b00110010,
-    I2C_ADDRESS_MAG   = 0b00111100
+    ADDRESS_ACCEL = 0b00110010,
+    ADDRESS_MAG   = 0b00111100
 
-} i2c_address_t;
+} address_t;
 
-typedef enum i2c_transmit_type
+typedef enum transmit_type
 {
-    I2C_TRANSMIT_NORMAL,
-    I2C_TRANSMIT_REQUEST
+    TRANSMIT_NORMAL,
+    TRANSMIT_REQUEST
 
-} i2c_transmit_type_t;
+} transmit_type_t;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -35,21 +36,22 @@ typedef enum i2c_transmit_type
 /*-exported-functions-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-void i2c_initialise(void);
+void initialise(void);
 
-bool i2c1_transfer_in_progress(void);
+bool transfer_in_progress(void);
 
-void i2c1_tx_buffer_write(uint8_t data);
-void i2c1_tx_data(i2c_address_t device, i2c_transmit_type_t type);
+void tx_buffer_write(uint8_t data);
+void tx_data(address_t device, transmit_type_t type);
 
-uint8_t i2c1_rx_buffer_read(void);
-void    i2c1_rx_data(i2c_address_t device, uint32_t number_bytes);
+uint8_t rx_buffer_read(void);
+void    rx_data(address_t device, uint32_t number_bytes);
 
-void i2c1_dma1_channel6_isr(void);
-void i2c1_dma1_channel7_isr(void);
-void i2c1_ev_isr(void);
-void i2c1_er_isr(void);
+void dma1_channel6_isr(void);
+void dma1_channel7_isr(void);
+void ev_isr(void);
+void er_isr(void);
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
+}

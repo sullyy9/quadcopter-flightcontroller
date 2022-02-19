@@ -1,11 +1,10 @@
 ---
 CompileFlags:
-    Add: ["--target=arm-arm-none-eabi"]
+    Add: [--target=arm-arm-none-eabi]
 
 ---
 If:
-    PathMatch: [.*\.h]
-    PathExclude: [.*/types.h]
+    PathMatch: [.*\.hpp]
 
 CompileFlags:
     Add: [--include=<stdint.h>,
@@ -17,10 +16,11 @@ If:
 
 CompileFlags:
     Add: [-Weverything,
+          -Wno-documentation-unknown-command,
           -Wno-covered-switch-default,
           -Wno-gnu-binary-literal,
           -Wno-reserved-identifier,
           -Wno-deprecated-volatile,
           -Wno-c++98-c++11-compat-binary-literal,
-          -Wno-c++98-compat,
+          -Wno-c++98-compat-pedantic,
           -Wno-old-style-cast]

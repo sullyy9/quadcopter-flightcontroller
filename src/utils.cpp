@@ -14,6 +14,7 @@
 
 #include "utils.hpp"
 
+using namespace utils;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -40,7 +41,7 @@ static volatile uint32_t timer = 0;
  * @brief              Wait the specified number of milliseconds.
  * @param milliseconds Milliseconds to wait.
  */
-void utils_wait_ms(uint32_t milliseconds)
+void utils::wait_ms(uint32_t milliseconds)
 {
     timer = 0;
     while(timer < milliseconds) {}
@@ -51,7 +52,7 @@ void utils_wait_ms(uint32_t milliseconds)
 /**
  * @brief Poll for the utils module. Called by the systick interupt.
  */
-void utils_1ms_poll(void)
+void utils::poll(void)
 {
     timer++;
 }

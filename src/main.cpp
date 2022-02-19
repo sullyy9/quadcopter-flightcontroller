@@ -18,7 +18,7 @@
 
 #include "io.hpp"
 #include "main.hpp"
-#include "system.hpp"
+#include "clocks.hpp"
 #include "utils.hpp"
 
 #include "debug.hpp"
@@ -143,39 +143,39 @@ void apply_kalman_filter(void);
  */
 int main(void)
 {
-    io_initialise();
-    system_clear_reset_flags();
+    io::initialise();
+    clocks::clear_reset_flags();
 
-    debug_stopwatch_initialise();
+    debug::stopwatch_initialise();
 
-    utils_wait_ms(1000);
+    utils::wait_ms(1000);
 
-    io_accelerometer_initialise();
-    io_magnetometer_initialise();
-    io_gyroscope_initialise();
+    io::accelerometer_initialise();
+    io::magnetometer_initialise();
+    io::gyroscope_initialise();
 
-    debug_printf("\r\n");
-    debug_printf("\r\n");
-    debug_printf("Quad-copter flight controller - start-------------------\r\n");
-    debug_printf("initialisation complete\r\n");
-    utils_wait_ms(1000);
+    debug::printf("\r\n");
+    debug::printf("\r\n");
+    debug::printf("Quad-copter flight controller - start-------------------\r\n");
+    debug::printf("initialisation complete\r\n");
+    utils::wait_ms(1000);
 
-    system_initialise_wwdg(40);
+    clocks::initialise_wwdg(40);
 
     /*
      * main loop
      */
     while(run_program == true)
     {
-        system_reset_wwdg();
-        debug_stopwatch_start();
+        clocks::reset_wwdg();
+        debug::stopwatch_start();
 
         /*
          * read acceleration data if its ready
          */
-        if(io_accelerometer_data_ready() == true)
+        if(io::accelerometer_data_ready() == true)
         {
-            io_accelerometer_read(&accel_data.x_raw, &accel_data.y_raw, &accel_data.z_raw);
+            io::accelerometer_read(&accel_data.x_raw, &accel_data.y_raw, &accel_data.z_raw);
 
             /*
              * convert raw accelerometer data to g's
@@ -190,9 +190,9 @@ int main(void)
         /*
          * read magnetometer data if its ready
          */
-        if(io_magnetometer_data_ready() == true)
+        if(io::magnetometer_data_ready() == true)
         {
-            io_magnetometer_read(&mag_data.x_raw, &mag_data.y_raw, &mag_data.z_raw);
+            io::magnetometer_read(&mag_data.x_raw, &mag_data.y_raw, &mag_data.z_raw);
 
             mag_data.x_gauss = (((float)mag_data.x_raw * 1.5f) / 1000);
             mag_data.y_gauss = (((float)mag_data.y_raw * 1.5f) / 1000);
@@ -204,9 +204,9 @@ int main(void)
         /*
          * read gyroscope data if its ready
          */
-        if(io_gyroscope_data_ready() == true)
+        if(io::gyroscope_data_ready() == true)
         {
-            io_gyroscope_read(&gyro_data.x_raw, &gyro_data.y_raw, &gyro_data.z_raw);
+            io::gyroscope_read(&gyro_data.x_raw, &gyro_data.y_raw, &gyro_data.z_raw);
 
             /*
              * convert raw gyroscope data to dps
@@ -233,7 +233,7 @@ int main(void)
              * TODO can the data rates of each device be synchronised?
              */
             time_data.current_us =
-                (int32_t)((system_runtime_ms * 1000) + system_get_system_timer_us());
+                (int32_t)((system_runtime_ms * 1000) + clocks::get_system_timer_us());
 
             time_data.change_us = (time_data.current_us - time_data.previous_us);
 
@@ -309,25 +309,25 @@ int main(void)
             if((OUTPUT_DATA == true) && (print_every == 10))
             {
                 print_every = 0;
-                debug_printf("\r\n");
-                debug_printf("orientation data\r\n");
-                debug_printf("DATA:TIME:%d\r\n", system_runtime_ms);
-                debug_printf("DATA:ABANK:%d\r\n", (int32_t)accel_data.bank_deg);
-                debug_printf("DATA:KBANK:%d\r\n", (int32_t)kalman_data.bank_deg);
-                debug_printf("DATA:AATTITUDE:%d\r\n", (int32_t)accel_data.attitude_deg);
-                debug_printf("DATA:KATTITUDE:%d\r\n", (int32_t)kalman_data.attitude_deg);
-                debug_printf("DATA:MHEADING:%d\r\n", (int32_t)(mag_data.heading_deg));
-                debug_printf("DATA:KHEADING:%d\r\n", (int32_t)kalman_data.heading_deg);
-                debug_printf("DATA:ACCELX:%d\r\n", (int32_t)(accel_data.x_g * 1000));
-                debug_printf("DATA:ACCELY:%d\r\n", (int32_t)(accel_data.y_g * 1000));
-                debug_printf("DATA:ACCELZ:%d\r\n", (int32_t)(accel_data.z_g * 1000));
-                debug_printf("DATA:MAGX:%d\r\n", (int32_t)(mag_data.x_gauss * 1000));
-                debug_printf("DATA:MAGY:%d\r\n", (int32_t)(mag_data.y_gauss * 1000));
-                debug_printf("DATA:MAGZ:%d\r\n", (int32_t)(mag_data.z_gauss * 1000));
-                debug_printf("DATA:GYROROLL:%d\r\n", (int32_t)gyro_data.roll_dps);
-                debug_printf("DATA:GYROPITCH:%d\r\n", (int32_t)gyro_data.pitch_dps);
-                debug_printf("DATA:GYROYAW:%d\r\n", (int32_t)gyro_data.yaw_dps);
-                debug_printf("\r\n");
+                debug::printf("\r\n");
+                debug::printf("orientation data\r\n");
+                debug::printf("DATA:TIME:%d\r\n", system_runtime_ms);
+                debug::printf("DATA:ABANK:%d\r\n", (int32_t)accel_data.bank_deg);
+                debug::printf("DATA:KBANK:%d\r\n", (int32_t)kalman_data.bank_deg);
+                debug::printf("DATA:AATTITUDE:%d\r\n", (int32_t)accel_data.attitude_deg);
+                debug::printf("DATA:KATTITUDE:%d\r\n", (int32_t)kalman_data.attitude_deg);
+                debug::printf("DATA:MHEADING:%d\r\n", (int32_t)(mag_data.heading_deg));
+                debug::printf("DATA:KHEADING:%d\r\n", (int32_t)kalman_data.heading_deg);
+                debug::printf("DATA:ACCELX:%d\r\n", (int32_t)(accel_data.x_g * 1000));
+                debug::printf("DATA:ACCELY:%d\r\n", (int32_t)(accel_data.y_g * 1000));
+                debug::printf("DATA:ACCELZ:%d\r\n", (int32_t)(accel_data.z_g * 1000));
+                debug::printf("DATA:MAGX:%d\r\n", (int32_t)(mag_data.x_gauss * 1000));
+                debug::printf("DATA:MAGY:%d\r\n", (int32_t)(mag_data.y_gauss * 1000));
+                debug::printf("DATA:MAGZ:%d\r\n", (int32_t)(mag_data.z_gauss * 1000));
+                debug::printf("DATA:GYROROLL:%d\r\n", (int32_t)gyro_data.roll_dps);
+                debug::printf("DATA:GYROPITCH:%d\r\n", (int32_t)gyro_data.pitch_dps);
+                debug::printf("DATA:GYROYAW:%d\r\n", (int32_t)gyro_data.yaw_dps);
+                debug::printf("\r\n");
             }
         }
     }
@@ -342,8 +342,8 @@ int main(void)
  */
 void main_1ms_timer_isr(void)
 {
-    io_1ms_poll();    // NOLINT - ignore clangd warning
-    utils_1ms_poll(); // NOLINT - ignore clangd warning
+    io::poll();    // NOLINT - ignore clangd warning
+    utils::poll(); // NOLINT - ignore clangd warning
     system_runtime_ms++;
 }
 

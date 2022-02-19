@@ -9,121 +9,32 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+namespace port {
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
 typedef enum
 {
-    PORT_A0,
-    PORT_A1,
-    PORT_A2,
-    PORT_A3,
-    PORT_A4,
-    PORT_A5,
-    PORT_A6,
-    PORT_A7,
-    PORT_A8,
-    PORT_A9,
-    PORT_A10,
-    PORT_A11,
-    PORT_A12,
-    PORT_A13,
-    PORT_A14,
-    PORT_A15,
-
-    PORT_B0,
-    PORT_B1,
-    PORT_B2,
-    PORT_B3,
-    PORT_B4,
-    PORT_B5,
-    PORT_B6,
-    PORT_B7,
-    PORT_B8,
-    PORT_B9,
-    PORT_B10,
-    PORT_B11,
-    PORT_B12,
-    PORT_B13,
-    PORT_B14,
-    PORT_B15,
-
-    PORT_C0,
-    PORT_C1,
-    PORT_C2,
-    PORT_C3,
-    PORT_C4,
-    PORT_C5,
-    PORT_C6,
-    PORT_C7,
-    PORT_C8,
-    PORT_C9,
-    PORT_C10,
-    PORT_C11,
-    PORT_C12,
-    PORT_C13,
-    PORT_C14,
-    PORT_C15,
-
-    PORT_D0,
-    PORT_D1,
-    PORT_D2,
-    PORT_D3,
-    PORT_D4,
-    PORT_D5,
-    PORT_D6,
-    PORT_D7,
-    PORT_D8,
-    PORT_D9,
-    PORT_D10,
-    PORT_D11,
-    PORT_D12,
-    PORT_D13,
-    PORT_D14,
-    PORT_D15,
-
-    PORT_E0,
-    PORT_E1,
-    PORT_E2,
-    PORT_E3,
-    PORT_E4,
-    PORT_E5,
-    PORT_E6,
-    PORT_E7,
-    PORT_E8,
-    PORT_E9,
-    PORT_E10,
-    PORT_E11,
-    PORT_E12,
-    PORT_E13,
-    PORT_E14,
-    PORT_E15,
-
-    PORT_F0,
-    PORT_F1,
-    PORT_F2,
-    PORT_F3,
-    PORT_F4,
-    PORT_F5,
-    PORT_F6,
-    PORT_F7,
-    PORT_F8,
-    PORT_F9,
-    PORT_F10,
+    A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15,
+    B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15,
+    C0, C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15,
+    D0, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15,
+    E0, E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13, E14, E15,
+    F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10,
 
 } pin_t;
 
 typedef enum
 {
-    PORT_MODE_PUSH_PULL,
-    PORT_MODE_INPUT_PULLUP,
-    PORT_MODE_FLOATING,
-    PORT_MODE_ALT_OUTPUT,
-    PORT_MODE_ANALOG,
-    PORT_MODE_INPUT_PULLDOWN,
-    PORT_MODE_ALT_OPEN_DRAIN,
-    PORT_MODE_OPEN_DRAIN
+    MODE_PUSH_PULL,
+    MODE_INPUT_PULLUP,
+    MODE_FLOATING,
+    MODE_ALT_OUTPUT,
+    MODE_ANALOG,
+    MODE_INPUT_PULLDOWN,
+    MODE_ALT_OPEN_DRAIN,
+    MODE_OPEN_DRAIN
 } pin_mode_t;
 
 #define PORT_MASK(pin) ((GPIO_TypeDef *)(GPIOA_BASE + ((pin / 16) * 0x400)))
@@ -137,11 +48,12 @@ typedef enum
 /*-exported-functions-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-void     port_initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function);
-void     port_set(pin_t pin);
-void     port_clear(pin_t pin);
-uint32_t port_read(pin_t pin);
+void     initialise_pin(pin_t pin, pin_mode_t mode, uint32_t alternate_function);
+void     set(pin_t pin);
+void     clear(pin_t pin);
+uint32_t read(pin_t pin);
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
+}

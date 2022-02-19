@@ -93,7 +93,7 @@ target_compile_options(${PROJECT_ELF}
     )
 target_link_options(${PROJECT_ELF}
     PRIVATE -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
-    PRIVATE -nostartfiles -specs=nosys.specs -fno-unwind-tables
+    PRIVATE -nostartfiles -specs=nano.specs -specs=nosys.specs -fno-unwind-tables
     PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT},-Map=${PROJECT_MAP}"
     )
 
