@@ -24,8 +24,6 @@ __stack__ = ORIGIN(RAM) + LENGTH(RAM);
 __max_stack_size__ = 1024;
 __min_stack_size__ = 256;
 
-ENTRY(reset_isr)
-
 SECTIONS
 {
     /*

@@ -9,8 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "types.hpp"
 
 #include "utils.hpp"
 

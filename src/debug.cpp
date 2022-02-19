@@ -9,9 +9,9 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdarg.h>
+#include "types.hpp"
+
+#include <cstdarg>
 
 #include "stm32f3xx.h"
 #include "core_cm4.h"
@@ -130,6 +130,8 @@ void debug::printf(char const *string_ptr, ...)
 
         string_ptr++;
     }
+
+    va_end(argument_list);
 }
 
 /*------------------------------------------------------------------------------------------------*/

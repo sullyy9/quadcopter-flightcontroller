@@ -9,8 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "types.hpp"
 
 #include "stm32f3xx_ll_spi.h"
 #include "stm32f3xx_ll_dma.h"

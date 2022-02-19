@@ -9,9 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stddef.h>
+#include "types.hpp"
 
 #include "stm32f3xx_ll_gpio.h"
 #include "stm32f3xx_ll_exti.h"

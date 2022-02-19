@@ -9,9 +9,9 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include <math.h>
-#include <stdbool.h>
-#include <stdint.h>
+#include "types.hpp"
+
+#include <cmath>
 
 #include "i3g4250d.hpp"
 #include "lsm303agr.hpp"
