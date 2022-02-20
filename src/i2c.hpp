@@ -1,3 +1,4 @@
+#pragma once
 /**
  * -------------------------------------------------------------------------------------------------
  * @author  Ryan Sullivan (ryansullivan@googlemail.com)

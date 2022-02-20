@@ -88,11 +88,11 @@ add_executable(${PROJECT_ELF}
     )
 
 target_compile_options(${PROJECT_ELF}
-    PUBLIC -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PUBLIC -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Og -gdwarf
     PRIVATE -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -Wno-volatile
     )
 target_link_options(${PROJECT_ELF}
-    PRIVATE -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os
+    PRIVATE -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Og -gdwarf
     PRIVATE -nostartfiles -specs=nano.specs -specs=nosys.specs -fno-unwind-tables
     PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT},-Map=${PROJECT_MAP}"
     )

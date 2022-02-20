@@ -11,6 +11,9 @@
 
 #include "types.hpp"
 
+#include <cstddef>
+#include <cstring>
+
 #include "stm32f3xx.h"
 
 #include "main.hpp"
@@ -23,13 +26,11 @@
 
 /*----------------------------------------------------------------------------*/
 
-extern unsigned long __rodata_start__;
-extern unsigned long __rodata_end__;
 extern unsigned long __data_start__;
-extern unsigned long __data_end__;
+extern unsigned long __data_len__;
 extern unsigned long __code_end__;
 extern unsigned long __bss_start__;
-extern unsigned long __bss_end__;
+extern unsigned long __bss_len__;
 extern unsigned long __stack__;
 
 /*----------------------------------------------------------------------------*/
@@ -159,28 +160,17 @@ __attribute__((noreturn))
 void reset_isr(void)
 {
     SCB->VTOR = 0 | ((uint32_t)vector_table & (uint32_t)0x1FFFFF80);
-
-    unsigned long *pSrc, *pDest;
-
+    
     // Copy the initialised data (which is initialy placed after the read only
     // data in flash) to it's location in RAM.
-    pSrc = &__code_end__;
-    for(pDest = &__data_start__; pDest < &__data_end__;)
-    {
-        *pDest++ = *pSrc++;
-    }
+    memcpy(&__data_start__, &__code_end__, reinterpret_cast<size_t>(&__data_len__)); // NOLINT - ignore clangd warning
     
     // Make sure any variable that are in the uninitialised data section are set
     // to 0. 
-    for(pDest = &__bss_start__; pDest < &__bss_end__;)
-    {
-        *pDest++ = 0;
-    }
+    memset(&__bss_start__, 0, reinterpret_cast<size_t>(&__bss_len__)); // NOLINT - ignore clangd warning
 
     // Run the application.
     main(); // NOLINT - ignore clangd warning
-
-    // Main should never exit, but if it does; wait here.
     while(1) {}
 }
 

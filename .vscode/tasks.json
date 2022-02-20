@@ -21,6 +21,12 @@
             "type": "shell",
             "command": "cmake --build ./build",
             "problemMatcher": []
+        },
+        {
+            "label": "cmake clean build",
+            "type": "shell",
+            "command": "cmake --build ./build --clean-first",
+            "problemMatcher": []
         }
     ]
 }

@@ -141,10 +141,9 @@ void debug::printf(char const *string_ptr, ...)
  */
 void debug::stopwatch_initialise(void)
 {
-    
+    // Enable the cycle counter. 
     SET_BIT(CoreDebug->DEMCR, CoreDebug_DEMCR_TRCENA_Msk);
     SET_BIT(DWT->CTRL, DWT_CTRL_CYCCNTENA_Msk);
-    
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -161,6 +160,8 @@ void debug::stopwatch_start(void)
 
 /**
  * @brief           Stop counting CPU cycles and figure out how many nano-seconds they equate to.
+                    Will be accurate assuming less than 89 seconds has passed and core is running
+                    at 48MHz.
  * @return uint32_t Time elapsed in nano-seconds.
  */
 uint32_t debug::stopwatch_stop(void)
