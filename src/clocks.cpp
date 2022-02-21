@@ -186,7 +186,7 @@ void clocks::initialise(void)
     LL_RCC_HSE_Disable();
     LL_RCC_LSI_Enable();
     LL_RCC_LSE_Disable();
-    while(LL_RCC_HSI_IsReady() == 0) {}
+    while(!LL_RCC_HSI_IsReady()) {}
 
     /*
      * Setup the PLL to multiply HSI by 6
@@ -194,7 +194,7 @@ void clocks::initialise(void)
     LL_RCC_PLL_SetMainSource(LL_RCC_PLLSOURCE_HSI_DIV_2);
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI_DIV_2, LL_RCC_PLL_MUL_12);
     LL_RCC_PLL_Enable();
-    while(LL_RCC_PLL_IsReady() == 0) {}
+    while(!LL_RCC_PLL_IsReady()) {}
 
     /*
      * Setup the bus prescalers

@@ -24,3 +24,11 @@ CompileFlags:
           -Wno-c++98-c++11-compat-binary-literal,
           -Wno-c++98-compat-pedantic,
           -Wno-old-style-cast]
+
+---
+If:
+    PathMatch: [lib/.*]
+
+CompileFlags:
+    Remove: [-W*]
+    Add: [-Wno-everything]

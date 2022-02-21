@@ -173,7 +173,7 @@ int main(void)
         /*
          * read acceleration data if its ready
          */
-        if(io::accelerometer_data_ready() == true)
+        if(io::accelerometer_data_ready())
         {
             io::accelerometer_read(&accel_data.x_raw, &accel_data.y_raw, &accel_data.z_raw);
 
@@ -190,7 +190,7 @@ int main(void)
         /*
          * read magnetometer data if its ready
          */
-        if(io::magnetometer_data_ready() == true)
+        if(io::magnetometer_data_ready())
         {
             io::magnetometer_read(&mag_data.x_raw, &mag_data.y_raw, &mag_data.z_raw);
 
@@ -204,7 +204,7 @@ int main(void)
         /*
          * read gyroscope data if its ready
          */
-        if(io::gyroscope_data_ready() == true)
+        if(io::gyroscope_data_ready())
         {
             io::gyroscope_read(&gyro_data.x_raw, &gyro_data.y_raw, &gyro_data.z_raw);
 
