@@ -38,10 +38,22 @@ using namespace clocks;
  */
 
 #define SYSCLK            48000000
-#define HCLK_HZ           (SYSCLK)                          // Core clock
-#define PCLK1_HZ          (HCLK_HZ)                         // Peripheral bus 1 clock
-#define SYS_TIMER_1MS     (uint32_t)(1 * (HCLK_HZ / 1000))  // 1.000ms
-#define WATCHDOG_TIMER_HZ (uint32_t)(PCLK1_HZ / 4096)       // Window watchdog clock
+#define HCLK_HZ           (SYSCLK)                         // Core clock
+#define PCLK1_HZ          (HCLK_HZ)                        // Peripheral bus 1 clock
+#define SYS_TIMER_1MS     (uint32_t)(1 * (HCLK_HZ / 1000)) // 1.000ms
+#define WATCHDOG_TIMER_HZ (uint32_t)(PCLK1_HZ / 4096)      // Window watchdog clock
+
+constexpr uint32_t sysclk_target_hz = 48'000'000;
+constexpr uint32_t hclk_target_hz   = 48'000'000;
+constexpr uint32_t pclk1_target_hz  = 48'000'000;
+constexpr uint32_t pclk2_target_hz  = 48'000'000;
+
+// Varify validity of clock targets.
+static_assert(sysclk_target_hz >= 8'000'000, "SYSCLK target frequency must be >= 8MHZ");
+static_assert(sysclk_target_hz <= 72'000'000, "SYSCLK target frequency must be <= 72MHZ");
+static_assert(hclk_target_hz <= sysclk_target_hz, "HCLK frequency must be <= SYSCLK");
+static_assert(pclk1_target_hz <= hclk_target_hz, "PCLK1 frequency must be <= HCLK");
+static_assert(pclk2_target_hz <= hclk_target_hz, "PCLK2 frequency must be <= HCLK");
 
 #define WWDG_RESET_MAX     64
 #define WWDG_PRESCALER_MAX 8
@@ -256,6 +268,23 @@ void clocks::wwdg_isr(void)
 /*------------------------------------------------------------------------------------------------*/
 /*-static-functions-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
+
+/**
+ * @brief                 Determine whether the PLL is needed to reach the target
+ *                        sysclk frequency.
+ * @return constexpr bool True if the PLL is required. False otherwise.
+ */
+constexpr bool pll_required(void)
+{
+    if(sysclk_target_hz == HSI_VALUE)
+    {
+        return (true);
+    }
+    else
+    {
+        return (false);
+    }
+}
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
