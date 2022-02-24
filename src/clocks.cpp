@@ -49,11 +49,13 @@ constexpr uint32_t pclk1_target_hz  = 48'000'000;
 constexpr uint32_t pclk2_target_hz  = 48'000'000;
 
 // Varify validity of clock targets.
-static_assert(sysclk_target_hz >= 8'000'000, "SYSCLK target frequency must be >= 8MHZ");
-static_assert(sysclk_target_hz <= 72'000'000, "SYSCLK target frequency must be <= 72MHZ");
-static_assert(hclk_target_hz <= sysclk_target_hz, "HCLK frequency must be <= SYSCLK");
-static_assert(pclk1_target_hz <= hclk_target_hz, "PCLK1 frequency must be <= HCLK");
-static_assert(pclk2_target_hz <= hclk_target_hz, "PCLK2 frequency must be <= HCLK");
+static_assert(sysclk_target_hz >= 8'000'000, "SYSCLK must be >= 8MHZ");
+static_assert(sysclk_target_hz <= 64'000'000, "SYSCLK must be <= 64MHZ");
+static_assert(!(sysclk_target_hz % (HSI_VALUE / 2)), "SYSCLK must be a multiple of HSI/2");
+
+static_assert(hclk_target_hz <= sysclk_target_hz, "HCLK must be <= SYSCLK");
+static_assert(pclk1_target_hz <= hclk_target_hz, "PCLK1 must be <= HCLK");
+static_assert(pclk2_target_hz <= hclk_target_hz, "PCLK2 must be <= HCLK");
 
 #define WWDG_RESET_MAX     64
 #define WWDG_PRESCALER_MAX 8
@@ -283,6 +285,39 @@ constexpr bool pll_required(void)
     else
     {
         return (false);
+    }
+}
+
+/*------------------------------------------------------------------------------------------------*/
+
+/**
+ * @brief   Calculate the PLL multiplier required to match
+ * @return constexpr uint32_t
+ */
+constexpr uint32_t calculate_pll_factor(void)
+{
+    // sysclk = (hsi / 2) * PLL_mul
+    // (sysclk * 2) / HSI = PLL_mul
+    uint32_t multiplier = (sysclk_target_hz * 2) / HSI_VALUE;
+
+    switch(multiplier)
+    {
+        case 2: return (RCC_CFGR_PLLMUL2);
+        case 3: return (RCC_CFGR_PLLMUL3);
+        case 4: return (RCC_CFGR_PLLMUL4);
+        case 5: return (RCC_CFGR_PLLMUL5);
+        case 6: return (RCC_CFGR_PLLMUL6);
+        case 7: return (RCC_CFGR_PLLMUL7);
+        case 8: return (RCC_CFGR_PLLMUL8);
+        case 9: return (RCC_CFGR_PLLMUL9);
+        case 10: return (RCC_CFGR_PLLMUL10);
+        case 11: return (RCC_CFGR_PLLMUL11);
+        case 12: return (RCC_CFGR_PLLMUL12);
+        case 13: return (RCC_CFGR_PLLMUL13);
+        case 14: return (RCC_CFGR_PLLMUL14);
+        case 15: return (RCC_CFGR_PLLMUL15);
+        case 16: return (RCC_CFGR_PLLMUL16);
+        default: break;
     }
 }
 
