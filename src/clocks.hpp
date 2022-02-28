@@ -15,6 +15,16 @@ namespace clocks {
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
+enum Error
+{
+    OK,
+
+    ERROR_SYSCLK_TARGET,
+    ERROR_HCLK_TARGET,
+    ERROR_PCLK1_TARGET,
+    ERROR_PCLK2_TARGET
+};
+
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -24,12 +34,10 @@ namespace clocks {
 /*------------------------------------------------------------------------------------------------*/
 
 void clear_reset_flags(void);
-void initialise_wwdg(uint32_t reset_time_ms);
-void reset_wwdg(void);
 
 uint32_t get_system_timer_us(void);
 
-void initialise(void);
+Error initialise(void);
 
 void wwdg_isr(void);
 

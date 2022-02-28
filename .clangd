@@ -23,6 +23,7 @@ CompileFlags:
           -Wno-deprecated-volatile,
           -Wno-c++98-c++11-compat-binary-literal,
           -Wno-c++98-compat-pedantic,
+          -Wno-c++20-compat-pedantic,
           -Wno-old-style-cast]
 
 ---

@@ -60,6 +60,15 @@ set(PROJECT_HEX     "${PROJECT_NAME}.hex")
 set(PROJECT_BIN     "${PROJECT_NAME}.bin")
 set(PROJECT_MAP     "${PROJECT_NAME}.map")
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/release")
+set(ASSEMBLY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/assembly")
+
+foreach(FILE IN LISTS USER_SOURCES)
+    get_filename_component(USER_SOURCE_FILE ${FILE} NAME_WLE)
+    list(APPEND ASM_FILES "${CMAKE_SOURCE_DIR}/assembly/${USER_SOURCE_FILE}.S")
+    list(APPEND OBJ_FILES "${CMAKE_BINARY_DIR}/CMakeFiles/${PROJECT_ELF}.dir/src/${USER_SOURCE_FILE}.cpp.obj")
+endforeach()
+
 # Configure the peripheral library.
 ####################################################################################################
 add_library(${DEVICE_DRIVERS} STATIC
@@ -107,10 +116,20 @@ add_custom_target(${PROJECT_BIN} ALL DEPENDS ${PROJECT_ELF})
 
 add_custom_command(TARGET ${PROJECT_HEX}
         COMMENT "Building hex file"
+        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
         COMMAND ${CMAKE_OBJCOPY} -Oihex ${PROJECT_ELF} ${PROJECT_HEX}
         )
 
 add_custom_command(TARGET ${PROJECT_BIN}
         COMMENT "Building bin file"
+        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
         COMMAND ${CMAKE_OBJCOPY} -Obinary ${PROJECT_ELF} ${PROJECT_BIN}
         )
+
+foreach(FILE IN ZIP_LISTS OBJ_FILES ASM_FILES)
+    add_custom_command(TARGET  ${PROJECT_ELF}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${ASSEMBLY_OUTPUT_DIRECTORY}
+        COMMAND ${CMAKE_STRIP} -S ${FILE_0}
+        COMMAND ${CMAKE_OBJDUMP} -C -marm -M reg-names-std --no-show-raw-insn --no-addresses --visualize-jumps -D ${FILE_0} -l > ${FILE_1})
+endforeach()
+        

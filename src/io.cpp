@@ -89,8 +89,6 @@ void initialise_external_interupts(void);
  */
 void io::initialise(void)
 {
-    clocks::initialise();
-
     initialise_pins();
 
     initialise_external_interupts();

@@ -20,6 +20,7 @@
 #include "main.hpp"
 #include "clocks.hpp"
 #include "utils.hpp"
+#include "watchdog.hpp"
 
 #include "debug.hpp"
 
@@ -29,7 +30,7 @@
 
 #define PI 3.141592f
 
-#define OUTPUT_DATA true
+#define OUTPUT_DATA false
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -143,6 +144,16 @@ void apply_kalman_filter(void);
  */
 int main(void)
 {
+    // Initialise clocks.
+    // Clock configuration can be found in clocks_config.hpp.
+    {
+        clocks::Error status = clocks::initialise();
+        if(status != clocks::OK)
+        {
+            while(1) {}
+        }
+    }
+
     io::initialise();
     clocks::clear_reset_flags();
 
@@ -156,18 +167,21 @@ int main(void)
 
     debug::printf("\r\n");
     debug::printf("\r\n");
-    debug::printf("Quad-copter flight controller - start-------------------\r\n");
+    debug::printf("\r\n");
+    debug::printf("Quadcopter flight controller\r\n");
+    debug::printf("----------------------------------------\r\n");
     debug::printf("initialisation complete\r\n");
     utils::wait_ms(1000);
 
-    clocks::initialise_wwdg(40);
+    watchdog::Watchdog watchdog(1);
 
     /*
      * main loop
      */
     while(run_program == true)
     {
-        clocks::reset_wwdg();
+        watchdog.update();
+
         debug::stopwatch_start();
 
         /*
