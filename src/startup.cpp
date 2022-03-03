@@ -68,7 +68,7 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x0034 Reserved                   */ nullptr,
     /* 0x0038 PendSV_IRQn                */ dummy_isr,
     /* 0x003C SysTick_IRQn               */ main_1ms_timer_isr,
-    /* 0x0040 WWDG_IRQn             (00) */ clocks::wwdg_isr,
+    /* 0x0040 WWDG_IRQn             (00) */ dummy_isr,
     /* 0x0044 PVD_IRQn              (01) */ dummy_isr,
     /* 0x0048 TAMPER_IRQn           (02) */ dummy_isr,
     /* 0x004C RTC_IRQn              (03) */ dummy_isr,

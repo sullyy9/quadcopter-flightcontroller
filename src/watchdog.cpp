@@ -26,7 +26,7 @@ using namespace watchdog;
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-const static
+static constexpr
 std::pair<float, uint32_t> prescaler_list[] = 
 {
     {4,   LL_IWDG_PRESCALER_4},
@@ -58,7 +58,7 @@ std::pair<float, uint32_t> prescaler_list[] =
  * @brief Calculate the prescaler and reload values to match the timeout period and enable the
  *        watchdog.
  *
- * @param timeout_period Seconds after witch the watchdog will trigger a reset.
+ * @param timeout_period Seconds after which the watchdog will trigger a reset.
  */
 Watchdog::Watchdog(float timeout_period)
 {
@@ -66,13 +66,14 @@ Watchdog::Watchdog(float timeout_period)
     while (!LL_RCC_LSI_IsReady());
 
     // Find a prescaler value that allows us to achieve timeout period's greater than the target.
-    const uint16_t reload_value_max = 0x0FFF;
+    const uint32_t reload_value_max = IWDG_RLR_RL_Msk;
     const float prescaler_target = (timeout_period * LSI_VALUE) / reload_value_max;
 
-    auto &prescaler = *std::find_if(
+    // Find the first prescaler value that is less than the target.
+    auto prescaler = *std::find_if(
         std::begin(prescaler_list),
         std::end(prescaler_list),
-        [&prescaler_target](std::pair<float, uint32_t> a){return(prescaler_target >= a.first);}
+        [prescaler_target](auto prescaler_pair){return(prescaler_target >= prescaler_pair.first);}
         );
 
     // Find a reload value that gives a time period equal or greater than the target.

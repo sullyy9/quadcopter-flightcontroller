@@ -21,7 +21,8 @@
         "cschlosser.doxdocgen",
         "maziac.hex-hover-converter",
         "ZixuanWang.linkerscript",
-        "trond-snekvik.gnu-mapfiles"
+        "trond-snekvik.gnu-mapfiles",
+        "dan-c-underwood.arm"
     ]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
