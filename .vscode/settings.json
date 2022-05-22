@@ -1,7 +1,13 @@
 {
     "clangd.arguments": [
-        "--query-driver=/tools/toolchain/bin/*",
+        "--query-driver=/usr/sbin/*", ///tools/toolchain/bin/*
         "--cross-file-rename",
         "--log=verbose"
-    ]
+    ],
+
+    "disasexpl.associations": {
+        "**/*.c": "${workspaceFolder}/${fileBasenameNoExtension}.s",
+        "**/*.cpp": "${workspaceFolder}/assembly/${fileBasenameNoExtension}.s"
+    }
+
 }

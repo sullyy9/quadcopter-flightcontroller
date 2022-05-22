@@ -9,7 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include "types.hpp"
+#include <cstdint>
 
 #include <cstddef>
 #include <cstring>
@@ -17,9 +17,7 @@
 #include "stm32f3xx.h"
 
 #include "main.hpp"
-#include "debug.hpp"
 #include "io.hpp"
-#include "clocks.hpp"
 #include "usart.hpp"
 #include "i2c.hpp"
 #include "spi.hpp"

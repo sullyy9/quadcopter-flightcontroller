@@ -33,3 +33,7 @@ If:
 CompileFlags:
     Remove: [-W*]
     Add: [-Wno-everything]
+
+---
+Diagnostics:
+  UnusedIncludes: Strict

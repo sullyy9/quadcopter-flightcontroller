@@ -10,9 +10,11 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+#include <optional>
+#include <utility>
 #include <chrono>
 
-namespace watchdog {
+namespace wdg {
 /*----------------------------------------------------------------------------*/
 /*-constant-definitions-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -25,15 +27,25 @@ namespace watchdog {
 /*-exported-functions---------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-class Watchdog
-{
+class Watchdog {
 public:
-    Watchdog(float timeout_period);
-    ~Watchdog();
-    
+
+    static std::optional<Watchdog* const> get_instance(const std::chrono::milliseconds timeout_period);
+
+    void start(void);
     void update(void);
+    
 
 private:
+
+    Watchdog(const std::chrono::milliseconds timeout_period);
+
+    constexpr std::pair<const uint32_t, const uint32_t>
+    calculate_prescaler_value(const std::chrono::milliseconds timeout_period);
+    
+    constexpr uint32_t
+    calculate_reload_value(const std::chrono::milliseconds timeout_period,
+                            const uint32_t                  prescaler_value);
 
 };
 

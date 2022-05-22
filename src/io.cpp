@@ -9,9 +9,8 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include "types.hpp"
+#include <cstdint>
 
-#include "stm32f3xx_ll_gpio.h"
 #include "stm32f3xx_ll_exti.h"
 #include "stm32f3xx_ll_system.h"
 
@@ -19,13 +18,11 @@
 #include "i3g4250d.hpp"
 
 #include "io.hpp"
-#include "clocks.hpp"
 #include "port.hpp"
 #include "usart.hpp"
 #include "i2c.hpp"
 #include "spi.hpp"
 
-#include "debug.hpp"
 
 using namespace io;
 /*------------------------------------------------------------------------------------------------*/

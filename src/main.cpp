@@ -9,7 +9,7 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include "types.hpp"
+#include <cstdint>
 
 #include <cmath>
 
@@ -147,15 +147,15 @@ int main(void)
     // Initialise clocks.
     // Clock configuration can be found in clocks_config.hpp.
     {
-        clocks::Error status = clocks::initialise();
-        if(status != clocks::OK)
+        clk::Error status = clk::initialise();
+        if(status != clk::OK)
         {
             while(1) {}
         }
     }
 
     io::initialise();
-    clocks::clear_reset_flags();
+    clk::clear_reset_flags();
 
     debug::stopwatch_initialise();
 
@@ -173,11 +173,19 @@ int main(void)
     debug::printf("initialisation complete\r\n");
     utils::wait_ms(1000);
 
-    watchdog::Watchdog watchdog(1);
+    // Setup the indipendant watchdog.
+    constexpr auto timeout = std::chrono::milliseconds(1000);
+    auto watchdog_container = wdg::Watchdog::get_instance(timeout);
+    if(!watchdog_container.has_value())
+    {
+        debug::printf("ERROR::Invalid watchdog instance. Halting execution\r\n");
+        while(1);
+    }
+    wdg::Watchdog& watchdog = *watchdog_container.value();
 
-    /*
-     * main loop
-     */
+    //
+    // Main loop.
+    //
     while(run_program == true)
     {
         watchdog.update();
@@ -247,7 +255,7 @@ int main(void)
              * TODO can the data rates of each device be synchronised?
              */
             time_data.current_us =
-                (int32_t)((system_runtime_ms * 1000) + clocks::get_system_timer_us());
+                (int32_t)((system_runtime_ms * 1000) + clk::get_system_timer_us());
 
             time_data.change_us = (time_data.current_us - time_data.previous_us);
 

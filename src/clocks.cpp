@@ -9,22 +9,17 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include "types.hpp"
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "stm32f3xx_ll_system.h"
 #include "stm32f3xx_ll_bus.h"
 #include "stm32f3xx_ll_rcc.h"
-#include "stm32f3xx_ll_wwdg.h"
 #pragma GCC diagnostic pop
 
 #include "clocks.hpp"
 #include "clocks_config.hpp"
 
-#include "debug.hpp"
-
-using namespace clocks;
+using namespace clk;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -61,7 +56,7 @@ using namespace clocks;
 /**
  * @brief Clear any flags set during the last reset.
  */
-void clocks::clear_reset_flags(void)
+void clk::clear_reset_flags(void)
 {
     LL_RCC_ClearResetFlags();
 }
@@ -72,7 +67,7 @@ void clocks::clear_reset_flags(void)
  * @brief           Get the number of microseconds elapsed since the last system timer interupt.
  * @return uint32_t Microseconds since last system timer interupt.
  */
-uint32_t clocks::get_system_timer_us(void)
+uint32_t clk::get_system_timer_us(void)
 {
     uint32_t systick_us = 0;
     systick_us          = (SysTick->LOAD - SysTick->VAL);
@@ -88,7 +83,7 @@ uint32_t clocks::get_system_timer_us(void)
  *
  * @return Error Status.
  */
-Error clocks::initialise(void)
+Error clk::initialise(void)
 {
     // Reset the system to the default state:
     // - HSI ON and used as system clock source

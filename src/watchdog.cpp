@@ -9,25 +9,26 @@
  * -------------------------------------------------------------------------------------------------
  */
 
-#include "types.hpp"
-
 #include <algorithm>
-#include <chrono>
+#include <cstddef>
 #include <iterator>
-#include <utility>
+#include <optional>
+#include <type_traits>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "stm32f3xx_ll_iwdg.h"
 #include "stm32f3xx_ll_rcc.h"
+#pragma GCC diagnostic pop
 
 #include "watchdog.hpp"
 
-using namespace watchdog;
+using namespace wdg;
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-static constexpr
-std::pair<float, uint32_t> prescaler_list[] = 
+constexpr std::pair<const uint32_t, const uint32_t> prescaler_list[] = 
 {
     {4,   LL_IWDG_PRESCALER_4},
     {8,   LL_IWDG_PRESCALER_8},
@@ -46,12 +47,53 @@ std::pair<float, uint32_t> prescaler_list[] =
 /*-static-variables-------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
+static bool watchdog_instance_created = false;
+
 /*------------------------------------------------------------------------------------------------*/
 /*-forward-declarations---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------------*/
-/*-exported-functions-----------------------------------------------------------------------------*/
+/*-public-methods---------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+
+/**
+ * @brief Create a watchdog instance, within an optional container, if one doesn't already exist.
+ *
+ * @param timeout_period Time period after which the watchdog will trigger a system reset.
+ *
+ * @return Container which may or may not conatin a watchdog instance.
+ */
+std::optional<Watchdog* const> 
+Watchdog::get_instance(const std::chrono::milliseconds timeout_period)
+{
+    if(watchdog_instance_created)
+    {
+        return(std::nullopt);
+    }
+    else
+    {
+        watchdog_instance_created = true;
+        
+        static Watchdog watchdog(timeout_period);
+        std::optional<Watchdog*> watchdog_container(&watchdog);
+        return(watchdog_container);
+    }
+}
+
+/*------------------------------------------------------------------------------------------------*/
+
+/**
+ * @brief Reset the watchdog countdown to the timeout_period.
+ */
+void
+Watchdog::update(void)
+{
+    LL_IWDG_ReloadCounter(IWDG);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+/*-private-methods--------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
 /**
@@ -60,24 +102,13 @@ std::pair<float, uint32_t> prescaler_list[] =
  *
  * @param timeout_period Seconds after which the watchdog will trigger a reset.
  */
-Watchdog::Watchdog(float timeout_period)
+Watchdog::Watchdog(const std::chrono::milliseconds timeout_period)
 {
+    constexpr auto prescaler = calculate_prescaler_value(timeout_period);
+    const auto reload_value = calculate_reload_value(timeout_period, prescaler.first);
+
     LL_RCC_LSI_Enable();
-    while (!LL_RCC_LSI_IsReady());
-
-    // Find a prescaler value that allows us to achieve timeout period's greater than the target.
-    const uint32_t reload_value_max = IWDG_RLR_RL_Msk;
-    const float prescaler_target = (timeout_period * LSI_VALUE) / reload_value_max;
-
-    // Find the first prescaler value that is less than the target.
-    auto prescaler = *std::find_if(
-        std::begin(prescaler_list),
-        std::end(prescaler_list),
-        [prescaler_target](auto prescaler_pair){return(prescaler_target >= prescaler_pair.first);}
-        );
-
-    // Find a reload value that gives a time period equal or greater than the target.
-    uint32_t reload_value = static_cast<uint32_t>((timeout_period * LSI_VALUE) / prescaler.first);
+    while (! LL_RCC_LSI_IsReady());
 
     LL_IWDG_Enable(IWDG);
 
@@ -93,31 +124,52 @@ Watchdog::Watchdog(float timeout_period)
 /*------------------------------------------------------------------------------------------------*/
 
 /**
- * @brief Once started, the watchdog cannot be disabled, however disabling LSI will stop it from
- *        counting down.
+ * @brief Calculate the mimimum prescaler value that allows the timeout_period to be reached.
+ *
+ * @param timeout_period  .
+ *
+ * @return Reference to the prescaler_list element containing the prescaler values.
  */
-Watchdog::~Watchdog()
+constexpr std::pair<const uint32_t, const uint32_t>
+Watchdog::calculate_prescaler_value(const std::chrono::milliseconds timeout_period)
 {
-    LL_IWDG_ReloadCounter(IWDG);
+    constexpr auto test = timeout_period;
 
-    LL_RCC_LSI_Disable();
-    while (LL_RCC_LSI_IsReady());
+    // Find a prescaler value that allows us to achieve a timeout period greater than the target.
+    constexpr uint32_t timeout_ms        = static_cast<uint32_t>(timeout_period.count());
+    constexpr uint32_t reload_value_max  = IWDG_RLR_RL_Msk;
+    constexpr uint32_t lsi_cycles_per_ms = LSI_VALUE / 1000;
+    constexpr uint32_t prescaler_target  = ((timeout_ms * lsi_cycles_per_ms + 1) / reload_value_max);
+
+    // Find the first prescaler value that is less than the target.
+    constexpr auto prescaler = *std::find_if(
+        std::begin(prescaler_list),
+        std::end(prescaler_list),
+        [prescaler_target](auto prescaler_pair){return(prescaler_pair.first >= prescaler_target);}
+        );
+
+    return(prescaler);
 }
 
 /*------------------------------------------------------------------------------------------------*/
 
 /**
- * @brief Reset the watchdog countdown to the timeout_period.
+ * @brief Calculate a reload value that results in the timeout_period, given a presaler_value.
+ *
+ * @param timeout_period  .
+ * @param prescaler_value .
+ *
+ * @return Reload value.
  */
-void
-Watchdog::update(void)
+constexpr uint32_t
+Watchdog::calculate_reload_value(const std::chrono::milliseconds timeout_period, 
+                                 const uint32_t                  prescaler_value)
 {
-    LL_IWDG_ReloadCounter(IWDG);
-}
+    const uint32_t timeout_ms        = static_cast<uint32_t>(timeout_period.count());
+    const uint32_t lsi_cycles_per_ms = LSI_VALUE / 1000;
 
-/*------------------------------------------------------------------------------------------------*/
-/*-static-functions-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
+    return((timeout_ms * lsi_cycles_per_ms + 1) / prescaler_value);
+}
 
 /*------------------------------------------------------------------------------------------------*/
 /*-end-of-module----------------------------------------------------------------------------------*/
