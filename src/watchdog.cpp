@@ -10,10 +10,13 @@
  */
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <iterator>
 #include <optional>
+#include <sys/_stdint.h>
 #include <type_traits>
+#include <map>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -23,18 +26,50 @@
 
 #include "watchdog.hpp"
 
+#include "system_info.hpp"
+
 using namespace wdg;
+
+/*------------------------------------------------------------------------------------------------*/
+/*-forward-declarations---------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-constexpr std::pair<const uint32_t, const uint32_t> prescaler_list[] = 
-{
+constexpr uint32_t reload_value_min {1};
+constexpr uint32_t reload_value_max {IWDG_RLR_RL_Msk};
+
+consteval std::chrono::duration<float> timeout(const uint32_t prescaler, const uint32_t reload_value) {
+    sys::clock_period period {prescaler * sys::lso::period};
+    return(period * reload_value);
+}
+
+// Minimum: 400 uS
+// Maximum: 26.208 S
+constexpr struct {
+    uint32_t prescaler {};
+
+    std::chrono::duration<float> lower {};
+    std::chrono::duration<float> upper {};
+} prescaler_map[] {
+
+    {LL_IWDG_PRESCALER_4,   timeout(4, reload_value_min),   timeout(4, reload_value_min)  },
+    {LL_IWDG_PRESCALER_8,   timeout(8, reload_value_min),   timeout(8, reload_value_min)  },
+    {LL_IWDG_PRESCALER_16,  timeout(16, reload_value_min),  timeout(16, reload_value_min) },
+    {LL_IWDG_PRESCALER_32,  timeout(32, reload_value_min),  timeout(32, reload_value_min) },
+    {LL_IWDG_PRESCALER_64,  timeout(64, reload_value_min),  timeout(64, reload_value_min) },
+    {LL_IWDG_PRESCALER_128, timeout(128, reload_value_min), timeout(128, reload_value_min)},
+    {LL_IWDG_PRESCALER_256, timeout(256, reload_value_min), timeout(256, reload_value_min)},
+};
+
+static constexpr std::pair<const uint32_t, const uint32_t> prescaler_list[] {
     {4,   LL_IWDG_PRESCALER_4},
     {8,   LL_IWDG_PRESCALER_8},
-    {16,  LL_IWDG_PRESCALER_16},  
+    {16,  LL_IWDG_PRESCALER_16},
     {32,  LL_IWDG_PRESCALER_32},
-    {64,  LL_IWDG_PRESCALER_64},  
+    {64,  LL_IWDG_PRESCALER_64},
     {128, LL_IWDG_PRESCALER_128},
     {256, LL_IWDG_PRESCALER_256}
 };
@@ -50,10 +85,6 @@ constexpr std::pair<const uint32_t, const uint32_t> prescaler_list[] =
 static bool watchdog_instance_created = false;
 
 /*------------------------------------------------------------------------------------------------*/
-/*-forward-declarations---------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
-
-/*------------------------------------------------------------------------------------------------*/
 /*-public-methods---------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
@@ -64,15 +95,12 @@ static bool watchdog_instance_created = false;
  *
  * @return Container which may or may not conatin a watchdog instance.
  */
-std::optional<Watchdog* const> 
-Watchdog::get_instance(const std::chrono::milliseconds timeout_period)
-{
-    if(watchdog_instance_created)
-    {
+std::optional<Watchdog* const> Watchdog::get_instance(const std::chrono::milliseconds timeout_period) {
+    if(watchdog_instance_created) {
         return(std::nullopt);
-    }
-    else
-    {
+
+    } 
+    else {
         watchdog_instance_created = true;
         
         static Watchdog watchdog(timeout_period);
@@ -86,9 +114,7 @@ Watchdog::get_instance(const std::chrono::milliseconds timeout_period)
 /**
  * @brief Reset the watchdog countdown to the timeout_period.
  */
-void
-Watchdog::update(void)
-{
+void Watchdog::update(void) {
     LL_IWDG_ReloadCounter(IWDG);
 }
 
@@ -102,13 +128,13 @@ Watchdog::update(void)
  *
  * @param timeout_period Seconds after which the watchdog will trigger a reset.
  */
-Watchdog::Watchdog(const std::chrono::milliseconds timeout_period)
-{
-    constexpr auto prescaler = calculate_prescaler_value(timeout_period);
-    const auto reload_value = calculate_reload_value(timeout_period, prescaler.first);
+Watchdog::Watchdog(const std::chrono::milliseconds timeout_period) {
+
+    const auto prescaler {calculate_prescaler_value(timeout_period)};
+    const auto reload_value {calculate_reload_value(timeout_period, prescaler.first)};
 
     LL_RCC_LSI_Enable();
-    while (! LL_RCC_LSI_IsReady());
+    while (!LL_RCC_LSI_IsReady());
 
     LL_IWDG_Enable(IWDG);
 
@@ -130,23 +156,20 @@ Watchdog::Watchdog(const std::chrono::milliseconds timeout_period)
  *
  * @return Reference to the prescaler_list element containing the prescaler values.
  */
-constexpr std::pair<const uint32_t, const uint32_t>
-Watchdog::calculate_prescaler_value(const std::chrono::milliseconds timeout_period)
-{
-    constexpr auto test = timeout_period;
+constexpr std::pair<const uint32_t, const uint32_t> Watchdog::calculate_prescaler_value(const std::chrono::milliseconds timeout_period) {
 
     // Find a prescaler value that allows us to achieve a timeout period greater than the target.
-    constexpr uint32_t timeout_ms        = static_cast<uint32_t>(timeout_period.count());
-    constexpr uint32_t reload_value_max  = IWDG_RLR_RL_Msk;
-    constexpr uint32_t lsi_cycles_per_ms = LSI_VALUE / 1000;
-    constexpr uint32_t prescaler_target  = ((timeout_ms * lsi_cycles_per_ms + 1) / reload_value_max);
+    const uint32_t timeout_ms {static_cast<uint32_t>(timeout_period.count())};
+    
+    
+    const uint32_t prescaler_target {(timeout_ms * sys::lso::ticks_ms + 1) / reload_value_max};
 
     // Find the first prescaler value that is less than the target.
-    constexpr auto prescaler = *std::find_if(
+    const auto prescaler {*std::find_if(
         std::begin(prescaler_list),
         std::end(prescaler_list),
         [prescaler_target](auto prescaler_pair){return(prescaler_pair.first >= prescaler_target);}
-        );
+        )};
 
     return(prescaler);
 }
@@ -161,14 +184,11 @@ Watchdog::calculate_prescaler_value(const std::chrono::milliseconds timeout_peri
  *
  * @return Reload value.
  */
-constexpr uint32_t
-Watchdog::calculate_reload_value(const std::chrono::milliseconds timeout_period, 
-                                 const uint32_t                  prescaler_value)
-{
-    const uint32_t timeout_ms        = static_cast<uint32_t>(timeout_period.count());
-    const uint32_t lsi_cycles_per_ms = LSI_VALUE / 1000;
+constexpr uint32_t Watchdog::calculate_reload_value(const std::chrono::milliseconds timeout_period, const uint32_t prescaler_value) {
 
-    return((timeout_ms * lsi_cycles_per_ms + 1) / prescaler_value);
+    const uint32_t timeout_ms {static_cast<uint32_t>(timeout_period.count())};
+
+    return((timeout_ms * sys::lso::ticks_ms + 1) / prescaler_value);
 }
 
 /*------------------------------------------------------------------------------------------------*/
