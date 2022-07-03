@@ -9,20 +9,20 @@
  * -------------------------------------------------------------------------------------------------
  */
 
+#include <array>
 #include <algorithm>
 #include <chrono>
 #include <cstddef>
 #include <iterator>
 #include <optional>
-#include <sys/_stdint.h>
 #include <type_traits>
 #include <map>
+#include <utility>
+#include <ranges>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "stm32f3xx_ll_iwdg.h"
 #include "stm32f3xx_ll_rcc.h"
-#pragma GCC diagnostic pop
+
 
 #include "watchdog.hpp"
 
@@ -101,6 +101,9 @@ std::optional<Watchdog* const> Watchdog::get_instance(const std::chrono::millise
 
     } 
     else {
+        auto thing = std::array<int, 5> {4, 5, 6, 7, 8};
+        thing | std::views::take(2);
+
         watchdog_instance_created = true;
         
         static Watchdog watchdog(timeout_period);

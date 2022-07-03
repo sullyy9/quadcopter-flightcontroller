@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.00)
+cmake_minimum_required(VERSION 3.20)
 project(device-drivers
     VERSION 1.0
     LANGUAGES C
@@ -33,7 +33,7 @@ target_compile_definitions(${PROJECT_NAME}
     PUBLIC ${FLAGS_DEFINES}
     )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${PROJECT_NAME} SYSTEM
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/cmsis"
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/ll-drivers"
     )

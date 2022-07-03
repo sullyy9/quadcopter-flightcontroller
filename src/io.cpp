@@ -142,9 +142,9 @@ bool io::accelerometer_data_ready(void)
  */
 void io::accelerometer_read(int32_t *accel_x, int32_t *accel_y, int32_t *accel_z)
 {
-    int16_t data_x = 0;
-    int16_t data_y = 0;
-    int16_t data_z = 0;
+    int32_t data_x = 0;
+    int32_t data_y = 0;
+    int32_t data_z = 0;
 
     accel_data_ready = false;
     while(i2c::transfer_in_progress() == true) {}
@@ -226,9 +226,9 @@ bool io::magnetometer_data_ready(void)
  */
 void io::magnetometer_read(int32_t *mag_x, int32_t *mag_y, int32_t *mag_z)
 {
-    int16_t data_x = 0;
-    int16_t data_y = 0;
-    int16_t data_z = 0;
+    int32_t data_x = 0;
+    int32_t data_y = 0;
+    int32_t data_z = 0;
 
     mag_data_ready = false;
     while(i2c::transfer_in_progress() == true) {}
@@ -309,9 +309,9 @@ bool io::gyroscope_data_ready(void)
  */
 void io::gyroscope_read(int32_t *gyro_x, int32_t *gyro_y, int32_t *gyro_z)
 {
-    int16_t data_x = 0;
-    int16_t data_y = 0;
-    int16_t data_z = 0;
+    int32_t data_x = 0;
+    int32_t data_y = 0;
+    int32_t data_z = 0;
 
     gyro_data_ready = false;
     while(spi::transfer_in_progress() == true) {}

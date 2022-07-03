@@ -4,14 +4,6 @@ CompileFlags:
 
 ---
 If:
-    PathMatch: [.*\.hpp]
-
-CompileFlags:
-    Add: [--include=<stdint.h>,
-          --include=<stdbool.h>]
-
----
-If:
     PathMatch: [src/.*]
 
 CompileFlags:

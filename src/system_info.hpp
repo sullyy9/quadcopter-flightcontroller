@@ -14,7 +14,6 @@
 #include <chrono>
 #include <cstdint>
 #include <ratio>
-#include <sys/_stdint.h>
 
 #include "stm32f3xx_ll_rcc.h"
 

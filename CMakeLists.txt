@@ -1,7 +1,6 @@
 # Set project.
 ####################################################################################################
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
-cmake_minimum_required(VERSION 3.00)
+cmake_minimum_required(VERSION 3.20)
 project(quadcopter-flightcontroller
     VERSION 1.0
     LANGUAGES CXX
@@ -10,97 +9,130 @@ project(quadcopter-flightcontroller
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Set input files.
-####################################################################################################
-file(GLOB_RECURSE USER_SOURCES  "src/*.cpp")
-set(LINKER_SCRIPT               "${CMAKE_SOURCE_DIR}/src/application.ld")
-
-# Set output file names.
-####################################################################################################
-set(DEVICE_DRIVERS  "device-drivers")
-set(PROJECT_ELF     "${PROJECT_NAME}.elf")
-set(PROJECT_HEX     "${PROJECT_NAME}.hex")
-set(PROJECT_BIN     "${PROJECT_NAME}.bin")
-set(PROJECT_MAP     "${PROJECT_NAME}.map")
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/release")
 set(ASSEMBLY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/assembly")
 
-# Set flags.
-####################################################################################################
-set(FLAGS_DEVICE            -std=c++20 -mthumb -mcpu=cortex-m4)
-set(FLAGS_OPTIMISATIONS     -fdata-sections -ffunction-sections -fno-common -fno-unwind-tables -Os)
-set(FLAGS_MISC              -nostartfiles -specs=nano.specs -specs=nosys.specs )
-set(FLAGS_WARNINGS          -Wall -Wextra -Wshadow -Wdouble-promotion -Wundef -Wno-volatile)
+add_subdirectory(lib)
 
 # Configure the target.
 ####################################################################################################
-add_executable(${PROJECT_ELF} ${USER_SOURCES})
+add_executable(${PROJECT_NAME})
 
-add_subdirectory(lib)
-
-target_compile_options(${PROJECT_ELF}
-    PRIVATE ${FLAGS_DEVICE}
-    PRIVATE ${FLAGS_OPTIMISATIONS}
-    PRIVATE ${FLAGS_MISC}
-    PRIVATE ${FLAGS_WARNINGS}
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES 
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED YES
+        CXX_EXTENSIONS OFF
+        SUFFIX .elf
     )
 
-target_link_options(${PROJECT_ELF}
-    PRIVATE ${FLAGS_DEVICE}
-    PRIVATE ${FLAGS_OPTIMISATIONS}
-    PRIVATE ${FLAGS_MISC}
-    PRIVATE "LINKER:--gc-sections,-T${LINKER_SCRIPT},-Map=${PROJECT_MAP}"
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        src/clocks.cpp
+        src/debug.cpp
+        src/i2c.cpp
+        src/io.cpp
+        src/main.cpp
+        src/port.cpp
+        src/spi.cpp
+        src/startup.cpp
+        src/usart.cpp
+        src/utils.cpp
+        src/watchdog.cpp
     )
 
-target_link_libraries(${PROJECT_ELF} PRIVATE device-drivers)
-target_link_libraries(${PROJECT_ELF} PRIVATE m)
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        src/
+        )
+
+target_compile_options(${PROJECT_NAME}
+    PRIVATE
+        -mthumb
+        -mcpu=cortex-m4
+        -nostartfiles
+        -specs=nano.specs
+        -specs=nosys.specs
+        -fdata-sections
+        -ffunction-sections
+        -fno-common
+        -fno-unwind-tables
+        -Os
+        -Wall
+        -Wextra
+        -Wundef
+        -Wshadow
+        -Wconversion
+        -Wno-volatile
+        -Wsign-conversion
+        -Wdouble-promotion
+    )
+
+target_link_options(${PROJECT_NAME}
+    PRIVATE
+        -mthumb
+        -mcpu=cortex-m4
+        -nostartfiles
+        -specs=nano.specs
+        -specs=nosys.specs
+        -T${CMAKE_SOURCE_DIR}/src/application.ld
+        LINKER:--gc-sections
+        LINKER:--print-memory-usage
+        LINKER:-Map=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.map
+    )
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        device-drivers
+        m
+    )
+
 
 # Generate assembly for each source file.
 ####################################################################################################
-set(COMPILE_FLAGS -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -g -w)
-set(DEFINE_FLAGS -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG)
-set(INCLUDE_FLAGS -I${CMAKE_SOURCE_DIR}/lib/cmsis -I${CMAKE_SOURCE_DIR}/lib/ll-drivers)
+# set(COMPILE_FLAGS -std=c++20 -mthumb -mcpu=cortex-m4 -fdata-sections -ffunction-sections -fno-common -Os -g -w)
+# set(DEFINE_FLAGS -DSTM32F303xC -DUSE_FULL_LL_DRIVER -DUSE_WWDG)
+# set(INCLUDE_FLAGS -I${CMAKE_SOURCE_DIR}/lib/cmsis -I${CMAKE_SOURCE_DIR}/lib/ll-drivers)
 
-set(ASM_FLAGS
-    ${COMPILE_FLAGS} 
-    ${DEFINE_FLAGS}
-    ${INCLUDE_FLAGS}
-    )
+# set(ASM_FLAGS
+#     ${COMPILE_FLAGS} 
+#     ${DEFINE_FLAGS}
+#     ${INCLUDE_FLAGS}
+#     )
 
-add_custom_command(TARGET ${PROJECT_ELF}
-    COMMENT "Building asm targets"
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${ASSEMBLY_OUTPUT_DIRECTORY}
-    )
+# add_custom_command(TARGET ${PROJECT_NAME}
+#     COMMENT "Building asm targets"
+#     COMMAND ${CMAKE_COMMAND} -E make_directory ${ASSEMBLY_OUTPUT_DIRECTORY}
+#     )
 
-foreach(SOURCE_FILE IN LISTS USER_SOURCES)
-    get_filename_component(SOURCE_FILE_NAME ${SOURCE_FILE} NAME_WLE)
-    set(ASM_FILE "${SOURCE_FILE_NAME}.s")
+# foreach(SOURCE_FILE IN LISTS USER_SOURCES)
+#     get_filename_component(SOURCE_FILE_NAME ${SOURCE_FILE} NAME_WLE)
+#     set(ASM_FILE "${SOURCE_FILE_NAME}.s")
 
-    add_custom_target(${ASM_FILE} ALL DEPENDS ${PROJECT_ELF})
+#     add_custom_target(${ASM_FILE} ALL DEPENDS ${PROJECT_NAME}.elf)
 
-    add_custom_command(TARGET ${ASM_FILE}
-        WORKING_DIRECTORY ${ASSEMBLY_OUTPUT_DIRECTORY}
-        COMMAND ${CMAKE_CXX_COMPILER} ${ASM_FLAGS} -S ${SOURCE_FILE} -o ${SOURCE_FILE_NAME}-raw.s
-        COMMAND ${CMAKE_CXX_FILT} < ${SOURCE_FILE_NAME}-raw.s > ${SOURCE_FILE_NAME}.s
-        COMMAND ${CMAKE_COMMAND} -E remove ${SOURCE_FILE_NAME}-raw.s
-        )
+#     add_custom_command(TARGET ${ASM_FILE}
+#         WORKING_DIRECTORY ${ASSEMBLY_OUTPUT_DIRECTORY}
+#         COMMAND ${CMAKE_CXX_COMPILER} ${ASM_FLAGS} -S ${SOURCE_FILE} -o ${SOURCE_FILE_NAME}-raw.s
+#         COMMAND ${CMAKE_CXX_FILT} < ${SOURCE_FILE_NAME}-raw.s > ${SOURCE_FILE_NAME}.s
+#         COMMAND ${CMAKE_COMMAND} -E remove ${SOURCE_FILE_NAME}-raw.s
+#         )
 
-endforeach()
+# endforeach()
 
 # Add bin and hex files.
 ####################################################################################################
-add_custom_target(${PROJECT_HEX} ALL DEPENDS ${PROJECT_ELF})
-add_custom_target(${PROJECT_BIN} ALL DEPENDS ${PROJECT_ELF})
+add_custom_target(${PROJECT_NAME}.hex ALL DEPENDS ${PROJECT_NAME})
+add_custom_target(${PROJECT_NAME}.bin ALL DEPENDS ${PROJECT_NAME})
 
-add_custom_command(TARGET ${PROJECT_HEX}
+add_custom_command(TARGET ${PROJECT_NAME}.hex
         COMMENT "Building hex file"
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND ${CMAKE_OBJCOPY} -Oihex ${PROJECT_ELF} ${PROJECT_HEX}
+        COMMAND ${CMAKE_OBJCOPY} -Oihex ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
         )
 
-add_custom_command(TARGET ${PROJECT_BIN}
+add_custom_command(TARGET ${PROJECT_NAME}.bin
         COMMENT "Building bin file"
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND ${CMAKE_OBJCOPY} -Obinary ${PROJECT_ELF} ${PROJECT_BIN}
+        COMMAND ${CMAKE_OBJCOPY} -Obinary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
         )

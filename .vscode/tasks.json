@@ -6,26 +6,41 @@
         {
             "label": "cmake clean",
             "type": "shell",
-            "command": "rm -rf ./build",
+            "command": "rm",
+            "args": [
+                "-rf", "build/"
+            ],
             "problemMatcher": []
         },
         {
             "label": "cmake generate",
             "dependsOn": "cmake clean",
             "type": "shell",
-            "command": "cmake -S . -B ./build",
+            "command": "cmake",
+            "args": [
+                "-S", ".",
+                "-B", "build/",
+                "-D", "CMAKE_TOOLCHAIN_FILE=toolchain.cmake"
+            ],
             "problemMatcher": []
         },
         {
             "label": "cmake build",
             "type": "shell",
-            "command": "cmake --build ./build",
+            "command": "cmake",
+            "args": [
+                "--build", "build/"
+            ],
             "problemMatcher": []
         },
         {
             "label": "cmake clean build",
             "type": "shell",
-            "command": "cmake --build ./build --clean-first",
+            "command": "cmake",
+            "args": [
+                "--build", "build/",
+                "--clean-first"
+            ],
             "problemMatcher": []
         }
     ]
