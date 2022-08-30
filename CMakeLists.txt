@@ -85,6 +85,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         device-drivers
         m
+        Result
     )
 
 

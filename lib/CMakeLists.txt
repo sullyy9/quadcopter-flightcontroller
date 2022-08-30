@@ -37,3 +37,14 @@ target_include_directories(${PROJECT_NAME} SYSTEM
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/cmsis"
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/ll-drivers"
     )
+
+####################################################################################################
+
+add_subdirectory("result")
+target_compile_definitions(Result
+    INTERFACE RESULT_DISABLE_EXCEPTIONS
+)
+
+target_compile_options(Result
+    INTERFACE "-Wno-unused-parameter"
+)
