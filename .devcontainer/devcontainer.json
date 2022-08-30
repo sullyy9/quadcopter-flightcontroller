@@ -16,14 +16,17 @@
         "ZixuanWang.linkerscript",
         "trond-snekvik.gnu-mapfiles",
         "dseight.disasexpl",
-        "usernamehw.errorlens"
+        "usernamehw.errorlens",
+        "marus25.cortex-debug"
     ],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": "sudo udevadm trigger",
+	"postCreateCommand": [
+        "sudo", "/lib/systemd/systemd-udevd", "--daemon"
+    ],
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [ "--privileged", "--volume=/dev/bus/usb:/dev/bus/usb" ]

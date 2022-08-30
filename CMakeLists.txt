@@ -9,7 +9,6 @@ project(quadcopter-flightcontroller
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/release")
 set(ASSEMBLY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/assembly")
 
 add_subdirectory(lib)
@@ -57,7 +56,9 @@ target_compile_options(${PROJECT_NAME}
         -ffunction-sections
         -fno-common
         -fno-unwind-tables
-        -Os
+        $<$<CONFIG:DEBUG>:-g3>
+        $<$<CONFIG:DEBUG>:-Og>
+        $<$<CONFIG:RELEASE>:-Os>
         -Wall
         -Wextra
         -Wundef
@@ -78,7 +79,7 @@ target_link_options(${PROJECT_NAME}
         -T${CMAKE_SOURCE_DIR}/src/application.ld
         LINKER:--gc-sections
         LINKER:--print-memory-usage
-        LINKER:-Map=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.map
+        LINKER:-Map=${CMAKE_BINARY_DIR}/${PROJECT_NAME}.map
     )
 
 target_link_libraries(${PROJECT_NAME}
