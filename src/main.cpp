@@ -10,7 +10,6 @@
  */
 
 #include <cstdint>
-
 #include <cmath>
 
 #include "i3g4250d.hpp"
@@ -19,6 +18,7 @@
 #include "io.hpp"
 #include "main.hpp"
 #include "clocks.hpp"
+#include "system_info.hpp"
 #include "utils.hpp"
 #include "watchdog.hpp"
 
@@ -173,19 +173,14 @@ int main(void)
     debug::printf("initialisation complete\r\n");
     utils::wait_ms(1000);
 
-    // Setup the indipendant watchdog.
-    constexpr auto timeout = std::chrono::milliseconds(1000);
-    auto watchdog_container = wdg::Watchdog::get_instance(timeout);
-    if(!watchdog_container.has_value())
-    {
-        debug::printf("ERROR::Invalid watchdog instance. Halting execution\r\n");
+    // Setup the independant watchdog.
+    auto result {iwdg::Watchdog::with_timeout(sys::Microseconds(1))};
+    if (result.has_error()) {
+        debug::printf("Failed to initialise watchdog\n");
         while(1);
     }
-    wdg::Watchdog& watchdog = *watchdog_container.value();
-
-    //
-    // Main loop.
-    //
+    auto watchdog {result.value()};
+    
     while(run_program == true)
     {
         watchdog.update();

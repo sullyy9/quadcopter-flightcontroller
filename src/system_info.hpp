@@ -8,36 +8,22 @@
  * @date    2022-06-04
  * -------------------------------------------------------------------------------------------------
  */
-
 #pragma once
 
 #include <chrono>
-#include <cstdint>
-#include <ratio>
 
 #include "stm32f3xx_ll_rcc.h"
 
+using Frequency = uint32_t;
+
 namespace sys {
-using clock_period    = std::chrono::duration<float>;
-using clock_frequency = uint32_t;
+    using Nanoseconds = std::chrono::duration<uint32_t, std::nano>;
+    using Microseconds = std::chrono::duration<uint32_t, std::micro>;
+    using Milliseconds = std::chrono::duration<uint32_t, std::milli>;
+    using Seconds = std::chrono::duration<uint32_t>;
 
     namespace lso {
-
-        inline constexpr clock_frequency frequency {LSI_VALUE};
-        inline constexpr clock_period    period    {1.0 / frequency};       
-
-        inline constexpr uint32_t ticks_ms  {frequency / 1'000};
-        
+        inline constexpr Frequency    frequency {LSI_VALUE};
+        inline constexpr Microseconds period {1'000'000 / frequency};        
     }
-
-    namespace utils {
-        consteval auto calculate_clock_period(const clock_frequency frequency, 
-                                              const uint32_t        prescaler, 
-                                              const uint32_t        reload_value) -> clock_period {
-
-            sys::clock_period period {prescaler * sys::lso::period};
-            return(period * reload_value);
-        }
-    }
-
 }
