@@ -1,4 +1,7 @@
-build/*
+builddir/*
 .cache
 assembly/*
 release/*
+subprojects/*/
+!subprojects/packagefiles
+.vscode/.cortex-debug*

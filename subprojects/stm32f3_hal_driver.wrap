@@ -1,0 +1,8 @@
+[wrap-git]
+url = https://github.com/STMicroelectronics/STM32CubeF3.git
+revision = v1.11.3
+
+patch_directory = stm32f3_hal_driver
+
+[provide]
+dependency_names = stm32f3_hal_driver

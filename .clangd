@@ -1,5 +1,5 @@
----
 CompileFlags:
+    CompilationDatabase: builddir/release
     Add: [--target=arm-arm-none-eabi]
 
 ---
@@ -20,7 +20,7 @@ CompileFlags:
 
 ---
 If:
-    PathMatch: [lib/.*]
+    PathMatch: [subprojects/.*]
 
 CompileFlags:
     Remove: [-W*]
@@ -28,4 +28,4 @@ CompileFlags:
 
 ---
 Diagnostics:
-  UnusedIncludes: Strict
+  UnusedIncludes: None

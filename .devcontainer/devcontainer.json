@@ -17,7 +17,9 @@
         "trond-snekvik.gnu-mapfiles",
         "dseight.disasexpl",
         "usernamehw.errorlens",
-        "marus25.cortex-debug"
+        "marus25.cortex-debug",
+        "mesonbuild.mesonbuild",
+        "ms-vscode.vscode-serial-monitor"
     ],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

@@ -196,7 +196,7 @@ void print_number(uint32_t number)
 
     do
     {
-        buffer[buffer_ptr] = ('0' + (number % 10));
+        buffer[buffer_ptr] = ('0' + static_cast<uint8_t>(number % 10));
         number             = number / 10;
         buffer_ptr++;
     } while(number != 0);

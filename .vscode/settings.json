@@ -8,6 +8,6 @@
     "disasexpl.associations": {
         "**/*.c": "${workspaceFolder}/${fileBasenameNoExtension}.s",
         "**/*.cpp": "${workspaceFolder}/assembly/${fileBasenameNoExtension}.s"
-    }
-
+    },
+    "mesonbuild.configureOnOpen": false,
 }

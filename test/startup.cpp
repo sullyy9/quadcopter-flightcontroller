@@ -38,7 +38,8 @@ extern unsigned long __stack_len__;
 extern unsigned long __heap_start__;
 extern unsigned long __heap_len__;
 
-extern unsigned long __empty__;
+extern void (*__init_array_start)();
+extern void (*__init_array_end)();
 
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
@@ -170,11 +171,16 @@ void reset_isr(void)
     
     // Copy the initialised data (which is initialy placed after the read only
     // data in flash) to it's location in RAM.
-    memcpy(&__data_start__, &__code_end__, reinterpret_cast<size_t>(&__data_len__)); // NOLINT - ignore clangd warning
+    std::memcpy(&__data_start__, &__code_end__, reinterpret_cast<size_t>(&__data_len__)); // NOLINT - ignore clangd warning
     
     // Make sure any variable that are in the uninitialised data section are set
     // to 0. 
-    memset(&__bss_start__, 0x00, reinterpret_cast<size_t>(&__bss_len__)); // NOLINT - ignore clangd warning
+    std::memset(&__bss_start__, 0x00, reinterpret_cast<size_t>(&__bss_len__)); // NOLINT - ignore clangd warning
+
+    // Call global object constructors.
+    for (void (**p)() = &__init_array_start; p < &__init_array_end; ++p) {
+        (*p)(); // NOLINT - ignore clangd warning
+    }
 
     // Run the application.
     main(); // NOLINT - ignore clangd warning
@@ -236,21 +242,3 @@ void watch_dog_isr(void)
 {
     while(1) {}
 }
-
-/*----------------------------------------------------------------------------*/
-
-// extern unsigned long _end;
-
-// void *_sbrk(int incr) {
-//   static unsigned char *heap = nullptr;
-//   unsigned char *prev_heap;
-
-//   if (heap == nullptr) {
-//     heap = (unsigned char *)&_end;
-//   }
-//   prev_heap = heap;
-
-//   heap += incr;
-
-//   return prev_heap;
-// }
