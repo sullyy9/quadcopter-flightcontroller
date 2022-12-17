@@ -20,12 +20,15 @@ add_project_arguments(
     language: ['c'],
 )
 
-cmsis_src = files('Drivers/CMSIS/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c')
-cmsis_inc = include_directories([
-    'Drivers/CMSIS/Device/ST/STM32F3xx/Include',
-    'Drivers/CMSIS/Include',
+cmsis_src = files(
+    'Drivers/CMSIS/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c',
+)
+cmsis_inc = include_directories(
+    [
+        'Drivers/CMSIS/Device/ST/STM32F3xx/Include',
+        'Drivers/CMSIS/Include',
     ],
-    is_system: true
+    is_system: true,
 )
 
 lldriver_src = files(
@@ -48,10 +51,11 @@ lldriver_src = files(
     'Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c',
 )
 
-lldriver_inc = include_directories([
-    'Drivers/STM32F3xx_HAL_Driver/Inc',
+lldriver_inc = include_directories(
+    [
+        'Drivers/STM32F3xx_HAL_Driver/Inc',
     ],
-    is_system: true
+    is_system: true,
 )
 
 stm32f3_cmsis_lib = static_library(

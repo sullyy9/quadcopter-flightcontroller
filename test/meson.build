@@ -1,6 +1,6 @@
-test_src = files([
-    'startup.cpp',
+test_src = files(
     'main.cpp',
+    'startup.cpp',
+    'syscalls.cpp',
     'test_watchdog.cpp',
-    'syscalls.cpp',   
-])
+)
