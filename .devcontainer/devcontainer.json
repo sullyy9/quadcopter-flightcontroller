@@ -26,12 +26,18 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": [
-        "sudo", "/lib/systemd/systemd-udevd", "--daemon"
-    ],
+	"postAttachCommand": {
+        "udev start": ["sudo", "/lib/systemd/systemd-udevd", "--daemon"],
+        "udev reload rules": ["sudo", "udevadm", "control", "--reload-rules"],
+        "udev trigger": ["sudo", "udevadm", "trigger"]
+    },
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	"runArgs": [ "--privileged", "--volume=/dev/bus/usb:/dev/bus/usb" ]
+	"runArgs": [
+        "--privileged",
+        "--volume=/dev/bus/usb:/dev/bus/usb",
+        "--volume=/dev/ttyACM*:/dev/ttyACM*"
+    ]
 
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
