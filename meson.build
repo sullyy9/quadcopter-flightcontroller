@@ -63,6 +63,7 @@ opt_var.append_compile_args('cpp', '-Wno-conversion', '-Wno-dev')
 cpputest_proj = cmake.subproject('cpputest', options: opt_var)
 
 cpputest_dep = cpputest_proj.dependency('CppUTest', include_type: 'system')
+cpputestext_dep = cpputest_proj.dependency('CppUTestExt', include_type: 'system')
 
 ####################################################################################################
 
@@ -102,7 +103,7 @@ if get_option('enable_test')
         name_suffix: 'elf',
         sources: [test_src],
         include_directories: [include_directories(['src', 'test'])],
-        dependencies: [cpputest_dep, flightcontroller_dep],
+        dependencies: [cpputest_dep, cpputestext_dep, flightcontroller_dep],
         link_args: [
             '-nostartfiles',
             '--specs=nano.specs',
