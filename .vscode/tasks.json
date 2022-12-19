@@ -66,6 +66,14 @@
                 "--command", "program ./builddir/release/unit_test.elf verify reset exit"
             ],
             "dependsOn": "Build Release",
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-r", "builddir",
+            ],
         }
     ]
 }
