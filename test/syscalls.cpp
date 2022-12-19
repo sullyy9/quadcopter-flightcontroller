@@ -7,6 +7,7 @@ extern "C" {
 int _write([[maybe_unused]] int file, char *ptr, int len) {
     int DataIdx;
     for (DataIdx = 0; DataIdx < len; DataIdx++) {
+        while(usart::tx_free() == 0);
         usart::tx_byte(*ptr++);
     }
     return len;
