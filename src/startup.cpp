@@ -40,6 +40,8 @@ extern unsigned long __heap_len__;
 
 extern unsigned long __empty__;
 
+void *__dso_handle = nullptr; // NOLINT - ignore clangd warning
+
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/

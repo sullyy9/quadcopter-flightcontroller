@@ -11,6 +11,8 @@
 
 #include <cstdint>
 #include <cmath>
+#include <optional>
+#include <utility>
 
 #include "i3g4250d.hpp"
 #include "lsm303agr.hpp"
@@ -143,7 +145,7 @@ void apply_kalman_filter(void);
  * @return int Unused.
  */
 int main(void)
-{
+{  
     // Initialise clocks.
     // Clock configuration can be found in clocks_config.hpp.
     {
@@ -174,19 +176,20 @@ int main(void)
     utils::wait_ms(1000);
 
     // Setup the independant watchdog.
-    auto result {iwdg::Watchdog::with_timeout(sys::Microseconds(1))};
-    if (result.has_error()) {
-        debug::printf("Failed to initialise watchdog\n");
-        while(1);
+    auto [result, status] {iwdg::Watchdog::with_timeout(sys::Seconds{1})};
+    if (!result.has_value()) {
+        debug::printf("%s - %s", status.category().name(), status.message().c_str());
+        return -1;
     }
-    auto watchdog {result.value()};
+    auto watchdog {std::exchange(result, std::nullopt).value()};
+
     
     while(run_program == true)
     {
         watchdog.update();
 
         debug::stopwatch_start();
-
+        
         /*
          * read acceleration data if its ready
          */

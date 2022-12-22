@@ -31,6 +31,7 @@ add_project_link_arguments(
         '-Wl,-T,@0@/@1@'.format(meson.current_source_dir(), linkscript[0]),
         '-Wl,--gc-sections',
         '-Wl,--print-memory-usage',
+        '-Wl,--no-warn-rwx-segment',
     ],
     language: ['cpp'],
 )

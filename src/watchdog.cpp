@@ -10,9 +10,7 @@
  */
 
 #include <ranges>
-#include <chrono>
-#include <memory>
-#include <ranges>
+#include <optional>
 
 #include "stm32f3xx_ll_rcc.h"
 #include "stm32f3xx_ll_iwdg.h"
@@ -20,28 +18,29 @@
 #include "system_info.hpp"
 #include "watchdog.hpp"
 
-/*------------------------------------------------------------------------------------------------*/
-/*-forward-declarations---------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
 
-/*------------------------------------------------------------------------------------------------*/
-/*-constant-definitions---------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
+struct StatusCategory : std::error_category
+{
+    const char* name() const noexcept override;
+    std::string message(int ev) const override;
+};
+const StatusCategory WATCHDOG_STATUS {};
 
-static constexpr uint32_t reload_value_max {IWDG_RLR_RL_Msk};
+static constexpr uint32_t RELOAD_VALUE_MAX {IWDG_RLR_RL_Msk};
 
 struct Prescaler {
     uint32_t key   {};
     uint32_t value {};
 
     constexpr auto max_period() -> sys::Microseconds {
-        return sys::lso::period * value * reload_value_max;
+        return sys::lso::period * value * RELOAD_VALUE_MAX;
     }
 
     constexpr auto min_period() -> sys::Microseconds {
         return sys::lso::period * value;
     }
 };
+
 static constexpr std::array prescaler_map {
     Prescaler{LL_IWDG_PRESCALER_4,   4  },
     Prescaler{LL_IWDG_PRESCALER_8,   8  },
@@ -53,49 +52,33 @@ static constexpr std::array prescaler_map {
 };
 
 /*------------------------------------------------------------------------------------------------*/
-/*-exported-variables-----------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
 
-/*------------------------------------------------------------------------------------------------*/
-/*-static-variables-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
-
-/*------------------------------------------------------------------------------------------------*/
-/*-public-methods---------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
-
-/// @brief Return an instance of the Independant Watchdog, running and intialised with the specified
+/// @brief Return an instance of the independant watchdog, running and intialised with the specified
 ///        timeout period.
-auto iwdg::Watchdog::with_timeout(const sys::Microseconds timeout) -> cpp::result<Watchdog&, Error> {
+///
+/// @param timeout Time period after which a processor reset will be triggered.
+///
+/// @return Tuple containing an error code, detailling the status, and a watchdog instance if the
+///         status is Ok.
+///
+auto iwdg::Watchdog::with_timeout(const sys::Microseconds timeout) -> std::tuple<std::optional<Watchdog>, std::error_code> {
     auto suitable = [timeout] (Prescaler prescaler) {
         return prescaler.min_period() <= timeout && timeout <= prescaler.max_period();
     };
 
     auto prescaler {std::ranges::find_if(prescaler_map, suitable)};
-
     if (prescaler == prescaler_map.end()) {
-        return cpp::fail(iwdg::Error::InvalidTimeout);
+        return {std::nullopt, StatusCode::InvalidTimeout};
     }
 
     auto reload_value {timeout / (sys::lso::period * prescaler->value)};
 
-    static Watchdog watchdog {prescaler->key, reload_value};
-
-    return watchdog;
+    return {std::make_optional(Watchdog{prescaler->key, reload_value}), StatusCode::Ok};
 }
 
 /*------------------------------------------------------------------------------------------------*/
 
-// Return an instance of the Independant Watchdog without any intialisation.
-//
-auto iwdg::Watchdog::uninitialised() -> Watchdog& {
-    static Watchdog watchdog;
-    return watchdog;
-}
-
-/*------------------------------------------------------------------------------------------------*/
-
-iwdg::Watchdog::Watchdog(const uint32_t prescaler_register_value, const uint32_t reload_register_value) {
+iwdg::Watchdog::Watchdog(const uint32_t prescaler_value, const uint32_t reload_value) {
 
     LL_RCC_LSI_Enable();
     while (!LL_RCC_LSI_IsReady());
@@ -103,8 +86,8 @@ iwdg::Watchdog::Watchdog(const uint32_t prescaler_register_value, const uint32_t
     LL_IWDG_Enable(IWDG);
 
     LL_IWDG_EnableWriteAccess(IWDG);
-    LL_IWDG_SetPrescaler(IWDG, prescaler_register_value);
-    LL_IWDG_SetReloadCounter(IWDG, reload_register_value);
+    LL_IWDG_SetPrescaler(IWDG, prescaler_value);
+    LL_IWDG_SetReloadCounter(IWDG, reload_value);
     LL_IWDG_DisableWriteAccess(IWDG);
 
     while(!LL_IWDG_IsReady(IWDG));
@@ -120,9 +103,24 @@ void iwdg::Watchdog::update(void) {
 }
 
 /*------------------------------------------------------------------------------------------------*/
-/*-private-methods--------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------*/
+ 
+const char* StatusCategory::name() const noexcept {
+    return "Watchdog";
+}
 
 /*------------------------------------------------------------------------------------------------*/
-/*-end-of-module----------------------------------------------------------------------------------*/
+
+std::string StatusCategory::message(int status) const {
+    using enum iwdg::StatusCode;
+    switch (static_cast<iwdg::StatusCode>(status)) {
+        case Ok:             return "Ok";
+        case InvalidTimeout: return "Invalid timeout";
+        default:             return "Unknown";
+    }
+}
+
 /*------------------------------------------------------------------------------------------------*/
+
+std::error_code iwdg::make_error_code(iwdg::StatusCode e) {
+    return {static_cast<int>(e), WATCHDOG_STATUS};
+}
