@@ -29,30 +29,30 @@ using namespace io;
 /*-constant-definitions---------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
-#define LED_NW port::E8
-#define LED_N  port::E9
-#define LED_NE port::E10
-#define LED_E  port::E11
-#define LED_SE port::E12
-#define LED_S  port::E13
-#define LED_SW port::E14
-#define LED_W  port::E15
+#define LED_NW port::Pin::E8
+#define LED_N  port::Pin::E9
+#define LED_NE port::Pin::E10
+#define LED_E  port::Pin::E11
+#define LED_SE port::Pin::E12
+#define LED_S  port::Pin::E13
+#define LED_SW port::Pin::E14
+#define LED_W  port::Pin::E15
 
-#define DEBUG_TX port::C4
-#define DEBUG_RX port::C5
+#define DEBUG_TX port::Pin::C4
+#define DEBUG_RX port::Pin::C5
 
-#define ACCEL_CLOCK port::B6
-#define ACCEL_DATA  port::B7
-#define ACCEL_DRDY  port::E2
-#define ACCEL_INT1  port::E4
-#define ACCEL_INT2  port::E5
+#define ACCEL_CLOCK port::Pin::B6
+#define ACCEL_DATA  port::Pin::B7
+#define ACCEL_DRDY  port::Pin::E2
+#define ACCEL_INT1  port::Pin::E4
+#define ACCEL_INT2  port::Pin::E5
 
-#define GYRO_CLOCK port::A5
-#define GYRO_MISO  port::A6
-#define GYRO_MOSI  port::A7
-#define GYRO_CS    port::E3
-#define GYRO_INT1  port::E0
-#define GYRO_INT2  port::E1
+#define GYRO_CLOCK port::Pin::A5
+#define GYRO_MISO  port::Pin::A6
+#define GYRO_MOSI  port::Pin::A7
+#define GYRO_CS    port::Pin::E3
+#define GYRO_INT1  port::Pin::E0
+#define GYRO_INT2  port::Pin::E1
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -357,7 +357,7 @@ void io::gyroscope_read(int32_t *gyro_x, int32_t *gyro_y, int32_t *gyro_z)
  */
 void io::poll(void)
 {
-    const static port::pin_t led[] = {LED_NW, LED_N, LED_NE, LED_E, LED_SE, LED_S, LED_SW, LED_W};
+    const static port::Pin led[] = {LED_NW, LED_N, LED_NE, LED_E, LED_SE, LED_S, LED_SW, LED_W};
     static uint8_t active = 0;
 
     if(led_timer >= 100)
@@ -445,40 +445,40 @@ void initialise_pins(void)
     /*
      * GPIO
      */
-    port::initialise_pin(LED_N, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_NE, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_E, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_SE, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_S, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_SW, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_W, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(LED_NW, port::MODE_PUSH_PULL, 0);
+    port::initialise_pin(LED_N, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_NE, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_E, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_SE, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_S, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_SW, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_W, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(LED_NW, port::Mode::PUSH_PULL, 0);
 
     /*
      * Debug
      */
-    port::initialise_pin(DEBUG_TX, port::MODE_ALT_OUTPUT, 7);
-    port::initialise_pin(DEBUG_RX, port::MODE_INPUT_PULLUP, 7);
+    port::initialise_pin(DEBUG_TX, port::Mode::ALT_OUTPUT, 7);
+    port::initialise_pin(DEBUG_RX, port::Mode::INPUT_PULLUP, 7);
 
     /*
      * Accelerometer / Magnetometer
      */
-    port::initialise_pin(ACCEL_CLOCK, port::MODE_ALT_OPEN_DRAIN, 4);
-    port::initialise_pin(ACCEL_DATA, port::MODE_ALT_OPEN_DRAIN, 4);
-    port::initialise_pin(ACCEL_DRDY, port::MODE_INPUT_PULLDOWN, 0);
-    port::initialise_pin(ACCEL_INT1, port::MODE_INPUT_PULLDOWN, 0);
-    port::initialise_pin(ACCEL_INT2, port::MODE_INPUT_PULLDOWN, 0);
+    port::initialise_pin(ACCEL_CLOCK, port::Mode::ALT_OPEN_DRAIN, 4);
+    port::initialise_pin(ACCEL_DATA, port::Mode::ALT_OPEN_DRAIN, 4);
+    port::initialise_pin(ACCEL_DRDY, port::Mode::INPUT_PULLDOWN, 0);
+    port::initialise_pin(ACCEL_INT1, port::Mode::INPUT_PULLDOWN, 0);
+    port::initialise_pin(ACCEL_INT2, port::Mode::INPUT_PULLDOWN, 0);
 
     /*
      * Gyroscope
      */
     port::set(GYRO_CS);
-    port::initialise_pin(GYRO_CLOCK, port::MODE_ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_MISO, port::MODE_ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_MOSI, port::MODE_ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_CS, port::MODE_PUSH_PULL, 0);
-    port::initialise_pin(GYRO_INT1, port::MODE_INPUT_PULLDOWN, 0);
-    port::initialise_pin(GYRO_INT2, port::MODE_INPUT_PULLDOWN, 0);
+    port::initialise_pin(GYRO_CLOCK, port::Mode::ALT_OUTPUT, 5);
+    port::initialise_pin(GYRO_MISO, port::Mode::ALT_OUTPUT, 5);
+    port::initialise_pin(GYRO_MOSI, port::Mode::ALT_OUTPUT, 5);
+    port::initialise_pin(GYRO_CS, port::Mode::PUSH_PULL, 0);
+    port::initialise_pin(GYRO_INT1, port::Mode::INPUT_PULLDOWN, 0);
+    port::initialise_pin(GYRO_INT2, port::Mode::INPUT_PULLDOWN, 0);
 }
 
 /*------------------------------------------------------------------------------------------------*/
