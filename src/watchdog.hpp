@@ -43,8 +43,8 @@ namespace iwdg {
 ///
 struct Watchdog {
     explicit Watchdog() = delete;
-    explicit Watchdog(Watchdog&) = delete;
-    explicit Watchdog(Watchdog&&) = default;
+    Watchdog(Watchdog&) = delete;
+    Watchdog(Watchdog&&) = default;
     
     ~Watchdog() = default;
 
@@ -56,7 +56,7 @@ struct Watchdog {
     auto update() -> void;
 
 private:
-    explicit Watchdog(const uint32_t prescaler_value, const uint32_t reload_value);
+    Watchdog(const uint32_t prescaler_value, const uint32_t reload_value);
 };
 
 }

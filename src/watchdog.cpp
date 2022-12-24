@@ -73,7 +73,7 @@ auto iwdg::Watchdog::with_timeout(const sys::Microseconds timeout) -> std::tuple
 
     auto reload_value {timeout / (sys::lso::period * prescaler->value)};
 
-    return {std::make_optional(Watchdog{prescaler->key, reload_value}), StatusCode::Ok};
+    return {Watchdog{prescaler->key, reload_value}, StatusCode::Ok};
 }
 
 /*------------------------------------------------------------------------------------------------*/
