@@ -36,9 +36,9 @@ enum class Mode {
     OPEN_DRAIN
 };
 
-void initialise_pin(Pin pin, Mode mode, uint32_t alternate_function);
-void set(Pin pin);
-void clear(Pin pin);
-uint32_t read(Pin pin);
+void initialise_pin(const Pin pin, const Mode mode, const uint32_t alternate_function);
+void set(const Pin pin);
+void clear(const Pin pin);
+uint32_t read(const Pin pin);
 
 }

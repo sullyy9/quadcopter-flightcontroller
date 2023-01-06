@@ -15,8 +15,8 @@
 
 /*------------------------------------------------------------------------------------------------*/
 
-static auto port_mask(port::Pin pin) -> GPIO_TypeDef*;
-static constexpr auto pin_mask(port::Pin pin) -> decltype(LL_GPIO_InitTypeDef::Pin);
+static auto port_mask(const port::Pin pin) -> GPIO_TypeDef*;
+static constexpr auto pin_mask(const port::Pin pin) -> decltype(LL_GPIO_InitTypeDef::Pin);
 
 /*------------------------------------------------------------------------------------------------*/
 
@@ -25,7 +25,7 @@ static constexpr auto pin_mask(port::Pin pin) -> decltype(LL_GPIO_InitTypeDef::P
 /// @param mode               Mode the pin will be initialised to.
 /// @param alternate_function Alternate function of the pin.
 /// 
-void port::initialise_pin(Pin pin, Mode mode, uint32_t alternate_function)
+void port::initialise_pin(const Pin pin, const Mode mode, const uint32_t alternate_function)
 {
     LL_GPIO_InitTypeDef gpio_pin;
     gpio_pin.Alternate = alternate_function;
@@ -106,7 +106,7 @@ void port::initialise_pin(Pin pin, Mode mode, uint32_t alternate_function)
 /// @brief     Set a pin to a high logic level.
 /// @param pin Pin to set.
 /// 
-void port::set(Pin pin)
+void port::set(const Pin pin)
 {
     LL_GPIO_SetOutputPin(port_mask(pin), pin_mask(pin));
 }
@@ -116,7 +116,7 @@ void port::set(Pin pin)
 /// @brief     Set a pin to a low logic level.
 /// @param pin Pin to set.
 /// 
-void port::clear(Pin pin)
+void port::clear(const Pin pin)
 {
     LL_GPIO_ResetOutputPin(port_mask(pin), pin_mask(pin));
 }
@@ -127,7 +127,7 @@ void port::clear(Pin pin)
 /// @param pin       Pin to read.
 /// @return uint32_t Value of the pin. 1 or 0.
 /// 
-uint32_t port::read(Pin pin)
+uint32_t port::read(const Pin pin)
 {
     uint32_t port_value;
     port_value = LL_GPIO_ReadInputPort(port_mask(pin));
@@ -144,12 +144,12 @@ uint32_t port::read(Pin pin)
 
 /*------------------------------------------------------------------------------------------------*/
 
-static auto port_mask(port::Pin pin) -> GPIO_TypeDef* {
+static auto port_mask(const port::Pin pin) -> GPIO_TypeDef* {
     return reinterpret_cast<GPIO_TypeDef*>(GPIOA_BASE + ((static_cast<uint32_t>(pin) / 16) * 0x400));
 }
 
 /*------------------------------------------------------------------------------------------------*/
 
-static constexpr auto pin_mask(port::Pin pin) -> decltype(LL_GPIO_InitTypeDef::Pin) {
+static constexpr auto pin_mask(const port::Pin pin) -> decltype(LL_GPIO_InitTypeDef::Pin) {
     return 1 << (static_cast<uint32_t>(pin) % 16);
 }
