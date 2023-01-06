@@ -19,12 +19,12 @@
 #include "watchdog.hpp"
 
 
-struct StatusCategory : std::error_category
+struct IWDGStatusCategory : std::error_category
 {
     const char* name() const noexcept override;
     std::string message(int ev) const override;
 };
-const StatusCategory WATCHDOG_STATUS {};
+const IWDGStatusCategory WATCHDOG_STATUS_CATEGORY {};
 
 static constexpr uint32_t RELOAD_VALUE_MAX {IWDG_RLR_RL_Msk};
 
@@ -104,13 +104,13 @@ void iwdg::Watchdog::update(void) {
 
 /*------------------------------------------------------------------------------------------------*/
  
-const char* StatusCategory::name() const noexcept {
+const char* IWDGStatusCategory::name() const noexcept {
     return "Watchdog";
 }
 
 /*------------------------------------------------------------------------------------------------*/
 
-std::string StatusCategory::message(int status) const {
+std::string IWDGStatusCategory::message(int status) const {
     using enum iwdg::StatusCode;
     switch (static_cast<iwdg::StatusCode>(status)) {
         case Ok:             return "Ok";
@@ -122,5 +122,5 @@ std::string StatusCategory::message(int status) const {
 /*------------------------------------------------------------------------------------------------*/
 
 std::error_code iwdg::make_error_code(iwdg::StatusCode e) {
-    return {static_cast<int>(e), WATCHDOG_STATUS};
+    return {static_cast<int>(e), WATCHDOG_STATUS_CATEGORY};
 }
