@@ -3,13 +3,20 @@
 
 #include "usart.hpp"
 
+static std::optional<usart::USART> interface {std::nullopt};
+
+auto set_stdout_interface(usart::USART&& out_interface) -> void {
+    interface = std::move(out_interface);
+}
+
 extern "C" {
 int _write([[maybe_unused]] int file, char *ptr, int len) {
     int DataIdx;
     for (DataIdx = 0; DataIdx < len; DataIdx++) {
-        while(usart::tx_free() == 0);
-        usart::tx_byte(*ptr++);
+        while(interface->tx_free() == 0);
+        interface->tx_byte(std::byte(*ptr++));
     }
+    interface->tx_flush();
     return len;
 }
 

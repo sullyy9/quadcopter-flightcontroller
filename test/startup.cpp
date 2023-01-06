@@ -41,6 +41,8 @@ extern unsigned long __heap_len__;
 extern void (*__init_array_start)();
 extern void (*__init_array_end)();
 
+void *__dso_handle = nullptr; // NOLINT - ignore clangd warning
+
 /*----------------------------------------------------------------------------*/
 /*-forward-declarations-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
