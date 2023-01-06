@@ -24,6 +24,8 @@ using namespace i2c;
 #define TX_BUFFER_SIZE 128
 #define RX_BUFFER_SIZE 128
 
+using SerialDebug = debug::Serial<usart::USART>;
+
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -251,7 +253,7 @@ void i2c::ev_isr(void)
     if(LL_I2C_IsActiveFlag_NACK(I2C1))
     {
         LL_I2C_ClearFlag_NACK(I2C1);
-        debug::printf("ERR:I2C1_NACK\r\n");
+        SerialDebug::print("ERR:I2C1_NACK\r\n");
     }
 }
 
@@ -265,17 +267,17 @@ void i2c::er_isr(void)
     if(LL_I2C_IsActiveFlag_BERR(I2C1))
     {
         LL_I2C_ClearFlag_BERR(I2C1);
-        debug::printf("ERR:I2C1_BUS\r\n");
+        SerialDebug::print("ERR:I2C1_BUS\r\n");
     }
     if(LL_I2C_IsActiveFlag_ARLO(I2C1))
     {
         LL_I2C_ClearFlag_ARLO(I2C1);
-        debug::printf("ERR:I2C1_ARBRITRATION_LOSS\r\n");
+        SerialDebug::print("ERR:I2C1_ARBRITRATION_LOSS\r\n");
     }
     if(LL_I2C_IsActiveFlag_OVR(I2C1))
     {
         LL_I2C_ClearFlag_OVR(I2C1);
-        debug::printf("ERR:I2C1_OVER_UNDERRUN\r\n");
+        SerialDebug::print("ERR:I2C1_OVER_UNDERRUN\r\n");
     }
 }
 

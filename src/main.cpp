@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cmath>
 #include <optional>
+#include <system_error>
 #include <utility>
 
 #include "i3g4250d.hpp"
@@ -21,9 +22,9 @@
 #include "main.hpp"
 #include "clocks.hpp"
 #include "system_info.hpp"
+#include "usart.hpp"
 #include "utils.hpp"
 #include "watchdog.hpp"
-
 #include "debug.hpp"
 
 /*------------------------------------------------------------------------------------------------*/
@@ -32,7 +33,9 @@
 
 #define PI 3.141592f
 
-#define OUTPUT_DATA false
+#define OUTPUT_DATA true
+
+using SerialDebug = debug::Serial<usart::USART>;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -158,32 +161,39 @@ int main(void)
 
     io::initialise();
     clk::clear_reset_flags();
+    utils::wait_ms(1000);
+
+    auto [usart_result, usart_status] = usart::USART::init({
+        .baud_rate = 115'200,
+        .enable_rx = false,
+        .enable_dma = true,
+    });
+
+    if(!usart_result.has_value()) return -1;
+    SerialDebug::set_interface(std::exchange(usart_result, std::nullopt).value());
 
     debug::stopwatch_initialise();
 
+    SerialDebug::print("\r\n");
+    SerialDebug::print("\r\n");
+    SerialDebug::print("\r\n");
+    SerialDebug::print("Quadcopter flight controller\r\n");
+    SerialDebug::print("----------------------------------------\r\n");
+    SerialDebug::print("initialisation complete\r\n");
     utils::wait_ms(1000);
 
     io::accelerometer_initialise();
     io::magnetometer_initialise();
     io::gyroscope_initialise();
 
-    debug::printf("\r\n");
-    debug::printf("\r\n");
-    debug::printf("\r\n");
-    debug::printf("Quadcopter flight controller\r\n");
-    debug::printf("----------------------------------------\r\n");
-    debug::printf("initialisation complete\r\n");
-    utils::wait_ms(1000);
-
     // Setup the independant watchdog.
-    auto [result, status] {iwdg::Watchdog::with_timeout(sys::Seconds{1})};
-    if (!result.has_value()) {
-        debug::printf("%s - %s", status.category().name(), status.message().c_str());
+    auto [wdg_result, wdg_status] {iwdg::Watchdog::with_timeout(sys::Seconds{1})};
+    if (!wdg_result.has_value()) {
+        SerialDebug::print("%s - %s", wdg_status.category().name(), wdg_status.message().c_str());
         return -1;
     }
-    auto watchdog {std::exchange(result, std::nullopt).value()};
+    auto watchdog {std::exchange(wdg_result, std::nullopt).value()};
 
-    
     while(run_program == true)
     {
         watchdog.update();
@@ -326,28 +336,38 @@ int main(void)
 
             static uint32_t print_every = 0;
             print_every++;
-            if((OUTPUT_DATA == true) && (print_every == 10))
-            {
+            if((OUTPUT_DATA == true) && (print_every == 10)) {
                 print_every = 0;
-                debug::printf("\r\n");
-                debug::printf("orientation data\r\n");
-                debug::printf("DATA:TIME:%d\r\n", system_runtime_ms);
-                debug::printf("DATA:ABANK:%d\r\n", (int32_t)accel_data.bank_deg);
-                debug::printf("DATA:KBANK:%d\r\n", (int32_t)kalman_data.bank_deg);
-                debug::printf("DATA:AATTITUDE:%d\r\n", (int32_t)accel_data.attitude_deg);
-                debug::printf("DATA:KATTITUDE:%d\r\n", (int32_t)kalman_data.attitude_deg);
-                debug::printf("DATA:MHEADING:%d\r\n", (int32_t)(mag_data.heading_deg));
-                debug::printf("DATA:KHEADING:%d\r\n", (int32_t)kalman_data.heading_deg);
-                debug::printf("DATA:ACCELX:%d\r\n", (int32_t)(accel_data.x_g * 1000));
-                debug::printf("DATA:ACCELY:%d\r\n", (int32_t)(accel_data.y_g * 1000));
-                debug::printf("DATA:ACCELZ:%d\r\n", (int32_t)(accel_data.z_g * 1000));
-                debug::printf("DATA:MAGX:%d\r\n", (int32_t)(mag_data.x_gauss * 1000));
-                debug::printf("DATA:MAGY:%d\r\n", (int32_t)(mag_data.y_gauss * 1000));
-                debug::printf("DATA:MAGZ:%d\r\n", (int32_t)(mag_data.z_gauss * 1000));
-                debug::printf("DATA:GYROROLL:%d\r\n", (int32_t)gyro_data.roll_dps);
-                debug::printf("DATA:GYROPITCH:%d\r\n", (int32_t)gyro_data.pitch_dps);
-                debug::printf("DATA:GYROYAW:%d\r\n", (int32_t)gyro_data.yaw_dps);
-                debug::printf("\r\n");
+                debug::stopwatch_start();
+
+                SerialDebug::print("\r\n");
+                SerialDebug::print("orientation data\r\n");
+                SerialDebug::print("D:TIME:%\r\n", system_runtime_ms);
+
+                SerialDebug::print("D:ABANK:%\r\n", (int32_t)accel_data.bank_deg);
+                SerialDebug::print("D:KBANK:%\r\n", (int32_t)kalman_data.bank_deg);
+                SerialDebug::print("D:AATTITUDE:%\r\n", (int32_t)accel_data.attitude_deg);
+                SerialDebug::print("D:KATTITUDE:%\r\n", (int32_t)kalman_data.attitude_deg);
+                SerialDebug::print("D:MHEADING:%\r\n", (int32_t)(mag_data.heading_deg));
+                SerialDebug::print("D:KHEADING:%\r\n", (int32_t)kalman_data.heading_deg);
+
+                SerialDebug::print("D:ACCELX:%\r\n", (int32_t)(accel_data.x_g * 1000));
+                SerialDebug::print("D:ACCELY:%\r\n", (int32_t)(accel_data.y_g * 1000));
+                SerialDebug::print("D:ACCELZ:%\r\n", (int32_t)(accel_data.z_g * 1000));
+
+                SerialDebug::print("D:MAGX:%\r\n", (int32_t)(mag_data.x_gauss * 1000));
+                SerialDebug::print("D:MAGY:%\r\n", (int32_t)(mag_data.y_gauss * 1000));
+                SerialDebug::print("D:MAGZ:%\r\n", (int32_t)(mag_data.z_gauss * 1000));
+
+                SerialDebug::print("D:GYROR:%\r\n", (int32_t)gyro_data.roll_dps);
+                SerialDebug::print("D:GYROP:%\r\n", (int32_t)gyro_data.pitch_dps);
+                SerialDebug::print("D:GYROY:%\r\n", (int32_t)gyro_data.yaw_dps);
+                SerialDebug::print("\r\n");
+                SerialDebug::flush();
+
+                SerialDebug::print("time: %\r\n", debug::stopwatch_stop());
+                SerialDebug::flush();
+
             }
         }
     }

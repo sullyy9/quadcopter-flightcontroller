@@ -24,6 +24,8 @@ using namespace spi;
 #define TX_BUFFER_SIZE 128
 #define RX_BUFFER_SIZE 128
 
+using SerialDebug = debug::Serial<usart::USART>;
+
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
@@ -215,26 +217,26 @@ void spi::error_isr(void)
     if(LL_SPI_IsActiveFlag_CRCERR(SPI1) == true)
     {
         LL_SPI_ClearFlag_CRCERR(SPI1);
-        debug::printf("ERR:SPI1_CRC\r\n");
+        SerialDebug::print("ERR:SPI1_CRC\r\n");
     }
     else if(LL_SPI_IsActiveFlag_MODF(SPI1) == true)
     {
         LL_SPI_ClearFlag_MODF(SPI1);
-        debug::printf("ERR:SPI1_MODE\r\n");
+        SerialDebug::print("ERR:SPI1_MODE\r\n");
     }
     else if(LL_SPI_IsActiveFlag_OVR(SPI1) == true)
     {
         LL_SPI_ClearFlag_OVR(SPI1);
-        debug::printf("ERR:SPI1_OVERRUN\r\n");
+        SerialDebug::print("ERR:SPI1_OVERRUN\r\n");
     }
     else if(LL_SPI_IsActiveFlag_FRE(SPI1) == true)
     {
         LL_SPI_ClearFlag_FRE(SPI1);
-        debug::printf("ERR:SPI1_FORMAT\r\n");
+        SerialDebug::print("ERR:SPI1_FORMAT\r\n");
     }
     else
     {
-        debug::printf("ERR:SPI1_UNKNOWN\r\n");
+        SerialDebug::print("ERR:SPI1_UNKNOWN\r\n");
     }
 }
 

@@ -90,7 +90,6 @@ void io::initialise(void)
 
     initialise_external_interupts();
 
-    usart::initialise();
     i2c::initialise();
     spi::initialise();
 }
