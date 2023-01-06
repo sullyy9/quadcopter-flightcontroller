@@ -47,14 +47,14 @@ void *__dso_handle = nullptr; // NOLINT - ignore clangd warning
 /*-forward-declarations-------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-void reset_isr(void) __attribute__((__interrupt__, used));
-void dummy_isr(void) __attribute__((__interrupt__, used));
-void non_maskable_int_isr(void) __attribute__((__interrupt__, used));
-void hard_fault_isr(void) __attribute__((__interrupt__, used));
-void memory_management_isr(void) __attribute__((__interrupt__, used));
-void bus_fault_isr(void) __attribute__((__interrupt__, used));
-void usage_fault_isr(void) __attribute__((__interrupt__, used));
-void watch_dog_isr(void) __attribute__((__interrupt__, used));
+[[noreturn]] auto reset_isr()             -> void;
+[[noreturn]] auto dummy_isr()             -> void;
+[[noreturn]] auto non_maskable_int_isr()  -> void;
+[[noreturn]] auto hard_fault_isr()        -> void;
+[[noreturn]] auto memory_management_isr() -> void;
+[[noreturn]] auto bus_fault_isr()         -> void;
+[[noreturn]] auto usage_fault_isr()       -> void;
+[[noreturn]] auto fpu_isr()               -> void;
 
 /*----------------------------------------------------------------------------*/
 /*-vector-table---------------------------------------------------------------*/
@@ -166,10 +166,12 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
 /*-startup-code---------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void reset_isr(void)
-{
+[[noreturn]]
+void reset_isr(void) {
     SCB->VTOR = 0 | ((uint32_t)vector_table & (uint32_t)0x1FFFFF80);
+
+    // Enable the FPU.
+    SCB->CPACR |= ((3UL << 10 * 2) | (3UL << 11 * 2));
     
     // Copy the initialised data (which is initialy placed after the read only
     // data in flash) to it's location in RAM.
@@ -191,56 +193,51 @@ void reset_isr(void)
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void dummy_isr(void) 
-{
+[[noreturn]]
+auto dummy_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void non_maskable_int_isr(void)
-{
+[[noreturn]]
+auto non_maskable_int_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void hard_fault_isr(void)
-{
+[[noreturn]]
+auto hard_fault_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void memory_management_isr(void)
-{
+[[noreturn]]
+auto memory_management_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void bus_fault_isr(void)
-{
+[[noreturn]]
+auto bus_fault_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void usage_fault_isr(void)
-{
+[[noreturn]]
+auto usage_fault_isr() -> void {
     while(1) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
-__attribute__((noreturn))
-void watch_dog_isr(void)
-{
+[[noreturn]]
+auto fpu_isr() -> void {
     while(1) {}
 }
+
+/*----------------------------------------------------------------------------*/

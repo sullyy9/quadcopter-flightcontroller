@@ -26,6 +26,8 @@ c_args = [
     '-march=armv7e-m',
     '-mcpu=cortex-m4',
     '-mthumb',
+    '-mfloat-abi=hard',
+    '-mfpu=fpv4-sp-d16',
 
     '-ffreestanding',
     
@@ -39,6 +41,8 @@ cpp_args = [
     '-march=armv7e-m',
     '-mcpu=cortex-m4',
     '-mthumb',
+    '-mfloat-abi=hard',
+    '-mfpu=fpv4-sp-d16',
 
     '-ffreestanding',
     
@@ -52,6 +56,8 @@ c_link_args = [
     '-march=armv7e-m',
     '-mcpu=cortex-m4',
     '-mthumb',
+    '-mfloat-abi=hard',
+    '-mfpu=fpv4-sp-d16',
 
     '-ffreestanding',
     
@@ -65,6 +71,8 @@ cpp_link_args = [
     '-march=armv7e-m',
     '-mcpu=cortex-m4',
     '-mthumb',
+    '-mfloat-abi=hard',
+    '-mfpu=fpv4-sp-d16',
 
     '-ffreestanding',
 

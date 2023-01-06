@@ -48,6 +48,8 @@ using SerialDebug = debug::Serial<usart::USART>;
 static volatile bool     run_program       = true;
 static volatile uint32_t system_runtime_ms = 0;
 
+static volatile decltype(debug::stopwatch_stop()) loop_runtime_ns {0};
+
 typedef struct accel_data
 {
     int32_t x_raw; // x in the range of the register size, reflecting the
@@ -180,7 +182,7 @@ int main(void)
     SerialDebug::print("Quadcopter flight controller\r\n");
     SerialDebug::print("----------------------------------------\r\n");
     SerialDebug::print("initialisation complete\r\n");
-    utils::wait_ms(1000);
+    SerialDebug::flush();
 
     io::accelerometer_initialise();
     io::magnetometer_initialise();
@@ -197,8 +199,6 @@ int main(void)
     while(run_program == true)
     {
         watchdog.update();
-
-        debug::stopwatch_start();
         
         /*
          * read acceleration data if its ready
@@ -254,6 +254,7 @@ int main(void)
          */
         if((new_accel_data == true) && (new_mag_data == true) && (new_gyro_data == true))
         {
+            debug::stopwatch_start();
             new_accel_data = false;
             new_mag_data   = false;
             new_gyro_data  = false;
@@ -331,8 +332,8 @@ int main(void)
                 mag_data.heading_deg    = (mag_data.heading_rad * (180 / PI));
 
                 apply_kalman_filter();
-                // debug_printf("loop runtime (ns): %u \r\n", debug_stopwatch_stop());
             }
+            loop_runtime_ns = debug::stopwatch_stop();
 
             static uint32_t print_every = 0;
             print_every++;
@@ -342,7 +343,8 @@ int main(void)
 
                 SerialDebug::print("\r\n");
                 SerialDebug::print("orientation data\r\n");
-                SerialDebug::print("D:TIME:%\r\n", system_runtime_ms);
+                SerialDebug::print("D:STIME:%\r\n", system_runtime_ms);
+                SerialDebug::print("D:RTIME:%\r\n", loop_runtime_ns);
 
                 SerialDebug::print("D:ABANK:%\r\n", (int32_t)accel_data.bank_deg);
                 SerialDebug::print("D:KBANK:%\r\n", (int32_t)kalman_data.bank_deg);
@@ -364,10 +366,6 @@ int main(void)
                 SerialDebug::print("D:GYROY:%\r\n", (int32_t)gyro_data.yaw_dps);
                 SerialDebug::print("\r\n");
                 SerialDebug::flush();
-
-                SerialDebug::print("time: %\r\n", debug::stopwatch_stop());
-                SerialDebug::flush();
-
             }
         }
     }
