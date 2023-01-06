@@ -137,13 +137,15 @@ auto usart::USART::tx_byte(const std::byte byte) -> void {
 ///             until it is finshed. 
 /// 
 auto usart::USART::tx_flush() -> void {
-    while(LL_DMA_IsEnabledChannel(DMA1, LL_DMA_CHANNEL_4));
+    if(tx_in_index > 0) {
+        while(LL_DMA_IsEnabledChannel(DMA1, LL_DMA_CHANNEL_4));
 
-    std::swap(tx_in_buffer, tx_out_buffer);
-    LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_4, reinterpret_cast<uint32_t>(tx_out_buffer.data()));
-    LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_4, tx_in_index);
-    LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_4);
-    tx_in_index = 0;
+        std::swap(tx_in_buffer, tx_out_buffer);
+        LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_4, reinterpret_cast<uint32_t>(tx_out_buffer.data()));
+        LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_4, tx_in_index);
+        LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_4);
+        tx_in_index = 0;
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
