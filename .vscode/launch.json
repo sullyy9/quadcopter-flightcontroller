@@ -25,6 +25,28 @@
             "searchDir": [],
             "runToEntryPoint": "main",
             "showDevDebugOutput": "raw",
+        },
+        {
+            "name": "Debug Unit Tests",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "Build Debug",
+            "executable": "./builddir/debug/unit_test.elf",
+            "servertype": "openocd",
+            "device": "STM32F303",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f3x.cfg"
+            ],
+            "openOCDLaunchCommands": [
+                "init", "reset", "halt",
+                "stm32f3x mass_erase 0"
+            ],
+            "svdFile": "./tools/STM32F303.svd",    
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "raw",
         }
     ]
 }
