@@ -1,0 +1,14 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @author  Ryan Sullivan (ryansullivan@googlemail.com)
+///
+/// @file    pwm.hpp
+/// @brief   Module for controlling a timer peripheral in PWM mode.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <optional>
+#include <system_error>
+#include <tuple>
+
+template <typename T>
+using Result = std::tuple<std::optional<T>, std::error_code>;

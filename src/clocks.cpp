@@ -165,7 +165,8 @@ Error clk::initialise(void)
                              LL_AHB1_GRP1_PERIPH_GPIOE | LL_AHB1_GRP1_PERIPH_GPIOF |
                              LL_AHB1_GRP1_PERIPH_DMA1);
 
-    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1 | LL_APB1_GRP1_PERIPH_WWDG);
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1 | LL_APB1_GRP1_PERIPH_WWDG |
+                             LL_APB1_GRP1_PERIPH_TIM2);
 
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG | LL_APB2_GRP1_PERIPH_USART1 |
                              LL_APB2_GRP1_PERIPH_SPI1);
