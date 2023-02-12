@@ -31,3 +31,33 @@ CompileFlags:
 ---
 Diagnostics:
   UnusedIncludes: None
+
+---
+Diagnostics:
+  ClangTidy:
+    Add: [
+        modernize*,
+        bugprone*,
+        cppcoreguidelines*,
+        misc*,
+        performance*,
+        portability*,
+        readability*,
+    ]
+
+    Remove: [
+        performance-no-int-to-ptr,
+        cppcoreguidelines-pro-type-cstyle-cast,
+        cppcoreguidelines-avoid-magic-numbers,
+        readability-magic-numbers,
+        bugprone-unchecked-optional-access,
+    ]
+
+---
+Diagnostics:
+  ClangTidy:
+    CheckOptions:
+      readability-identifier-naming.VariableCase: lower_case
+      readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+      readability-identifier-naming.ClassCase: CamelCase
+      readability-identifier-naming.EnumCase: CamelCase
