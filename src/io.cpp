@@ -40,12 +40,20 @@ static constexpr auto  ACCEL_DRDY  {port::Pin::E2};
 static constexpr auto  ACCEL_INT1  {port::Pin::E4};
 static constexpr auto  ACCEL_INT2  {port::Pin::E5};
 
+static constexpr auto LED_CLOCK {port::Pin::B3}; // SPI3
+static constexpr auto LED_DATA  {port::Pin::B5}; // SPI3
+
 static constexpr auto  GYRO_CLOCK {port::Pin::A5};
 static constexpr auto  GYRO_MISO  {port::Pin::A6};
 static constexpr auto  GYRO_MOSI  {port::Pin::A7};
 static constexpr auto  GYRO_CS    {port::Pin::E3};
 static constexpr auto  GYRO_INT1  {port::Pin::E0};
 static constexpr auto  GYRO_INT2  {port::Pin::E1};
+
+static constexpr auto  THROTTLE1  {port::Pin::A0};
+static constexpr auto  THROTTLE2  {port::Pin::A1};
+static constexpr auto  THROTTLE3  {port::Pin::A2};
+static constexpr auto  THROTTLE4  {port::Pin::A3};
 
 /*------------------------------------------------------------------------------------------------*/
 // Module private variables
@@ -415,6 +423,15 @@ auto initialise_pins() -> void {
     port::initialise_pin(GYRO_CS, port::Mode::PUSH_PULL, 0);
     port::initialise_pin(GYRO_INT1, port::Mode::INPUT_PULLDOWN, 0);
     port::initialise_pin(GYRO_INT2, port::Mode::INPUT_PULLDOWN, 0);
+
+    // ESC throttle;
+    port::initialise_pin(THROTTLE1, port::Mode::ALT_OUTPUT, 1);
+    port::initialise_pin(THROTTLE2, port::Mode::ALT_OUTPUT, 1);
+    port::initialise_pin(THROTTLE3, port::Mode::ALT_OUTPUT, 1);
+    port::initialise_pin(THROTTLE4, port::Mode::ALT_OUTPUT, 1);
+
+    port::initialise_pin(LED_CLOCK, port::Mode::ALT_OUTPUT, 6);
+    port::initialise_pin(LED_DATA, port::Mode::ALT_OUTPUT, 6);
 }
 
 /*------------------------------------------------------------------------------------------------*/
