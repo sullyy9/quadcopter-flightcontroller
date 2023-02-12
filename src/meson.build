@@ -10,4 +10,6 @@ project_src = files(
     'usart.cpp',
     'utils.cpp',
     'watchdog.cpp',
+    'pwm.cpp',
+    'motor.cpp',
 )

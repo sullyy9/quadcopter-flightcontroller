@@ -15,6 +15,7 @@
 #include <system_error>
 #include <utility>
 
+#include "esc.hpp"
 #include "i3g4250d.hpp"
 #include "lsm303agr.hpp"
 
@@ -26,6 +27,8 @@
 #include "utils.hpp"
 #include "watchdog.hpp"
 #include "debug.hpp"
+#include "pwm.hpp"
+#include "motor.hpp"
 
 /*------------------------------------------------------------------------------------------------*/
 /*-constant-definitions---------------------------------------------------------------------------*/
@@ -36,6 +39,11 @@
 #define OUTPUT_DATA true
 
 using SerialDebug = debug::Serial<usart::USART>;
+
+using Motor1 = motor::Motor<pwm::Motor1PWM, esc::HobbywingXRotor>;
+using Motor2 = motor::Motor<pwm::Motor2PWM, esc::HobbywingXRotor>;
+using Motor3 = motor::Motor<pwm::Motor3PWM, esc::HobbywingXRotor>;
+using Motor4 = motor::Motor<pwm::Motor4PWM, esc::HobbywingXRotor>;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/
@@ -157,7 +165,7 @@ int main(void)
         clk::Error status = clk::initialise();
         if(status != clk::OK)
         {
-            while(1) {}
+            while(true) {}
         }
     }
 
@@ -170,8 +178,11 @@ int main(void)
         .enable_rx = false,
         .enable_dma = true,
     });
+    
+    if(!usart_result.has_value()) {
+        return -1;
+    }
 
-    if(!usart_result.has_value()) return -1;
     SerialDebug::set_interface(std::exchange(usart_result, std::nullopt).value());
 
     debug::stopwatch_initialise();
@@ -188,15 +199,72 @@ int main(void)
     io::magnetometer_initialise();
     io::gyroscope_initialise();
 
-    // Setup the independant watchdog.
+    // Setup the PWM timer.
+    auto timer2_status {pwm::Timer2::init({.frequency = 400})};
+    SerialDebug::print("% Timer - %\r\n", timer2_status.category().name(), timer2_status.message().c_str());
+    SerialDebug::flush();
+    if(timer2_status != pwm::StatusCode::Ok) {
+        return -1;
+    }
+
+    // Setup Motor instances.
+    auto [motor1, motor1_status] = Motor1::init();
+    auto [motor2, motor2_status] = Motor2::init();
+    auto [motor3, motor3_status] = Motor3::init();
+    auto [motor4, motor4_status] = Motor4::init();
+    SerialDebug::print("% 1 - %\r\n", motor1_status.category().name(), motor1_status.message().c_str());
+    SerialDebug::print("% 2 - %\r\n", motor2_status.category().name(), motor2_status.message().c_str());
+    SerialDebug::print("% 3 - %\r\n", motor3_status.category().name(), motor3_status.message().c_str());
+    SerialDebug::print("% 4 - %\r\n", motor4_status.category().name(), motor4_status.message().c_str());
+    SerialDebug::flush();
+    if(!(motor1.has_value() && motor2.has_value() && motor3.has_value() && motor4.has_value())) {
+        return 1;
+    }
+
+
+    // motor1->set_throttle(0);
+    // motor2->set_throttle(0);
+    // motor3->set_throttle(0);
+    // motor4->set_throttle(0);
+
+    // utils::wait_ms(5000);
+
+    // motor1->set_throttle(6);
+    // motor2->set_throttle(6);
+    // motor3->set_throttle(6);
+    // motor4->set_throttle(6);
+
+    // utils::wait_ms(1000);
+
+    // motor1->set_throttle(0);
+    // motor2->set_throttle(0);
+    // motor3->set_throttle(0);
+    // motor4->set_throttle(0);
+    
+    // Throttle calibration.
+    // utils::wait_ms(5000);
+    // motor1->set_throttle(100);
+    // motor2->set_throttle(100);
+    // motor3->set_throttle(100);
+    // motor4->set_throttle(100);
+    // utils::wait_ms(2000);
+    // motor1->set_throttle(0);
+    // motor2->set_throttle(0);
+    // motor3->set_throttle(0);
+    // motor4->set_throttle(0);
+
+    // while(true);
+
+    // Setup the indipendant watchdog.
     auto [wdg_result, wdg_status] {iwdg::Watchdog::with_timeout(sys::Seconds{1})};
+    SerialDebug::print("% - %\r\n", wdg_status.category().name(), wdg_status.message().c_str());
     if (!wdg_result.has_value()) {
-        SerialDebug::print("%s - %s", wdg_status.category().name(), wdg_status.message().c_str());
+        SerialDebug::flush();
         return -1;
     }
     auto watchdog {std::exchange(wdg_result, std::nullopt).value()};
 
-    while(run_program == true)
+    while(run_program)
     {
         watchdog.update();
         
