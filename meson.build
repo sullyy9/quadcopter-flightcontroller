@@ -75,43 +75,30 @@ executable(
     'quadcopter-flightcontroller',
     name_suffix: 'elf',
     sources: project_src,
-    include_directories: include_directories('src'),
+    include_directories: project_inc,
     link_args: [
         '-nostartfiles',
         '--specs=nano.specs',
         '--specs=nosys.specs',
     ],
-    dependencies: [stm32f3_ll_driver_dep, result_dep],
+    dependencies: [driver_stm32f303_dep, stm32f3_ll_driver_dep, result_dep],
 )
 
 if get_option('enable_test')
     subdir('test')
 
-    flightcontroller_lib = static_library(
-        'quadcopter-flightcontroller',
-        sources: project_src,
-        include_directories: include_directories('src'),
-        dependencies: [stm32f3_ll_driver_dep, result_dep],
-    )
-
-    flightcontroller_dep = declare_dependency(
-        include_directories: include_directories('src'),
-        link_with: flightcontroller_lib,
-        dependencies: [stm32f3_ll_driver_dep, result_dep],
-    )
-
     executable(
         'unit_test',
         name_suffix: 'elf',
-        sources: [test_src],
-        include_directories: [include_directories(['src', 'test'])],
-        dependencies: [cpputest_dep, cpputestext_dep, flightcontroller_dep],
+        sources: test_src,
+        include_directories: './test',
         link_args: [
             '-nostartfiles',
             '--specs=nano.specs',
 
             '-Wl,-Map=test.map',
         ],
+        dependencies: [project_stm32f303_dep, stm32f3_ll_driver_dep, cpputest_dep, cpputestext_dep],
         build_by_default: true,
     )
 endif

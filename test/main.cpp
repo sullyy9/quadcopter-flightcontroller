@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <system_error>
 #include <utility>
 
 #include "CppUTest/CommandLineTestRunner.h"
@@ -6,14 +7,27 @@
 
 #include "clocks.hpp"
 #include "utils.hpp"
-#include "port.hpp"
 #include "usart.hpp"
 #include "main.hpp"
 
+#include "gpio.hpp"
+#include "gpio_stm32f303.hpp"
+
+using GPIO = gpio::GPIOSTM32F303;
+
 IMPORT_TEST_GROUP(SecondTestGroup);
 
-#define DEBUG_TX port::Pin::C4
-#define DEBUG_RX port::Pin::C5
+static constexpr auto DEBUG_TX {gpio::Pin::C4};
+static constexpr auto DEBUG_RX {gpio::Pin::C5};
+
+struct GPIOConfig {
+    gpio::Pin pin {};
+    gpio::Config config {};
+};
+constexpr std::array GPIO_INITIAL_CONFIGURATION_TABLE {
+    GPIOConfig{DEBUG_TX, gpio::AltFunction{.output_type = gpio::OutputType::PushPull,  .pull = gpio::Pull::None, .function = 7}},
+    GPIOConfig{DEBUG_RX, gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .pull = gpio::Pull::Up,   .function = 7}},
+};
 
 auto set_stdout_interface(usart::USART&& out_interface) -> void;
 
@@ -21,8 +35,13 @@ int main(void) {
 
     if(auto status = clk::initialise(); status != clk::OK) return -1;
 
-    port::initialise_pin(DEBUG_TX, port::Mode::ALT_OUTPUT, 7);
-    port::initialise_pin(DEBUG_RX, port::Mode::INPUT_PULLUP, 7);
+    // Initialise the GPIO pins.
+    for(const auto& [pin, config]: GPIO_INITIAL_CONFIGURATION_TABLE) {
+        if(GPIO::init(pin, config) != gpio::StatusCode::Ok) {
+            return -1;
+        }
+    }
+
     clk::clear_reset_flags();
 
     utils::wait_ms(100);

@@ -6,54 +6,97 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <array>
+#include <system_error>
 
 #include "stm32f3xx_ll_exti.h"
 #include "stm32f3xx_ll_system.h"
 
+#include "gpio.hpp"
+#include "gpio_stm32f303.hpp"
 
 #include "io.hpp"
-#include "port.hpp"
 #include "i2c.hpp"
 #include "spi.hpp"
 #include "lsm303agr.hpp"
 #include "i3g4250d.hpp"
 
+using GPIO = gpio::GPIOSTM32F303;
+
 /*------------------------------------------------------------------------------------------------*/
 // Constants
 /*------------------------------------------------------------------------------------------------*/
 
-static constexpr auto LED_NW {port::Pin::E8};
-static constexpr auto LED_N  {port::Pin::E9};
-static constexpr auto LED_NE {port::Pin::E10};
-static constexpr auto LED_E  {port::Pin::E11};
-static constexpr auto LED_SE {port::Pin::E12};
-static constexpr auto LED_S  {port::Pin::E13};
-static constexpr auto LED_SW {port::Pin::E14};
-static constexpr auto LED_W  {port::Pin::E15};
+static constexpr auto LED_NW {gpio::Pin::E8};
+static constexpr auto LED_N  {gpio::Pin::E9};
+static constexpr auto LED_NE {gpio::Pin::E10};
+static constexpr auto LED_E  {gpio::Pin::E11};
+static constexpr auto LED_SE {gpio::Pin::E12};
+static constexpr auto LED_S  {gpio::Pin::E13};
+static constexpr auto LED_SW {gpio::Pin::E14};
+static constexpr auto LED_W  {gpio::Pin::E15};
 
-static constexpr auto  DEBUG_TX {port::Pin::C4};
-static constexpr auto  DEBUG_RX {port::Pin::C5};
+static constexpr auto  DEBUG_TX {gpio::Pin::C4};
+static constexpr auto  DEBUG_RX {gpio::Pin::C5};
 
-static constexpr auto  ACCEL_CLOCK {port::Pin::B6};
-static constexpr auto  ACCEL_DATA  {port::Pin::B7};
-static constexpr auto  ACCEL_DRDY  {port::Pin::E2};
-static constexpr auto  ACCEL_INT1  {port::Pin::E4};
-static constexpr auto  ACCEL_INT2  {port::Pin::E5};
+static constexpr auto  ACCEL_CLOCK {gpio::Pin::B6};
+static constexpr auto  ACCEL_DATA  {gpio::Pin::B7};
+static constexpr auto  ACCEL_DRDY  {gpio::Pin::E2};
+static constexpr auto  ACCEL_INT1  {gpio::Pin::E4};
+static constexpr auto  ACCEL_INT2  {gpio::Pin::E5};
 
-static constexpr auto LED_CLOCK {port::Pin::B3}; // SPI3
-static constexpr auto LED_DATA  {port::Pin::B5}; // SPI3
+static constexpr auto LED_CLOCK {gpio::Pin::B3}; // SPI3
+static constexpr auto LED_DATA  {gpio::Pin::B5}; // SPI3
 
-static constexpr auto  GYRO_CLOCK {port::Pin::A5};
-static constexpr auto  GYRO_MISO  {port::Pin::A6};
-static constexpr auto  GYRO_MOSI  {port::Pin::A7};
-static constexpr auto  GYRO_CS    {port::Pin::E3};
-static constexpr auto  GYRO_INT1  {port::Pin::E0};
-static constexpr auto  GYRO_INT2  {port::Pin::E1};
+static constexpr auto  GYRO_CLOCK {gpio::Pin::A5};
+static constexpr auto  GYRO_MISO  {gpio::Pin::A6};
+static constexpr auto  GYRO_MOSI  {gpio::Pin::A7};
+static constexpr auto  GYRO_CS    {gpio::Pin::E3};
+static constexpr auto  GYRO_INT1  {gpio::Pin::E0};
+static constexpr auto  GYRO_INT2  {gpio::Pin::E1};
 
-static constexpr auto  THROTTLE1  {port::Pin::A0};
-static constexpr auto  THROTTLE2  {port::Pin::A1};
-static constexpr auto  THROTTLE3  {port::Pin::A2};
-static constexpr auto  THROTTLE4  {port::Pin::A3};
+static constexpr auto  THROTTLE1  {gpio::Pin::A0};
+static constexpr auto  THROTTLE2  {gpio::Pin::A1};
+static constexpr auto  THROTTLE3  {gpio::Pin::A2};
+static constexpr auto  THROTTLE4  {gpio::Pin::A3};
+
+struct GPIOConfig {
+    gpio::Pin pin {};
+    gpio::Config config {};
+};
+constexpr std::array GPIO_INITIAL_CONFIGURATION_TABLE {
+    GPIOConfig{LED_N,  gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_NE, gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_E , gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_SE, gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_S , gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_SW, gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_W , gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{LED_NW, gpio::Output{.output_type = gpio::OutputType::PushPull}},
+
+    GPIOConfig{DEBUG_TX, gpio::AltFunction{.output_type = gpio::OutputType::PushPull,  .pull = gpio::Pull::None, .function = 7}},
+    GPIOConfig{DEBUG_RX, gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .pull = gpio::Pull::Up,   .function = 7}},
+
+    GPIOConfig{ACCEL_CLOCK, gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .function = 4}},
+    GPIOConfig{ACCEL_DATA , gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .function = 4}},
+    GPIOConfig{ACCEL_DRDY, gpio::Input{.pull = gpio::Pull::Down}},
+    GPIOConfig{ACCEL_INT1, gpio::Input{.pull = gpio::Pull::Down}},
+    GPIOConfig{ACCEL_INT2, gpio::Input{.pull = gpio::Pull::Down}},
+
+    GPIOConfig{GYRO_CLOCK, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 5}},
+    GPIOConfig{GYRO_MISO , gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 5}},
+    GPIOConfig{GYRO_MOSI , gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 5}},
+    GPIOConfig{GYRO_CS, gpio::Output{.output_type = gpio::OutputType::PushPull}},
+    GPIOConfig{GYRO_INT1, gpio::Input{.pull = gpio::Pull::Down}},
+    GPIOConfig{GYRO_INT2, gpio::Input{.pull = gpio::Pull::Down}},
+
+    GPIOConfig{THROTTLE1, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 1}},
+    GPIOConfig{THROTTLE2, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 1}},
+    GPIOConfig{THROTTLE3, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 1}},
+    GPIOConfig{THROTTLE4, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 1}},
+
+    GPIOConfig{LED_CLOCK, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 6}},
+    GPIOConfig{LED_DATA, gpio::AltFunction{.output_type = gpio::OutputType::PushPull, .function = 6}},
+};
 
 /*------------------------------------------------------------------------------------------------*/
 // Module private variables
@@ -70,7 +113,6 @@ static volatile bool gyro_data_ready  = true;
 /*------------------------------------------------------------------------------------------------*/
 
 auto gyro_slave_select_toggle(const bool mode) -> void;
-auto initialise_pins() -> void;
 auto initialise_external_interupts() -> void;
 
 /*------------------------------------------------------------------------------------------------*/
@@ -80,7 +122,12 @@ auto initialise_external_interupts() -> void;
 /// @brief Initialise any IO.
 /// 
 auto io::initialise() -> void {
-    initialise_pins();
+    // Initialise the GPIO pins.
+    for(const auto& [pin, config]: GPIO_INITIAL_CONFIGURATION_TABLE) {
+        if(GPIO::init(pin, config) != gpio::StatusCode::Ok) {
+            // Should return error.
+        }
+    }
 
     initialise_external_interupts();
 
@@ -328,7 +375,7 @@ auto io::poll() -> void {
     if(led_timer >= 100) {
         led_timer = 0;
 
-        port::clear(LEDS[active]);
+        GPIO::reset(LEDS[active]);
         
         if(LEDS[active] == LED_W) {
             active = 0;
@@ -336,7 +383,7 @@ auto io::poll() -> void {
         else {
             active++;
         }
-        port::set(LEDS[active]);
+        GPIO::set(LEDS[active]);
     }
     else {
         led_timer++;
@@ -380,58 +427,11 @@ auto io::external_interupt_4_isr() -> void {
 /// 
 auto gyro_slave_select_toggle(const bool mode) -> void {
     if(mode) {
-        port::clear(GYRO_CS);
+        GPIO::reset(GYRO_CS);
     }
     else {
-        port::set(GYRO_CS);
+        GPIO::set(GYRO_CS);
     }
-}
-
-/*------------------------------------------------------------------------------------------------*/
-
-/// @brief Initialise any used GPIO pins.
-/// 
-auto initialise_pins() -> void {
-
-    // GPIO.
-    port::initialise_pin(LED_N, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_NE, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_E, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_SE, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_S, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_SW, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_W, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(LED_NW, port::Mode::PUSH_PULL, 0);
-
-    // Debug.
-    port::initialise_pin(DEBUG_TX, port::Mode::ALT_OUTPUT, 7);
-    port::initialise_pin(DEBUG_RX, port::Mode::INPUT_PULLUP, 7);
-
-
-    // Accelerometer / Magnetometer.
-    port::initialise_pin(ACCEL_CLOCK, port::Mode::ALT_OPEN_DRAIN, 4);
-    port::initialise_pin(ACCEL_DATA, port::Mode::ALT_OPEN_DRAIN, 4);
-    port::initialise_pin(ACCEL_DRDY, port::Mode::INPUT_PULLDOWN, 0);
-    port::initialise_pin(ACCEL_INT1, port::Mode::INPUT_PULLDOWN, 0);
-    port::initialise_pin(ACCEL_INT2, port::Mode::INPUT_PULLDOWN, 0);    
-
-    // Gyroscope.
-    port::set(GYRO_CS);
-    port::initialise_pin(GYRO_CLOCK, port::Mode::ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_MISO, port::Mode::ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_MOSI, port::Mode::ALT_OUTPUT, 5);
-    port::initialise_pin(GYRO_CS, port::Mode::PUSH_PULL, 0);
-    port::initialise_pin(GYRO_INT1, port::Mode::INPUT_PULLDOWN, 0);
-    port::initialise_pin(GYRO_INT2, port::Mode::INPUT_PULLDOWN, 0);
-
-    // ESC throttle;
-    port::initialise_pin(THROTTLE1, port::Mode::ALT_OUTPUT, 1);
-    port::initialise_pin(THROTTLE2, port::Mode::ALT_OUTPUT, 1);
-    port::initialise_pin(THROTTLE3, port::Mode::ALT_OUTPUT, 1);
-    port::initialise_pin(THROTTLE4, port::Mode::ALT_OUTPUT, 1);
-
-    port::initialise_pin(LED_CLOCK, port::Mode::ALT_OUTPUT, 6);
-    port::initialise_pin(LED_DATA, port::Mode::ALT_OUTPUT, 6);
 }
 
 /*------------------------------------------------------------------------------------------------*/
