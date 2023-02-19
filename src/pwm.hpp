@@ -15,6 +15,7 @@
 
 #include "stm32f303xc.h"
 #include "stm32f3xx_ll_tim.h"
+#include "stm32f3xx_ll_rcc.h"
 
 /*------------------------------------------------------------------------------------------------*/
 // Error handling.
@@ -119,6 +120,23 @@ private:
     static constexpr uint32_t PRESCALER_REGISTER_VALUE_MIN {0};
     static constexpr uint32_t PRESCALER_REGISTER_VALUE_MAX {0xFFFF};
 };
+
+/*------------------------------------------------------------------------------------------------*/
+
+template<pwm::PWMChannel Channel>
+auto pwm::Timer2PWM<Channel>::get_frequency() -> uint32_t {
+    LL_RCC_ClocksTypeDef clocks;
+    LL_RCC_GetSystemClocksFreq(&clocks);
+    return clocks.PCLK1_Frequency / (LL_TIM_GetAutoReload(TIM2) * (LL_TIM_GetPrescaler(TIM2) + 1));
+}
+
+/*------------------------------------------------------------------------------------------------*/
+
+template<pwm::PWMChannel Channel>
+auto pwm::Timer2PWM<Channel>::get_max_compare_value() -> uint32_t {
+    return LL_TIM_GetAutoReload(TIM2);
+}
+
 
 }
 

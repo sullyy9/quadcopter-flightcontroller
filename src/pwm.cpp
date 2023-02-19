@@ -89,12 +89,6 @@ auto pwm::Timer2::init(const PWMConfig& config) -> std::error_code {
 
 /*------------------------------------------------------------------------------------------------*/
 
-template<pwm::PWMChannel Channel>
-auto pwm::Timer2PWM<Channel>::get_frequency() -> uint32_t {
-    LL_RCC_ClocksTypeDef clocks;
-    LL_RCC_GetSystemClocksFreq(&clocks);
-    return clocks.PCLK1_Frequency / (LL_TIM_GetAutoReload(TIM2) * (LL_TIM_GetPrescaler(TIM2) + 1));
-}
 
 /*------------------------------------------------------------------------------------------------*/
 
@@ -138,13 +132,6 @@ auto pwm::Timer2PWM<Channel>::set_compare_value(const uint32_t value) -> std::er
 
     LL_TIM_GenerateEvent_UPDATE(TIM2);
     return StatusCode::Ok;
-}
-
-/*------------------------------------------------------------------------------------------------*/
-
-template<pwm::PWMChannel Channel>
-auto pwm::Timer2PWM<Channel>::get_max_compare_value() -> uint32_t {
-    return LL_TIM_GetAutoReload(TIM2);
 }
 
 /*------------------------------------------------------------------------------------------------*/

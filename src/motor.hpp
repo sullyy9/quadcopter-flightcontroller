@@ -81,7 +81,7 @@ auto Motor<PWM, ESC>::init() -> Result<Motor> {
     const auto pwm_freq = PWM::get_frequency();
     const auto pwm_period_us = float(1'000'000.0 / pwm_freq);
 
-    const auto period_per_count = pwm_period_us / PWM::get_max_compare_value();
+    const auto period_per_count = pwm_period_us / static_cast<float>(PWM::get_max_compare_value());
 
     auto min_comp_value = static_cast<uint32_t>(ceilf(ESC::MIN_PULSE_WIDTH.count() / period_per_count));
     auto max_comp_value = static_cast<uint32_t>(floorf(ESC::MAX_PULSE_WIDTH.count() / period_per_count));
