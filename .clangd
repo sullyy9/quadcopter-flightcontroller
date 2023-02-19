@@ -51,6 +51,8 @@ Diagnostics:
         cppcoreguidelines-avoid-magic-numbers,
         readability-magic-numbers,
         bugprone-unchecked-optional-access,
+        cppcoreguidelines-pro-type-reinterpret-cast,
+        cppcoreguidelines-avoid-non-const-global-variables,
     ]
 
 ---
