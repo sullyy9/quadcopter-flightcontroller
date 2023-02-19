@@ -1,6 +1,6 @@
 CompileFlags:
     CompilationDatabase: builddir/release
-    Add: [--target=arm-arm-none-eabi]
+    Add: [--target=arm-arm-none-eabi, -std=c++2b]
 
 ---
 If:

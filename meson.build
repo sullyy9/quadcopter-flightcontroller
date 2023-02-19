@@ -2,11 +2,12 @@ project(
     'quadcopter-flightcontroller',
     'cpp',
     version: '1.0',
-    default_options: ['cpp_std=c++20', 'warning_level=3', 'b_staticpic=false'],
+    default_options: ['warning_level=3', 'b_staticpic=false'],
 )
 
 add_project_arguments(
     [
+        '-std=c++23',
         '-fdata-sections',
         '-ffunction-sections',
         '-fno-common',
