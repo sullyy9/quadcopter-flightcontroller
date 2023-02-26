@@ -48,9 +48,6 @@ stm32f3_ll_driver_dep = stm32f3_hal_driver_proj.get_variable(
     'stm32f3_ll_driver_dep',
 )
 
-result_proj = cmake.subproject('result')
-result_dep = result_proj.dependency('Result', include_type: 'system')
-
 opt_var.add_cmake_defines(
     {
         'STD_CPP': false,
@@ -74,14 +71,12 @@ subdir('src')
 executable(
     'quadcopter-flightcontroller',
     name_suffix: 'elf',
-    sources: project_src,
-    include_directories: project_inc,
     link_args: [
         '-nostartfiles',
         '--specs=nano.specs',
         '--specs=nosys.specs',
     ],
-    dependencies: [driver_stm32f303_dep, stm32f3_ll_driver_dep, result_dep],
+    dependencies: [project_executable_dep, driver_stm32f303_dep],
 )
 
 if get_option('enable_test')
@@ -98,7 +93,7 @@ if get_option('enable_test')
 
             '-Wl,-Map=test.map',
         ],
-        dependencies: [project_stm32f303_dep, driver_mock_dep, stm32f3_ll_driver_dep, cpputest_dep, cpputestext_dep],
+        dependencies: [project_testing_dep, driver_mock_dep, driver_stm32f303_dep, cpputest_dep, cpputestext_dep],
         build_by_default: true,
     )
 endif
