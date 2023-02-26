@@ -12,9 +12,11 @@
 #include "stm32f3xx_ll_spi.h"
 #include "stm32f3xx_ll_dma.h"
 
+#include "usart_stm32f303.hpp"
+#include "debug.hpp"
+
 #include "spi.hpp"
 
-#include "debug.hpp"
 
 using namespace spi;
 /*------------------------------------------------------------------------------------------------*/
@@ -24,7 +26,7 @@ using namespace spi;
 #define TX_BUFFER_SIZE 128
 #define RX_BUFFER_SIZE 128
 
-using SerialDebug = debug::Serial<usart::USART>;
+using SerialDebug = debug::Serial<usart::stm32f303::USART>;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/

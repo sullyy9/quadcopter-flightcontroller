@@ -16,9 +16,10 @@
 
 #include "stm32f3xx.h"
 
+#include "usart_stm32f303.hpp"
+
 #include "main.hpp"
 #include "io.hpp"
-#include "usart.hpp"
 #include "i2c.hpp"
 #include "spi.hpp"
 
@@ -90,7 +91,7 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x006C DMA1_Channel1_IRQn    (11) */ dummy_isr,
     /* 0x0070 DMA1_Channel2_IRQn    (12) */ spi::dma1_channel2_isr,
     /* 0x0074 DMA1_Channel3_IRQn    (13) */ spi::dma1_channel3_isr,
-    /* 0x0078 DMA1_Channel4_IRQn    (14) */ usart::dma1_channel4_isr,
+    /* 0x0078 DMA1_Channel4_IRQn    (14) */ usart::stm32f303::dma1_channel4_isr,
     /* 0x007C DMA1_Channel5_IRQn    (15) */ dummy_isr,
     /* 0x0080 DMA1_Channel6_IRQn    (16) */ i2c::dma1_channel6_isr,
     /* 0x0084 DMA1_Channel7_IRQn    (17) */ i2c::dma1_channel7_isr,

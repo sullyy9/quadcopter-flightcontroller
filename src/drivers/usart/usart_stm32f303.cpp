@@ -1,22 +1,22 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @author  Ryan Sullivan (ryansullivan@googlemail.com)
-///
-/// @file    usart.cpp
-/// @brief   Module for controlling the USART peripheral
+/// 
+/// @file    usart_stm32f303.cpp
+/// @brief   USART driver module for the STM32F303.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-#include <optional>
-#include <functional>
+#include <cstdint>
+#include <array>
 #include <span>
-#include <algorithm>
-#include <utility>
 
-#include "stm32f3xx_ll_usart.h"
 #include "stm32f3xx_ll_dma.h"
+#include "stm32f3xx_ll_usart.h"
 
 #include "usart.hpp"
+#include "usart_stm32f303.hpp"
 
+/*------------------------------------------------------------------------------------------------*/
+// Module private objects.
 /*------------------------------------------------------------------------------------------------*/
 
 // Tx buffer for USART. 
@@ -30,10 +30,10 @@ static constinit volatile uint32_t tx_in_index {0};
 // Forward declarations.
 /*------------------------------------------------------------------------------------------------*/
 
-auto get_data_bits(const uint32_t bits) -> std::optional<decltype(LL_USART_InitTypeDef::DataWidth)>;
-auto get_stop_bits(const uint32_t bits) -> std::optional<decltype(LL_USART_InitTypeDef::StopBits)>;
-auto get_parity(const usart::Parity parity) -> decltype(LL_USART_InitTypeDef::Parity);
-auto get_flow_control(const usart::FlowControl flow_control) -> decltype(LL_USART_InitTypeDef::HardwareFlowControl);
+auto get_data_bits(uint32_t bits) -> std::optional<decltype(LL_USART_InitTypeDef::DataWidth)>;
+auto get_stop_bits(uint32_t bits) -> std::optional<decltype(LL_USART_InitTypeDef::StopBits)>;
+auto get_parity(usart::Parity parity) -> decltype(LL_USART_InitTypeDef::Parity);
+auto get_flow_control(usart::FlowControl flow_control) -> decltype(LL_USART_InitTypeDef::HardwareFlowControl);
 
 /*------------------------------------------------------------------------------------------------*/
 // Class method definitions.
@@ -43,29 +43,33 @@ auto get_flow_control(const usart::FlowControl flow_control) -> decltype(LL_USAR
 /// 
 /// @param config Peripheral configuration.
 ///
-auto usart::USART::init(const USARTConfig& config) -> std::tuple<std::optional<USART>, std::error_code> {
+auto usart::stm32f303::USART::init(const USARTConfig& config) noexcept -> std::error_code {
     LL_USART_InitTypeDef usart_conf {};
     usart_conf.Parity = get_parity(config.parity);
     usart_conf.HardwareFlowControl = get_flow_control(config.flow_control);
     usart_conf.OverSampling = LL_USART_OVERSAMPLING_8;
 
     // Baud rate TODO: check its valid.
-    if(config.baud_rate) {
-        usart_conf.BaudRate = config.baud_rate;
+    if(config.baud_rate == 0) {
+        return StatusCode::InvalidBaudRate;
     }
-    else return {std::nullopt, StatusCode::InvalidBaudRate};
+    usart_conf.BaudRate = config.baud_rate;
 
     // Data bits.
-    if(auto data_bits = get_data_bits(config.data_bits); data_bits.has_value()) {
+    if(const auto data_bits = get_data_bits(config.data_bits); data_bits.has_value()) {
         usart_conf.DataWidth = data_bits.value();
     }
-    else return {std::nullopt, StatusCode::InvalidDataBits};
+    else {
+        return StatusCode::InvalidDataBits;
+    }
 
     // Stop bits.
-    if(auto stop_bits = get_stop_bits(config.stop_bits); stop_bits.has_value()) {
+    if(const auto stop_bits = get_stop_bits(config.stop_bits); stop_bits.has_value()) {
         usart_conf.StopBits = stop_bits.value();
     }
-    else return {std::nullopt, StatusCode::InvalidStopBits};
+    else {
+        return StatusCode::InvalidStopBits;
+    }
 
     // Rx / Tx enable.
     if(config.enable_rx && config.enable_tx) {
@@ -77,7 +81,9 @@ auto usart::USART::init(const USARTConfig& config) -> std::tuple<std::optional<U
     else if(config.enable_tx) {
         usart_conf.TransferDirection = LL_USART_DIRECTION_TX;
     }
-    else return {std::nullopt, StatusCode::InvalidTxRxConf};
+    else {
+        return StatusCode::InvalidTxRxConf;
+    }
 
     // Configure the USART peripheral.
     LL_USART_Init(USART1, &usart_conf);
@@ -106,9 +112,11 @@ auto usart::USART::init(const USARTConfig& config) -> std::tuple<std::optional<U
         NVIC_SetPriority(DMA1_Channel4_IRQn, 3);
         NVIC_EnableIRQ(DMA1_Channel4_IRQn);
     }
-    else return {std::nullopt, StatusCode::Unimplemented};
+    else {
+        return StatusCode::Unimplemented;
+    }
 
-    return {USART(), StatusCode::Ok};
+    return StatusCode::Ok;
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -116,7 +124,7 @@ auto usart::USART::init(const USARTConfig& config) -> std::tuple<std::optional<U
 /// @brief           Return the ammount of free space in the USART TX buffer.
 /// @return uint32_t Free space.
 /// 
-auto usart::USART::tx_free() -> uint32_t {
+auto usart::stm32f303::USART::tx_free() noexcept -> uint32_t {
     return tx_in_buffer.size() - tx_in_index;
 }
 
@@ -125,7 +133,7 @@ auto usart::USART::tx_free() -> uint32_t {
 /// @brief      Write a byte into the USART TX buffer. Start the DMA channel if the buffer is full.
 /// @param byte Byte to transmit.
 /// 
-auto usart::USART::tx_byte(const std::byte byte) -> void {
+auto usart::stm32f303::USART::tx_byte(const std::byte byte) noexcept -> void {
     tx_in_buffer[tx_in_index++] = byte;
     if(tx_in_index >= tx_in_buffer.size()) tx_flush();
 }
@@ -136,9 +144,9 @@ auto usart::USART::tx_byte(const std::byte byte) -> void {
 ///             buffer to the UART TX register. If a DMA transaction is already in progress, block
 ///             until it is finshed. 
 /// 
-auto usart::USART::tx_flush() -> void {
+auto usart::stm32f303::USART::tx_flush() noexcept -> void {
     if(tx_in_index > 0) {
-        while(LL_DMA_IsEnabledChannel(DMA1, LL_DMA_CHANNEL_4));
+        while(LL_DMA_IsEnabledChannel(DMA1, LL_DMA_CHANNEL_4) != 0);
 
         std::swap(tx_in_buffer, tx_out_buffer);
         LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_4, reinterpret_cast<uint32_t>(tx_out_buffer.data()));
@@ -155,8 +163,8 @@ auto usart::USART::tx_flush() -> void {
 /// @brief Interrupt for DMA1 channel 4. Called when the DMA has transferred half and all of the TX
 ///        buffer.
 /// 
-auto usart::dma1_channel4_isr() -> void {
-    if(LL_DMA_IsActiveFlag_TC4(DMA1)) {
+auto usart::stm32f303::dma1_channel4_isr() -> void {
+    if(LL_DMA_IsActiveFlag_TC4(DMA1) != 0) {
         LL_DMA_ClearFlag_TC4(DMA1);
         LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
     }
@@ -207,43 +215,6 @@ auto get_flow_control(const usart::FlowControl flow_control) -> decltype(LL_USAR
         case RTS_CTS: return LL_USART_HWCONTROL_RTS_CTS;
         default: return 0;
     }
-}
-
-/*------------------------------------------------------------------------------------------------*/
-// Error handling.
-/*------------------------------------------------------------------------------------------------*/
-
-struct UsartStatusCategory : std::error_category {
-    const char* name() const noexcept override;
-    std::string message(int ev) const override;
-};
-const UsartStatusCategory USART_STATUS_CATEGORY {};
-
-/*------------------------------------------------------------------------------------------------*/
- 
-const char* UsartStatusCategory::name() const noexcept {
-    return "USART";
-}
-
-/*------------------------------------------------------------------------------------------------*/
-
-std::string UsartStatusCategory::message(int status) const {
-    using enum usart::StatusCode;
-    switch (static_cast<usart::StatusCode>(status)) {
-        case Ok:              return "Ok";
-        case Unimplemented:   return "Use of unimplemented feature";
-        case InvalidBaudRate: return "Invalid baud rate";
-        case InvalidDataBits: return "Invalid data bits";
-        case InvalidStopBits: return "Invalid stop bits";
-        case InvalidTxRxConf: return "Invalid Tx/Rx configuration";
-        default:              return "Unknown";
-    }
-}
-
-/*------------------------------------------------------------------------------------------------*/
-
-std::error_code usart::make_error_code(usart::StatusCode e) {
-    return {static_cast<int>(e), USART_STATUS_CATEGORY};
 }
 
 /*------------------------------------------------------------------------------------------------*/

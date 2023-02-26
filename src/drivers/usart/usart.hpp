@@ -2,16 +2,11 @@
 /// @author  Ryan Sullivan (ryansullivan@googlemail.com)
 /// 
 /// @file    usart.hpp
-/// @brief   Module for controlling the USART peripheral
+/// @brief   USART driver module.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <span>
-#include <tuple>
-#include <array>
 #include <cstdint>
-#include <cstddef>
-#include <optional>
 #include <system_error>
 
 /*------------------------------------------------------------------------------------------------*/
@@ -22,13 +17,14 @@ namespace usart {
 enum class StatusCode: uint32_t {
     Ok,
     Unimplemented,
+
     InvalidBaudRate,
     InvalidDataBits,
     InvalidStopBits,
     InvalidTxRxConf,
 };
 
-std::error_code make_error_code(StatusCode);
+auto make_error_code(StatusCode) -> std::error_code;
 
 }
 
@@ -39,15 +35,8 @@ struct is_error_code_enum<usart::StatusCode> : true_type {};
 
 }
 
-template<typename T>
-concept SerialComms = requires(T serial, std::byte byte) {
-    {serial.tx_free()} -> std::unsigned_integral;
-    {serial.tx_byte(byte)};
-    {serial.tx_flush()};
-};
-
 /*------------------------------------------------------------------------------------------------*/
-// Class declarations.
+// Driver configuration.
 /*------------------------------------------------------------------------------------------------*/
 
 namespace usart {
@@ -76,38 +65,22 @@ struct USARTConfig {
     bool        enable_dma   {true};
 };
 
-/// @brief Handler to a USART peripheral.
-///
-struct USART {
-    USART(USART&) = delete;
-    USART(USART&&) = default;
-    
-    ~USART() = default;
-
-    auto operator=(const USART&) -> USART& = delete;
-    auto operator=(USART&&) -> USART& = default;
-
-    static auto init(const USARTConfig& config) -> std::tuple<std::optional<USART>, std::error_code>;
-
-    auto tx_free(void) -> uint32_t;
-    auto tx_byte(const std::byte byte) -> void;
-    auto tx_flush() -> void;
-
-private:
-    explicit USART() = default;
-};
-
-static_assert(SerialComms<USART>);
-
 }
 
 /*------------------------------------------------------------------------------------------------*/
-// Module public functions.
+// Driver Concepts.
 /*------------------------------------------------------------------------------------------------*/
 
 namespace usart {
 
-auto dma1_channel4_isr() -> void;
+template<typename T>
+concept USARTDriver = requires(const USARTConfig& config, std::byte byte) {
+    {T::init(config)} -> std::same_as<std::error_code>;
+
+    {T::tx_free()}     -> std::unsigned_integral;
+    {T::tx_byte(byte)} -> std::same_as<void>;
+    {T::tx_flush()}    -> std::same_as<void>;
+};
 
 }
 

@@ -15,6 +15,9 @@
 #include <system_error>
 #include <utility>
 
+#include "usart.hpp"
+#include "usart_stm32f303.hpp"
+
 #include "esc.hpp"
 #include "i3g4250d.hpp"
 #include "lsm303agr.hpp"
@@ -23,7 +26,6 @@
 #include "main.hpp"
 #include "clocks.hpp"
 #include "system_info.hpp"
-#include "usart.hpp"
 #include "utils.hpp"
 #include "watchdog.hpp"
 #include "debug.hpp"
@@ -38,7 +40,7 @@
 
 #define OUTPUT_DATA true
 
-using SerialDebug = debug::Serial<usart::USART>;
+using SerialDebug = debug::Serial<usart::stm32f303::USART>;
 
 using Motor1 = motor::Motor<pwm::Motor1PWM, esc::HobbywingXRotor>;
 using Motor2 = motor::Motor<pwm::Motor2PWM, esc::HobbywingXRotor>;
@@ -173,17 +175,13 @@ int main(void)
     clk::clear_reset_flags();
     utils::wait_ms(1000);
 
-    auto [usart_result, usart_status] = usart::USART::init({
+    if(SerialDebug::init({
         .baud_rate = 115'200,
         .enable_rx = false,
         .enable_dma = true,
-    });
-    
-    if(!usart_result.has_value()) {
+    }) != usart::StatusCode::Ok){
         return -1;
     }
-
-    SerialDebug::set_interface(std::exchange(usart_result, std::nullopt).value());
 
     debug::stopwatch_initialise();
 

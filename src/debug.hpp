@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string_view>
 #include <optional>
+#include <array>
+#include <system_error>
 
 #include "usart.hpp"
 
@@ -19,16 +21,11 @@
 
 namespace debug {
 
-template<SerialComms Comms>
+template<usart::USARTDriver Comms>
 struct Serial {
-    /// @brief Set the serial interface to use for debug communications.
-    ///
-    static constexpr auto set_interface(SerialComms auto&& interface) -> void {
-        serial = std::move(interface);
-    }
 
-    static constexpr auto clear_interface() -> void {
-        serial = std::nullopt;
+    static auto init(const usart::USARTConfig& driver_config) -> std::error_code {
+        return Comms::init(driver_config);
     }
 
     /// @brief Print a formatted string to the serial debug interface.
@@ -37,20 +34,14 @@ struct Serial {
     /// @param args   Args.
     ///
     static constexpr auto print(const std::string_view& format, const auto&... args) -> void {
-        if(serial.has_value()) {
-            print_format(format, args...);
-        }
+        print_format(format, args...);
     }
 
     static constexpr auto flush() -> void {
-        if(serial.has_value()) {
-            serial->tx_flush();
-        }
+        Comms::tx_flush();
     }
 
 private:
-    inline static constinit std::optional<Comms> serial {std::nullopt};
-
     static constexpr auto print_format(const std::string_view& format) -> void {
         for(const auto c: format) {
             print_type(c);
@@ -79,7 +70,7 @@ private:
     /// @param character Character to print.
     ///
     static auto print_type(const char character) -> void {
-        serial->tx_byte(std::byte(character));
+        Comms::tx_byte(std::byte(character));
     }
 
     /// @brief Print an integer to the debug interface.

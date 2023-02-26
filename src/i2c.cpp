@@ -12,9 +12,11 @@
 #include "stm32f3xx_ll_i2c.h"
 #include "stm32f3xx_ll_dma.h"
 
+#include "usart_stm32f303.hpp"
+#include "debug.hpp"
+
 #include "i2c.hpp"
 
-#include "debug.hpp"
 
 using namespace i2c;
 /*------------------------------------------------------------------------------------------------*/
@@ -24,7 +26,7 @@ using namespace i2c;
 #define TX_BUFFER_SIZE 128
 #define RX_BUFFER_SIZE 128
 
-using SerialDebug = debug::Serial<usart::USART>;
+using SerialDebug = debug::Serial<usart::stm32f303::USART>;
 
 /*------------------------------------------------------------------------------------------------*/
 /*-exported-variables-----------------------------------------------------------------------------*/

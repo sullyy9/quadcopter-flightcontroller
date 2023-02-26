@@ -10,7 +10,6 @@ project_src = files(
     'main.cpp',
     'spi.cpp',
     'startup.cpp',
-    'usart.cpp',
     'utils.cpp',
     'watchdog.cpp',
     'pwm.cpp',

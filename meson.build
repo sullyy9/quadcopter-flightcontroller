@@ -98,7 +98,7 @@ if get_option('enable_test')
 
             '-Wl,-Map=test.map',
         ],
-        dependencies: [project_stm32f303_dep, stm32f3_ll_driver_dep, cpputest_dep, cpputestext_dep],
+        dependencies: [project_stm32f303_dep, driver_mock_dep, stm32f3_ll_driver_dep, cpputest_dep, cpputestext_dep],
         build_by_default: true,
     )
 endif

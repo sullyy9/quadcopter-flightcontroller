@@ -1,13 +1,16 @@
 #include <cstdint>
 #include <system_error>
 #include <utility>
+#include <array>
 
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTest/TestHarness.h"
 
+#include "usart.hpp"
+#include "usart_stm32f303.hpp"
+
 #include "clocks.hpp"
 #include "utils.hpp"
-#include "usart.hpp"
 #include "main.hpp"
 
 #include "gpio.hpp"
@@ -29,8 +32,6 @@ constexpr std::array GPIO_INITIAL_CONFIGURATION_TABLE {
     GPIOConfig{DEBUG_RX, gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .pull = gpio::Pull::Up,   .function = 7}},
 };
 
-auto set_stdout_interface(usart::USART&& out_interface) -> void;
-
 int main(void) {
 
     if(auto status = clk::initialise(); status != clk::OK) return -1;
@@ -46,14 +47,14 @@ int main(void) {
 
     utils::wait_ms(100);
 
-    auto [usart_result, usart_status] = usart::USART::init({
+    const auto usart_status = usart::stm32f303::USART::init({
         .baud_rate = 115'200,
         .enable_rx = false,
         .enable_dma = true,
     });
-    if(!usart_result.has_value()) return -1;
-    
-    set_stdout_interface(std::exchange(usart_result, std::nullopt).value());
+    if(usart_status != usart::StatusCode::Ok) {
+        return -1;
+    }
 
     std::printf("\r\n");
     std::printf("\r\n");
