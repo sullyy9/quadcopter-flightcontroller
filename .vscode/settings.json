@@ -1,4 +1,9 @@
 {
+    "remote.extensionKind": {
+        "ms-vscode.vscode-serial-monitor": [
+          "workspace"
+        ]
+    },
     "clangd.arguments": [
         "--query-driver=/usr/sbin/*", ///tools/toolchain/bin/*
         "--cross-file-rename",
