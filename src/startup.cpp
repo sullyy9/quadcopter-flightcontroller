@@ -55,6 +55,12 @@ void *__dso_handle = nullptr; // NOLINT - ignore clangd warning
 [[noreturn]] auto bus_fault_isr()         -> void;
 [[noreturn]] auto usage_fault_isr()       -> void;
 
+extern "C" {
+auto _kill(int pid, int sig) -> void;
+auto _getpid() -> int;
+auto _read (int file, char * ptr, int len) -> int;
+}
+
 /*----------------------------------------------------------------------------*/
 /*-vector-table---------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -93,8 +99,8 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x0074 DMA1_Channel3_IRQn    (13) */ spi::dma1_channel3_isr,
     /* 0x0078 DMA1_Channel4_IRQn    (14) */ usart::stm32f303::dma1_channel4_isr,
     /* 0x007C DMA1_Channel5_IRQn    (15) */ dummy_isr,
-    /* 0x0080 DMA1_Channel6_IRQn    (16) */ i2c::dma1_channel6_isr,
-    /* 0x0084 DMA1_Channel7_IRQn    (17) */ i2c::dma1_channel7_isr,
+    /* 0x0080 DMA1_Channel6_IRQn    (16) */ i2c::stm32f303::dma1_channel6_isr,
+    /* 0x0084 DMA1_Channel7_IRQn    (17) */ i2c::stm32f303::dma1_channel7_isr,
     /* 0x0088 ADC1_2_IRQn           (18) */ dummy_isr,
     /* 0x008C USB_HP_CAN1_TX_IRQn   (19) */ dummy_isr,
     /* 0x0090 USB_LP_CAN1_RX0_IRQn  (20) */ dummy_isr,
@@ -108,8 +114,8 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x00B0 TIM2_IRQn             (28) */ dummy_isr,
     /* 0x00B4 TIM3_IRQn             (29) */ dummy_isr,
     /* 0x00B8 TIM4_IRQn             (30) */ dummy_isr,
-    /* 0x00BC I2C1_EV_IRQn          (31) */ i2c::ev_isr,
-    /* 0x00C0 I2C1_ER_IRQn          (32) */ i2c::er_isr,
+    /* 0x00BC I2C1_EV_IRQn          (31) */ i2c::stm32f303::ev_isr,
+    /* 0x00C0 I2C1_ER_IRQn          (32) */ i2c::stm32f303::er_isr,
     /* 0x00C4 I2C2_EV_IRQn          (33) */ dummy_isr,
     /* 0x00C8 I2C2_ER_IRQn          (34) */ dummy_isr,
     /* 0x00CC SPI1_IRQn             (35) */ spi::error_isr,
@@ -166,7 +172,7 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
-void reset_isr(void) {
+auto reset_isr() -> void {
     SCB->VTOR = 0 | ((uint32_t)vector_table & (uint32_t)0x1FFFFF80);
     
     // Enable the FPU.
@@ -182,49 +188,69 @@ void reset_isr(void) {
 
     // Run the application.
     main(); // NOLINT - ignore clangd warning
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto dummy_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto non_maskable_int_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto hard_fault_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto memory_management_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto bus_fault_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
 
 [[noreturn]]
 auto usage_fault_isr() -> void {
-    while(1) {}
+    while(true) {}
 }
 
 /*----------------------------------------------------------------------------*/
+
+extern "C" {
+
+void _kill([[maybe_unused]] int pid, [[maybe_unused]] int sig) {
+
+}
+
+/*----------------------------------------------------------------------------*/
+
+auto _getpid(void) -> int {
+    return -1;
+}
+
+/*----------------------------------------------------------------------------*/
+
+auto _read ([[maybe_unused]] int file, [[maybe_unused]] char * ptr, [[maybe_unused]] int len) -> int {
+    return -1;
+}
+
+}
