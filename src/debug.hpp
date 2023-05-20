@@ -37,6 +37,11 @@ struct Serial {
         print_format(format, args...);
     }
 
+    static constexpr auto println(const std::string_view& format, const auto&... args) -> void {
+        print_format(format, args...);
+        print("\r\n");
+    }
+
     static constexpr auto flush() -> void {
         Comms::tx_flush();
     }
@@ -118,6 +123,14 @@ private:
         for(const auto c: val) {
             print_type(c);
         }
+    }
+
+    /// @brief Print an error code to the debug interface..
+    ///
+    /// @param err Error code to print.
+    ///
+    static constexpr auto print_type(const std::error_code& err) -> void {
+        print("% - %", err.category().name(), err.message().c_str());
     }
 
     template<std::integral T>

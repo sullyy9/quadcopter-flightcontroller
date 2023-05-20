@@ -174,7 +174,6 @@ int main(void)
     io::initialise();
     clk::clear_reset_flags();
     utils::wait_ms(1000);
-
     if(SerialDebug::init({
         .baud_rate = 115'200,
         .enable_rx = false,
@@ -199,7 +198,7 @@ int main(void)
 
     // Setup the PWM timer.
     auto timer2_status {pwm::Timer2::init({.frequency = 400})};
-    SerialDebug::print("% Timer - %\r\n", timer2_status.category().name(), timer2_status.message().c_str());
+    SerialDebug::println("% Timer - %", timer2_status.category().name(), timer2_status.message().c_str());
     SerialDebug::flush();
     if(timer2_status != pwm::StatusCode::Ok) {
         return -1;
@@ -210,10 +209,10 @@ int main(void)
     auto [motor2, motor2_status] = Motor2::init();
     auto [motor3, motor3_status] = Motor3::init();
     auto [motor4, motor4_status] = Motor4::init();
-    SerialDebug::print("% 1 - %\r\n", motor1_status.category().name(), motor1_status.message().c_str());
-    SerialDebug::print("% 2 - %\r\n", motor2_status.category().name(), motor2_status.message().c_str());
-    SerialDebug::print("% 3 - %\r\n", motor3_status.category().name(), motor3_status.message().c_str());
-    SerialDebug::print("% 4 - %\r\n", motor4_status.category().name(), motor4_status.message().c_str());
+    SerialDebug::println("% 1 - %", motor1_status.category().name(), motor1_status.message().c_str());
+    SerialDebug::println("% 2 - %", motor2_status.category().name(), motor2_status.message().c_str());
+    SerialDebug::println("% 3 - %", motor3_status.category().name(), motor3_status.message().c_str());
+    SerialDebug::println("% 4 - %", motor4_status.category().name(), motor4_status.message().c_str());
     SerialDebug::flush();
     if(!(motor1.has_value() && motor2.has_value() && motor3.has_value() && motor4.has_value())) {
         return 1;
@@ -255,7 +254,7 @@ int main(void)
 
     // Setup the indipendant watchdog.
     auto [wdg_result, wdg_status] {iwdg::Watchdog::with_timeout(sys::Seconds{1})};
-    SerialDebug::print("% - %\r\n", wdg_status.category().name(), wdg_status.message().c_str());
+    SerialDebug::println("% - %", wdg_status.category().name(), wdg_status.message().c_str());
     if (!wdg_result.has_value()) {
         SerialDebug::flush();
         return -1;
