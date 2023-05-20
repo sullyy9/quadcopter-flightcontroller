@@ -2,46 +2,54 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/docker-existing-dockerfile
 {
     "image": "ghcr.io/sullyy9/cpp-embedded-container:latest",
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-	},
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-        "llvm-vs-code-extensions.vscode-clangd",
-        "twxs.cmake",
-        "cschlosser.doxdocgen",
-        "maziac.hex-hover-converter",
-        "ZixuanWang.linkerscript",
-        "trond-snekvik.gnu-mapfiles",
-        "dseight.disasexpl",
-        "usernamehw.errorlens",
-        "marus25.cortex-debug",
-        "mesonbuild.mesonbuild",
-        "ms-vscode.vscode-serial-monitor"
-    ],
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postAttachCommand": {
-        "udev start": ["sudo", "/lib/systemd/systemd-udevd", "--daemon"],
-        "udev reload rules": ["sudo", "udevadm", "control", "--reload-rules"],
-        "udev trigger": ["sudo", "udevadm", "trigger"]
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "llvm-vs-code-extensions.vscode-clangd",
+                "twxs.cmake",
+                "cschlosser.doxdocgen",
+                "maziac.hex-hover-converter",
+                "ZixuanWang.linkerscript",
+                "trond-snekvik.gnu-mapfiles",
+                "dseight.disasexpl",
+                "usernamehw.errorlens",
+                "mcu-debug.debug-tracker-vscode",
+                "marus25.cortex-debug",
+                "mesonbuild.mesonbuild",
+                "ms-vscode.vscode-serial-monitor"
+            ]
+        }
     },
-
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	"runArgs": [
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+    // Uncomment the next line to run commands after the container is created - for example installing curl.
+    "postAttachCommand": {
+        "udev start": [
+            "sudo",
+            "/lib/systemd/systemd-udevd",
+            "--daemon"
+        ],
+        "udev reload rules": [
+            "sudo",
+            "udevadm",
+            "control",
+            "--reload-rules"
+        ],
+        "udev trigger": [
+            "sudo",
+            "udevadm",
+            "trigger"
+        ]
+    },
+    // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+    "runArgs": [
         "--privileged",
         "--volume=/dev/bus/usb:/dev/bus/usb",
         "--volume=/dev/ttyACM*:/dev/ttyACM*"
     ]
-
-	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
-	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
+    // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+    // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+    // Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+    // "remoteUser": "vscode"
 }
