@@ -28,8 +28,6 @@ c_args = [
     '-mthumb',
     '-mfloat-abi=hard',
     '-mfpu=fpv4-sp-d16',
-
-    '-ffreestanding',
     
     '-fno-exceptions',
     '-fno-non-call-exceptions',
@@ -43,8 +41,6 @@ cpp_args = [
     '-mthumb',
     '-mfloat-abi=hard',
     '-mfpu=fpv4-sp-d16',
-
-    '-ffreestanding',
     
     '-fno-exceptions',
     '-fno-non-call-exceptions',
@@ -58,8 +54,6 @@ c_link_args = [
     '-mthumb',
     '-mfloat-abi=hard',
     '-mfpu=fpv4-sp-d16',
-
-    '-ffreestanding',
     
     '-fno-exceptions',
     '-fno-non-call-exceptions',
@@ -73,8 +67,6 @@ cpp_link_args = [
     '-mthumb',
     '-mfloat-abi=hard',
     '-mfpu=fpv4-sp-d16',
-
-    '-ffreestanding',
 
     '-fno-exceptions',
     '-fno-non-call-exceptions',

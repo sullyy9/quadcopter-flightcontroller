@@ -18,7 +18,8 @@ CompileFlags:
           -Wno-c++20-compat-pedantic,
           -Wno-old-style-cast,
           -Wno-exit-time-destructors,
-          -Wno-global-constructors]
+          -Wno-global-constructors,
+          -fsanitize=undefined]
 
 ---
 If:
@@ -53,6 +54,7 @@ Diagnostics:
         bugprone-unchecked-optional-access,
         cppcoreguidelines-pro-type-reinterpret-cast,
         cppcoreguidelines-avoid-non-const-global-variables,
+        cppcoreguidelines-pro-bounds-constant-array-index,
     ]
 
 ---
@@ -63,3 +65,4 @@ Diagnostics:
       readability-identifier-naming.GlobalConstantCase: UPPER_CASE
       readability-identifier-naming.ClassCase: CamelCase
       readability-identifier-naming.EnumCase: CamelCase
+      readability-braces-around-statements.ShortStatementLines: 1
