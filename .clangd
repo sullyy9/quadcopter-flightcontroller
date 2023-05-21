@@ -46,13 +46,14 @@ Diagnostics:
 Diagnostics:
   ClangTidy:
     Add: [
-        modernize*,
-        bugprone*,
-        cppcoreguidelines*,
-        misc*,
-        performance*,
-        portability*,
-        readability*,
+        bugprone-*,
+        clang-analyzer-*
+        cppcoreguidelines-*,
+        misc-*,
+        modernize-*,
+        portability-*,
+        performance-*,
+        readability-*,
     ]
 
     Remove: [
