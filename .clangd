@@ -1,6 +1,15 @@
 CompileFlags:
     CompilationDatabase: builddir/release
-    Add: [--target=arm-arm-none-eabi, -std=c++2b]
+    Remove: [-std=c++23]
+    Add: [--target=arm-arm-none-eabi, -std=c++2b, -D__cpp_concepts=202002L]
+
+---
+Index:
+  StandardLibrary: Yes
+
+---
+Hover:
+  ShowAKA: Yes
 
 ---
 If:
@@ -31,7 +40,7 @@ CompileFlags:
 
 ---
 Diagnostics:
-  UnusedIncludes: None
+  UnusedIncludes: Strict
 
 ---
 Diagnostics:

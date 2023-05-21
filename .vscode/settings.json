@@ -5,10 +5,12 @@
         ]
     },
     "clangd.arguments": [
-        "--query-driver=/usr/sbin/*", ///tools/toolchain/bin/*
-        "--cross-file-rename",
+        "--query-driver=/usr/sbin/arm-none-eabi-*",
+        "--background-index",
+        "--completion-style=detailed",
+        "--header-insertion=never",
         "--log=verbose",
-        "--header-insertion=never"
+        "--pretty",
     ],
 
     "disasexpl.associations": {
