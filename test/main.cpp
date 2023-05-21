@@ -18,8 +18,6 @@
 
 using GPIO = gpio::GPIOSTM32F303;
 
-IMPORT_TEST_GROUP(SecondTestGroup);
-
 static constexpr auto DEBUG_TX {gpio::Pin::C4};
 static constexpr auto DEBUG_RX {gpio::Pin::C5};
 
@@ -32,7 +30,7 @@ constexpr std::array GPIO_INITIAL_CONFIGURATION_TABLE {
     GPIOConfig{DEBUG_RX, gpio::AltFunction{.output_type = gpio::OutputType::OpenDrain, .pull = gpio::Pull::Up,   .function = 7}},
 };
 
-int main(void) {
+auto main() -> int {
 
     if(auto status = clk::initialise(); status != clk::OK) return -1;
 

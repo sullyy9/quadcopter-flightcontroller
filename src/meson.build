@@ -1,3 +1,4 @@
+subdir('utils')
 subdir('drivers')
 
 # Source files
@@ -24,11 +25,11 @@ project_executable_src = files(
 project_testing_dep = declare_dependency(
     include_directories: '.',
     sources: project_src,
-    dependencies: stm32f3_ll_driver_dep,
+    dependencies: [utils_dep, stm32f3_ll_driver_dep],
 )
 
 project_executable_dep = declare_dependency(
     include_directories: '.',
     sources: project_src + project_executable_src,
-    dependencies: stm32f3_ll_driver_dep,
+    dependencies: [utils_dep, stm32f3_ll_driver_dep],
 )

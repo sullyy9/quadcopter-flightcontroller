@@ -3,4 +3,5 @@ test_src = files(
     'startup.cpp',
     'syscalls.cpp',
     'test_debug.cpp',
+    'test_ringbuf.cpp',
 )
