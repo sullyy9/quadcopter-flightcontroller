@@ -26,6 +26,17 @@
             ],
         },
         {
+            "label": "Setup Native Tests",
+            "type": "shell",
+            "command": "meson",
+            "args": [
+                "setup",
+                "--buildtype=debugoptimized",
+                "builddir/native"
+            ],
+            "dependsOn": "Setup Debug",
+        },
+        {
             "label": "Build Release",
             "type": "shell",
             "command": "meson",
@@ -44,6 +55,16 @@
                 "-C", "builddir/debug"
             ],
             "dependsOn": "Setup Debug",
+        },
+        {
+            "label": "Build Native Tests",
+            "type": "shell",
+            "command": "meson",
+            "args": [
+                "compile",
+                "-C", "builddir/native"
+            ],
+            "dependsOn": "Setup Native Tests",
         },
         {
             "label": "Run",
@@ -66,6 +87,15 @@
                 "--command", "program ./builddir/release/unit_test.elf verify reset exit"
             ],
             "dependsOn": "Build Release",
+        },
+        {
+            "label": "Run Native Unit Tests",
+            "type": "shell",
+            "command": "${workspaceFolder}/builddir/native/unit_test_native",
+            "args": [
+                "-c"
+            ],
+            "dependsOn": "Build Native Tests",
         },
         {
             "label": "Clean",

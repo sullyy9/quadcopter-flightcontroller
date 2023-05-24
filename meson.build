@@ -27,15 +27,17 @@ add_project_arguments(
 
 linkscript = files('link_script.ld')
 
-add_project_link_arguments(
-    [
-        '-Wl,-T,@0@/@1@'.format(meson.current_source_dir(), linkscript[0]),
-        '-Wl,--gc-sections',
-        '-Wl,--print-memory-usage',
-        '-Wl,--no-warn-rwx-segment',
-    ],
-    language: ['cpp'],
-)
+if(meson.is_cross_build())
+    add_project_link_arguments(
+        [
+            '-Wl,-T,@0@/@1@'.format(meson.current_source_dir(), linkscript[0]),
+            '-Wl,--gc-sections',
+            '-Wl,--print-memory-usage',
+            '-Wl,--no-warn-rwx-segment',
+        ],
+        language: ['cpp'],
+    )
+endif
 
 ####################################################################################################
 # Setup dependencies
@@ -68,32 +70,45 @@ cpputestext_dep = cpputest_proj.dependency('CppUTestExt', include_type: 'system'
 
 subdir('src')
 
-executable(
-    'quadcopter-flightcontroller',
-    name_suffix: 'elf',
-    link_args: [
-        '-nostartfiles',
-        '--specs=nano.specs',
-        '--specs=nosys.specs',
-    ],
-    dependencies: [project_executable_dep, driver_stm32f303_dep],
-)
+if(meson.is_cross_build())
+    executable(
+        'quadcopter-flightcontroller',
+        name_suffix: 'elf',
+        link_args: [
+            '-nostartfiles',
+            '--specs=nano.specs',
+            '--specs=nosys.specs',
+        ],
+        dependencies: [project_executable_dep, driver_stm32f303_dep],
+    )
+endif
 
 if get_option('enable_test')
     subdir('test')
 
-    executable(
-        'unit_test',
-        name_suffix: 'elf',
-        sources: test_src,
-        include_directories: './test',
-        link_args: [
-            '-nostartfiles',
-            '--specs=nano.specs',
+    if(meson.is_cross_build())
+        executable(
+            'unit_test',
+            name_suffix: 'elf',
+            sources: stm32f303_test_src,
+            include_directories: './test',
+            link_args: [
+                '-nostartfiles',
+                '--specs=nano.specs',
 
-            '-Wl,-Map=test.map',
-        ],
-        dependencies: [project_testing_dep, driver_mock_dep, driver_stm32f303_dep, cpputest_dep, cpputestext_dep],
-        build_by_default: true,
-    )
+                '-Wl,-Map=test.map',
+            ],
+            dependencies: [project_testing_dep, driver_mock_dep, driver_stm32f303_dep, cpputest_dep, cpputestext_dep],
+            build_by_default: true,
+        )
+    
+    else
+        executable(
+            'unit_test_native',
+            sources: native_test_src,
+            include_directories: './test',
+            dependencies: [project_native_testing_dep, driver_mock_dep, cpputest_dep, cpputestext_dep],
+            build_by_default: true,
+        )
+    endif
 endif
