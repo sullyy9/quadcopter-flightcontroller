@@ -34,6 +34,9 @@ auto RingBufferErrorCategory::message(const int status) const -> std::string {
         case Full: return "Full";
         case Empty: return "Empty";
 
+        case NotEnoughItems: return "Not enough items";
+        case NotEnoughSpace: return "Not enough space";
+
         default: return "Unknown";
     }
 }

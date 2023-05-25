@@ -125,3 +125,36 @@ TEST(TestRingBuffer, TestUnderflow) {
     CHECK_FALSE(result.has_value());
     CHECK(result.error() == buffer::Error::Empty);
 }
+
+TEST(TestRingBuffer, TestPushBuffer) {
+    buffer::RingBuffer<char, 8> buffer{};
+
+    // Check a push that would result in an overflow returns an error.
+    auto result = buffer.push_buffer(TEST_STRING);
+    CHECK(!result.has_value());
+    CHECK(result.error() == buffer::Error::NotEnoughSpace);
+
+    for(uint32_t i = 0; i < 10; i++) {
+        result = buffer.push_buffer(TEST_STRING.substr(0, 6));
+        CHECK(result.has_value());
+
+        for(const auto expected_char : TEST_STRING.substr(0, 6)) {
+            CHECK_EQUAL(expected_char, buffer.pop_unchecked());
+        }
+    }
+}
+
+TEST(TestRingBuffer, TestPopBuffer) {
+    buffer::RingBuffer<char, 8> buffer{};
+
+    for(uint32_t i = 0; i < 10; i++) {
+        for(const auto character : TEST_STRING.substr(0, 6)) {
+            CHECK(buffer.push(character).has_value());
+        }
+
+        std::array<char, 6> read_buffer = {};
+        const auto result = buffer.pop_buffer(read_buffer);
+        CHECK(result.has_value());
+        STRNCMP_EQUAL(TEST_STRING.substr(0, 6).data(), read_buffer.data(), 6);
+    }
+}
