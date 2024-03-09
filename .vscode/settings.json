@@ -1,7 +1,7 @@
 {
     "remote.extensionKind": {
         "ms-vscode.vscode-serial-monitor": [
-          "workspace"
+            "workspace"
         ]
     },
     "clangd.arguments": [
@@ -12,7 +12,6 @@
         "--log=verbose",
         "--pretty",
     ],
-
     "disasexpl.associations": {
         "**/*.c": "${workspaceFolder}/${fileBasenameNoExtension}.s",
         "**/*.cpp": "${workspaceFolder}/assembly/${fileBasenameNoExtension}.s"

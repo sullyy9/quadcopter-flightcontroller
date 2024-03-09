@@ -1,5 +1,5 @@
 CompileFlags:
-    CompilationDatabase: builddir/release
+    CompilationDatabase: builddir/debug
     Remove: [-std=c++23]
     Add: [--target=arm-arm-none-eabi, -std=c++2b, -D__cpp_concepts=202002L]
 
