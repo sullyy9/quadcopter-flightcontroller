@@ -17,10 +17,10 @@
 #include "stm32f3xx.h"
 
 #include "usart_stm32f303.hpp"
+#include "i2c_stm32f303.hpp"
 
 #include "main.hpp"
 #include "io.hpp"
-#include "i2c.hpp"
 #include "spi.hpp"
 
 /*----------------------------------------------------------------------------*/

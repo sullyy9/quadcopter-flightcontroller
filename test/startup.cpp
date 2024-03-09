@@ -19,7 +19,7 @@
 #include "main.hpp"
 #include "io.hpp"
 #include "usart_stm32f303.hpp"
-#include "i2c.hpp"
+#include "i2c_stm32f303.hpp"
 #include "spi.hpp"
 
 /*----------------------------------------------------------------------------*/
@@ -94,8 +94,8 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x0074 DMA1_Channel3_IRQn    (13) */ spi::dma1_channel3_isr,
     /* 0x0078 DMA1_Channel4_IRQn    (14) */ usart::stm32f303::dma1_channel4_isr,
     /* 0x007C DMA1_Channel5_IRQn    (15) */ dummy_isr,
-    /* 0x0080 DMA1_Channel6_IRQn    (16) */ i2c::dma1_channel6_isr,
-    /* 0x0084 DMA1_Channel7_IRQn    (17) */ i2c::dma1_channel7_isr,
+    /* 0x0080 DMA1_Channel6_IRQn    (16) */ i2c::stm32f303::dma1_channel6_isr,
+    /* 0x0084 DMA1_Channel7_IRQn    (17) */ i2c::stm32f303::dma1_channel7_isr,
     /* 0x0088 ADC1_2_IRQn           (18) */ dummy_isr,
     /* 0x008C USB_HP_CAN1_TX_IRQn   (19) */ dummy_isr,
     /* 0x0090 USB_LP_CAN1_RX0_IRQn  (20) */ dummy_isr,
@@ -109,8 +109,8 @@ __attribute__((section(".isr_vector"), used)) static void (*const vector_table[]
     /* 0x00B0 TIM2_IRQn             (28) */ dummy_isr,
     /* 0x00B4 TIM3_IRQn             (29) */ dummy_isr,
     /* 0x00B8 TIM4_IRQn             (30) */ dummy_isr,
-    /* 0x00BC I2C1_EV_IRQn          (31) */ i2c::ev_isr,
-    /* 0x00C0 I2C1_ER_IRQn          (32) */ i2c::er_isr,
+    /* 0x00BC I2C1_EV_IRQn          (31) */ i2c::stm32f303::ev_isr,
+    /* 0x00C0 I2C1_ER_IRQn          (32) */ i2c::stm32f303::er_isr,
     /* 0x00C4 I2C2_EV_IRQn          (33) */ dummy_isr,
     /* 0x00C8 I2C2_ER_IRQn          (34) */ dummy_isr,
     /* 0x00CC SPI1_IRQn             (35) */ spi::error_isr,

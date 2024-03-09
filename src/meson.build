@@ -2,26 +2,20 @@ subdir('utils')
 subdir('drivers')
 
 # Source files
-
 project_src = files(
     'clocks.cpp',
     'debug.cpp',
-    'i2c.cpp',
     'io.cpp',
+    'motor.cpp',
+    'pwm.cpp',
     'spi.cpp',
     'utils.cpp',
     'watchdog.cpp',
-    'pwm.cpp',
-    'motor.cpp',
 )
 
-project_executable_src = files(
-    'main.cpp',
-    'startup.cpp'
-)
+project_executable_src = files('main.cpp', 'startup.cpp')
 
 # Dependancies
-
 project_testing_dep = declare_dependency(
     include_directories: '.',
     sources: project_src,
