@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <array>
+#include <functional>
 #include <system_error>
 
 #include "stm32f3xx_ll_exti.h"
@@ -15,14 +16,15 @@
 #include "gpio_stm32f303.hpp"
 
 #include "i2c_stm32f303.hpp"
+#include "spi_stm32f303.hpp"
 
 #include "i3g4250d.hpp"
 #include "io.hpp"
 #include "lsm303agr.hpp"
-#include "spi.hpp"
 
 using GPIO = gpio::GPIOSTM32F303;
 using I2C = i2c::stm32f303::I2C;
+using SPI = spi::stm32f303::SPI;
 
 /*------------------------------------------------------------------------------------------------*/
 // Constants
@@ -151,7 +153,7 @@ auto io::initialise() -> void {
     initialise_external_interupts();
 
     I2C::init();
-    spi::initialise();
+    SPI::init();
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -291,23 +293,25 @@ auto io::magnetometer_read(int32_t* mag_x, int32_t* mag_y, int32_t* mag_z) -> vo
 /// @brief Initialise the gyroscope.
 ///
 auto io::gyroscope_initialise() -> void {
-    while (spi::transfer_in_progress()) continue;
+    gyro_slave_select_toggle(false);
 
-    uint8_t address;
-    address = GYRO_CTRL_REG_1_ADDR;
-    address = GYRO_SET_INCREMENT_BIT(address);
-    address = GYRO_SET_WRITE_BIT(address);
-
-    spi::tx_buffer_write(address);
-    spi::tx_buffer_write(GYRO_CTRL_REG_1_VAL);
-    spi::tx_buffer_write(GYRO_CTRL_REG_2_VAL);
-    spi::tx_buffer_write(GYRO_CTRL_REG_3_VAL);
-    spi::tx_buffer_write(GYRO_CTRL_REG_4_VAL);
-    spi::tx_buffer_write(GYRO_CTRL_REG_5_VAL);
+    const uint8_t address = std::invoke([] {
+        uint8_t addr = GYRO_CTRL_REG_1_ADDR;
+        addr = GYRO_SET_INCREMENT_BIT(addr);
+        addr = GYRO_SET_WRITE_BIT(addr);
+        return addr;
+    });
 
     gyro_slave_select_toggle(true);
-    spi::transfer_data(0);
-    while (spi::transfer_in_progress()) continue;
+    SPI::write(std::array{
+        std::byte(address),
+        std::byte(GYRO_CTRL_REG_1_VAL),
+        std::byte(GYRO_CTRL_REG_2_VAL),
+        std::byte(GYRO_CTRL_REG_3_VAL),
+        std::byte(GYRO_CTRL_REG_4_VAL),
+        std::byte(GYRO_CTRL_REG_5_VAL),
+    });
+
     gyro_slave_select_toggle(false);
 }
 
@@ -330,41 +334,32 @@ auto io::gyroscope_data_ready() -> bool {
 /// @param gyro_z Rotation attraction in the z axis.
 ///
 auto io::gyroscope_read(int32_t* gyro_x, int32_t* gyro_y, int32_t* gyro_z) -> void {
-    int32_t data_x = 0;
-    int32_t data_y = 0;
-    int32_t data_z = 0;
-
     gyro_data_ready = false;
-    while (spi::transfer_in_progress()) continue;
 
     // Read from all 6 output registers.
-    uint8_t address;
+    uint8_t address{};
     address = GYRO_OUT_REG_X_L_ADDR;
     address = GYRO_SET_INCREMENT_BIT(address);
     address = GYRO_SET_READ_BIT(address);
-    spi::tx_buffer_write(address);
 
+    auto buffer = std::array<std::byte, 7>{};
     gyro_slave_select_toggle(true);
-    spi::transfer_data(6);
-    while (spi::transfer_in_progress()) continue;
+    SPI::transfer(std::array{std::byte(address),
+                             std::byte(0),
+                             std::byte(0),
+                             std::byte(0),
+                             std::byte(0),
+                             std::byte(0),
+                             std::byte(0)},
+                  buffer);
     gyro_slave_select_toggle(false);
 
-    // Read the data. data is 16bit and spread over 2 8bit registers
-    // preserve the MSb since the data's 2's compliment. first read
-    // removes the 0 from the address transmision
-    spi::rx_buffer_read();
-    data_x = spi::rx_buffer_read();
-    data_x += (spi::rx_buffer_read() << 8);
-
-    data_y = spi::rx_buffer_read();
-    data_y += (spi::rx_buffer_read() << 8);
-
-    data_z = spi::rx_buffer_read();
-    data_z += (spi::rx_buffer_read() << 8);
-
-    *gyro_x = data_x;
-    *gyro_y = data_y;
-    *gyro_z = data_z;
+    // Read the data. data is 16bit and spread over 2 8bit registers preserve the MSb since the
+    // data's 2's compliment. The first byte is the dummy byute correesponding to the address
+    // transmision.
+    *gyro_x = static_cast<int32_t>(buffer[1]) + (static_cast<int32_t>(buffer[2]) << 8);
+    *gyro_y = static_cast<int32_t>(buffer[3]) + (static_cast<int32_t>(buffer[4]) << 8);
+    *gyro_z = static_cast<int32_t>(buffer[5]) + (static_cast<int32_t>(buffer[6]) << 8);
 }
 
 /*------------------------------------------------------------------------------------------------*/

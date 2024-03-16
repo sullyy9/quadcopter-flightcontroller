@@ -8,7 +8,6 @@ project_src = files(
     'io.cpp',
     'motor.cpp',
     'pwm.cpp',
-    'spi.cpp',
     'utils.cpp',
     'watchdog.cpp',
 )
