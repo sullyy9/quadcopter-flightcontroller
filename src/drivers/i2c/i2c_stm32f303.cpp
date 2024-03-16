@@ -149,6 +149,7 @@ auto I2C::transaction(const Address address, const std::span<Operation> operatio
                                   start);
 
             while (dma_rx_transfer_ongoing) continue;
+            LL_DMA_DisableChannel(DMA1, DMA_TX_CHANNEL);
         }
     }
 
